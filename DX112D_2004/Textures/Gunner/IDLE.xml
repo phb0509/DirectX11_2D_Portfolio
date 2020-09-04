@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:36a3eb1e28ef2183213bade44f9c99b9:5a00e1667886099d6c743627e156b11c:102fdf2be81888370431fb90ee031c1f$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="IDLE.png" width="386" height="132">
+    <sprite n="IDLE_01.png" x="1" y="1" w="29" h="129" pX="0.5" pY="0.5"/>
+    <sprite n="IDLE_02.png" x="32" y="1" w="29" h="130" pX="0.5" pY="0.5"/>
+    <sprite n="IDLE_03.png" x="63" y="1" w="29" h="129" pX="0.5" pY="0.5"/>
+    <sprite n="IDLE_04.png" x="94" y="1" w="29" h="128" pX="0.5" pY="0.5"/>
+    <sprite n="IDLE_05.png" x="125" y="1" w="35" h="129" pX="0.5" pY="0.5"/>
+    <sprite n="IDLE_06.png" x="162" y="1" w="35" h="129" pX="0.5" pY="0.5"/>
+    <sprite n="IDLE_07.png" x="199" y="1" w="45" h="128" pX="0.5" pY="0.5"/>
+    <sprite n="IDLE_08.png" x="246" y="1" w="46" h="128" pX="0.5" pY="0.5"/>
+    <sprite n="IDLE_09.png" x="294" y="1" w="45" h="128" pX="0.5" pY="0.5"/>
+    <sprite n="IDLE_10.png" x="341" y="1" w="44" h="128" pX="0.5" pY="0.5"/>
+</TextureAtlas>

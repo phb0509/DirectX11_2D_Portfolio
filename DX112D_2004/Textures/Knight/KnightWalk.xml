@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:1b0f8d3f994b48aca1a1744d9fad8889:1ebebcf53b4bdddc345bedc7020bc042:eef7f2f1a15208949e21715277f30a42$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="KnightWalk.png" width="1542" height="516">
+    <sprite n="Knight_walk_01.png" x="1" y="1" w="512" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="Knight_walk_02.png" x="515" y="1" w="512" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="Knight_walk_03.png" x="1029" y="1" w="512" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="Knight_walk_04.png" x="1" y="259" w="512" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="Knight_walk_05.png" x="515" y="259" w="512" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="Knight_walk_06.png" x="1029" y="259" w="512" h="256" pX="0.5" pY="0.5"/>
+</TextureAtlas>
