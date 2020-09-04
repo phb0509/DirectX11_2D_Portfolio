@@ -5,7 +5,7 @@ Action::Action(vector<Clip> clips, Type type, float speed)
 	isPlay(true), isReverse(false), time(0.0f), EndEvent(nullptr)
 {
 }
-
+int a = 0;
 Action::~Action()
 {
 }
