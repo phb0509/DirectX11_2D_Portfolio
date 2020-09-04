@@ -9,7 +9,8 @@ Action::Action(vector<Clip> clips, Type type, float speed)
 Action::~Action()
 {
 }
-
+int test = 0;
+int test2 = 1;
 void Action::Update()
 {
 	if (!isPlay) return;
