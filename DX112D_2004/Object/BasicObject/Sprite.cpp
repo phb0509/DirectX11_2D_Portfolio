@@ -11,6 +11,7 @@ Sprite::Sprite()
 Sprite::Sprite(wstring pixelShaderFile)
 {
 	material = new Material(pixelShaderFile);
+
 	mesh = new QuadMesh();
 
 	actionBuffer = new ActionBuffer();

@@ -5,12 +5,11 @@ Action::Action(vector<Clip> clips, Type type, float speed)
 	isPlay(true), isReverse(false), time(0.0f), EndEvent(nullptr)
 {
 }
-int a = 0;
+
 Action::~Action()
 {
 }
-int test = 0;
-int test2 = 1;
+
 void Action::Update()
 {
 	if (!isPlay) return;

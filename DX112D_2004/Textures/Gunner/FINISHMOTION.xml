@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:efc66be682e537147ee9ec945463ad7b:6577ef369d2d3ea3efd693a47304b5dd:240d15fd95a4068eb6a174adac467ed8$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="FINISHMOTION.png" width="752" height="149">
+    <sprite n="FINISHMOTION_01.png" x="1" y="1" w="95" h="138" pX="0.5" pY="0.5"/>
+    <sprite n="FINISHMOTION_02.png" x="98" y="1" w="113" h="114" pX="0.5" pY="0.5"/>
+    <sprite n="FINISHMOTION_03.png" x="213" y="1" w="88" h="147" pX="0.5" pY="0.5"/>
+    <sprite n="FINISHMOTION_04.png" x="303" y="1" w="88" h="147" pX="0.5" pY="0.5"/>
+    <sprite n="FINISHMOTION_05.png" x="393" y="1" w="88" h="147" pX="0.5" pY="0.5"/>
+    <sprite n="FINISHMOTION_06.png" x="483" y="1" w="88" h="147" pX="0.5" pY="0.5"/>
+    <sprite n="FINISHMOTION_07.png" x="573" y="1" w="88" h="147" pX="0.5" pY="0.5"/>
+    <sprite n="FINISHMOTION_08.png" x="663" y="1" w="88" h="147" pX="0.5" pY="0.5"/>
+</TextureAtlas>

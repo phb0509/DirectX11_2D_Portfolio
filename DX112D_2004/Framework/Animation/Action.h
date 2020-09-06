@@ -36,6 +36,8 @@ private:
 	bool isReverse;
 
 	CallBack EndEvent;
+	CallBackParam EndFireEvent;
+
 public:
 	Action(vector<Clip> clips, Type type = LOOP, float speed = 0.1f);
 	~Action();
@@ -47,6 +49,7 @@ public:
 	void Stop();
 
 	void SetEndEvent(CallBack Event) { EndEvent = Event; }
+	void SetFireEndEvent(CallBackParam Event) { EndFireEvent = Event; }
 
 	Clip GetCurClip() { return clips[curClipNum]; }
 };

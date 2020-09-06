@@ -2,13 +2,45 @@
 
 class Gunner : public Transform
 {
-private:
+
+public:
 	enum ActionType
 	{
-		IDLE,
+		IDLE = 0,
 		WALK,
 		RUN,
+		FIRSTSHOT,
+		COMBOSHOT,
+		LASTSHOT,
+		FINISHMOTION,
 	};
+
+
+	Gunner();
+	~Gunner();
+
+	void Update();
+	void Render();
+
+	void Move();
+	void Attack();
+	void Jump();
+
+	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
+
+	void SetAction(ActionType type);
+
+	void Fire();
+	void FirstFire();
+	void SecondFire();
+	void SetIdle();
+
+	bool CheckAttackInterval();
+	void Shot();
+
+	void Test();
+private:
+
 
 	Sprite* sprite;
 	vector<Action*> actions;
@@ -34,6 +66,12 @@ private:
 	bool isAttack;
 	bool isJump;
 
+	bool isFirstAttack;
+	int comboAttackCount;
+
+	double maxAttackTime;
+	int count = 0;
+
 	Vector2 attackOffset;
 
 	Effect* effect;
@@ -41,21 +79,4 @@ private:
 	IntBuffer* intBuffer;
 	ColorBuffer* colorBuffer;
 
-	// 
-
-public:
-	Gunner();
-	~Gunner();
-
-	void Update();
-	void Render();
-
-	void Move();
-	void Attack();
-	void Jump();
-
-	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
-
-	void SetAction(ActionType type);
-	void AttackEnd();
 };

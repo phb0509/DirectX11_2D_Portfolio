@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:07697734044f2ea0bc856773a260921a:861cf3787c7dc446aa8b40e960dfa80a:389f17471079d35053a97dad1d41ef10$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="LASTSHOT.png" width="115" height="877">
+    <sprite n="LASTSHOT_01.png" x="1" y="1" w="91" h="145" pX="0.5" pY="0.5"/>
+    <sprite n="LASTSHOT_02.png" x="1" y="148" w="91" h="145" pX="0.5" pY="0.5"/>
+    <sprite n="LASTSHOT_03.png" x="1" y="295" w="91" h="145" pX="0.5" pY="0.5"/>
+    <sprite n="LASTSHOT_04.png" x="1" y="442" w="61" h="142" pX="0.5" pY="0.5"/>
+    <sprite n="LASTSHOT_05.png" x="64" y="442" w="47" h="155" pX="0.5" pY="0.5"/>
+    <sprite n="LASTSHOT_06.png" x="1" y="599" w="47" h="161" pX="0.5" pY="0.5"/>
+    <sprite n="LASTSHOT_07.png" x="1" y="762" w="113" h="114" pX="0.5" pY="0.5"/>
+</TextureAtlas>
