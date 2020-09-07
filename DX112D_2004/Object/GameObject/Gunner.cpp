@@ -3,7 +3,7 @@
 Gunner::Gunner()
 	: walkSpeed(250), runSpeed(600), jumpPower(0), gravity(980.0f), curAction(IDLE), attackOffset(100, 0),
 	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), rightRunCheckTime(0.0f), leftRunCheckTime(0.0f),
-	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0)
+	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false)
 {
 	sprite = new Sprite(L"KnightShader");
 
@@ -14,15 +14,18 @@ Gunner::Gunner()
 	LoadAction(path, "IDLE.xml", Action::PINGPONG, 0.15f);
 	LoadAction(path, "WALK.xml", Action::LOOP);
 	LoadAction(path, "RUN.xml", Action::LOOP);
+
+	// 평타모션 head
 	LoadAction(path, "FIRSTSHOT.xml", Action::END);
 	LoadAction(path, "COMBOSHOT.xml", Action::END);
 	LoadAction(path, "LASTSHOT.xml", Action::END,0.07);
 	LoadAction(path, "FINISHMOTION.xml", Action::END);
-
+	// 평타모션 footer
 
 
 
 	actions[FIRSTSHOT]->SetEndEvent(bind(&Gunner::FirstFire, this));
+	actions[COMBOSHOT]->SetEndEvent(bind(&Gunner::ComboShotEnd, this));
 	actions[LASTSHOT]->SetEndEvent(bind(&Gunner::SecondFire, this));
 	actions[FINISHMOTION]->SetEndEvent(bind(&Gunner::SetIdle, this));
 
@@ -106,6 +109,7 @@ void Gunner::Move()
 	}
 
 	{ // 왼쪽 달리기 체크
+
 		if (KEY_DOWN(VK_LEFT) && (Timer::Get()->GetRunTime() <= leftRunCheckTime))
 		{
 			isLeftRun = true;
@@ -115,6 +119,7 @@ void Gunner::Move()
 		{
 			leftRunCheckTime = Timer::Get()->GetRunTime() + 0.1f;
 		}
+
 	}
 
 
@@ -171,14 +176,25 @@ void Gunner::Move()
 	}
 }
 
+
 void Gunner::Attack()
 {
+	if (isComboShotEndTrigger == 1)
+	{
+		if (CheckAttackInterval())
+		{
+			SetAction(IDLE);
+			isComboShotEndTrigger = false;
+		}
+
+	}
 
 
 	if (CheckAttackInterval()) 
 	{
 		isAttack = true;
 	}
+
 	else
 	{
 		isAttack = false;
@@ -199,19 +215,13 @@ void Gunner::Attack()
 		{
 			isFirstAttack = true;
 			SetAction(FIRSTSHOT); // EndEvent(FirstFire())
-				
 		}
 
 		else if (isFirstAttack && comboAttackCount <= 3)
 		{
-			char buff[100];
-			sprintf_s(buff, "콤보샷");
-			OutputDebugStringA(buff);
-
 			comboAttackCount++;
 			SetAction(COMBOSHOT);
 			Fire();
-
 		}
 
 		else if (comboAttackCount == 4)
@@ -220,15 +230,14 @@ void Gunner::Attack()
 			SetAction(LASTSHOT); // EndEvent(SecondFire());
 		}
 	}
+
 }
-
-
 
 
 bool Gunner::CheckAttackInterval()
 {
 	if (Timer::Get()->GetRunTime() <= maxAttackTime) return true;
-	else if (Timer::Get()->GetRunTime() > maxAttackTime) return false;
+	else return false;
 }
 
 
@@ -238,7 +247,37 @@ void Gunner::Shot()
 	char buff[100];
 	sprintf_s(buff, "%d 번째 총알 발사!\n", count);
 	OutputDebugStringA(buff);
-	
+}
+
+
+void Gunner::Fire()
+{
+	Shot();
+}
+
+void Gunner::FirstFire()
+{
+	SetAction(COMBOSHOT);
+
+	Shot();
+}
+
+void Gunner::SecondFire()
+{
+	SetAction(FINISHMOTION);
+
+	Shot();
+}
+
+void Gunner::ComboShotEnd()
+{
+	maxAttackTime = Timer::Get()->GetRunTime() + 0.2f;
+	isComboShotEndTrigger = true;
+}
+
+void Gunner::SetIdle()
+{
+	SetAction(IDLE);
 }
 
 
@@ -302,35 +341,6 @@ void Gunner::Test()
 		break;
 	}
 }
-
-
-void Gunner::Fire()
-{
-	Shot();
-}
-
-void Gunner::FirstFire()
-{
-	SetAction(COMBOSHOT);
-
-	Shot();
-}
-
-void Gunner::SecondFire()
-{
-	SetAction(FINISHMOTION);
-
-	Shot();
-}
-
-void Gunner::SetIdle()
-{
-	SetAction(IDLE);
-}
-
-
-
-
 
 void Gunner::LoadAction(string path, string file, Action::Type type, float speed)
 {

@@ -33,8 +33,9 @@ public:
 	void Fire();
 	void FirstFire();
 	void SecondFire();
-	void SetIdle();
+	void ComboShotEnd();
 
+	void SetIdle();
 	bool CheckAttackInterval();
 	void Shot();
 
@@ -71,6 +72,8 @@ private:
 
 	double maxAttackTime;
 	int count = 0;
+
+	bool isComboShotEndTrigger;
 
 	Vector2 attackOffset;
 
