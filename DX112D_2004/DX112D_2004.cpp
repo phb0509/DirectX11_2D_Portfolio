@@ -60,6 +60,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ShaderManager::Create();
     EffectManager::Create();
     Camera::Create();
+    GameManager::Create();
 
     Program* program = new Program();
 
@@ -82,6 +83,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     delete program;
 
+    GameManager::Delete();
     Camera::Delete();
     EffectManager::Delete();
     ShaderManager::Delete();

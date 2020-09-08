@@ -34,6 +34,9 @@ void Camera::PostRender()
 	ImGui::Text("CamX : %.1f, CamY : %.1f", pos.x, pos.y);
 	ImGui::SliderFloat("CamSpeed", &speed, 0, 500);
 	ImGui::SliderFloat2("CamOffset", (float*)&offset, 0, 1000);
+
+	ImGui::Text("Gunner Position");
+	ImGui::Text("X : %.1f, Y : %.1f", GM->GetGunner()->pos.x, GM->GetGunner()->pos.y);
 }
 
 Vector2 Camera::GetMouseWorldPos()

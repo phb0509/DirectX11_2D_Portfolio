@@ -50,7 +50,7 @@ float4 Outline(float2 uv)
 float4 PS(PixelInput input) : SV_TARGET
 {
     float2 uv = (startPos / maxSize) + input.uv * (size / maxSize);
-    
+  //float2 uv = (startPos / maxSize) + input.uv * (size / maxSize);
     if(isOutline)
         return Outline(uv);
     

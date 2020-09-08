@@ -150,11 +150,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Algorithm\AStar.h" />
-    <ClInclude Include="Algorithm\Dijkstra.h" />
-    <ClInclude Include="Algorithm\DNode.h" />
-    <ClInclude Include="Algorithm\Heap.h" />
-    <ClInclude Include="Algorithm\Node.h" />
     <ClInclude Include="DX112D_2004.h" />
     <ClInclude Include="Framework.h" />
     <ClInclude Include="Framework\Animation\Action.h" />
@@ -200,52 +195,17 @@
     <ClInclude Include="Object\BasicObject\Quad.h" />
     <ClInclude Include="Object\BasicObject\QuadMesh.h" />
     <ClInclude Include="Object\BasicObject\Sprite.h" />
-    <ClInclude Include="Object\GameObject\Gunner.h" />
-    <ClInclude Include="Object\GameObject\Knight.h" />
-    <ClInclude Include="Object\GameObject\Map.h" />
-    <ClInclude Include="Object\GameObject\Mario.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Object\GameObject\Plane.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Object\GameObject\Tank.h" />
-    <ClInclude Include="Object\GameObject\Tile.h" />
+    <ClInclude Include="Object\GameObject\GameManager.h" />
+    <ClInclude Include="Object\GameObject\Gunner\Bullet.h" />
+    <ClInclude Include="Object\GameObject\Gunner\Gunner.h" />
+    <ClInclude Include="Object\GameObject\Monsters\Monster1.h" />
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="Scenes\AStarScene.h" />
-    <ClInclude Include="Scenes\CollisionScene.h" />
-    <ClInclude Include="Scenes\ComputeScene.h" />
-    <ClInclude Include="Scenes\EffectScene.h" />
-    <ClInclude Include="Scenes\FontScene.h" />
-    <ClInclude Include="Scenes\GeometryScene.h" />
-    <ClInclude Include="Scenes\InstanceScene.h" />
-    <ClInclude Include="Scenes\MapToolScene.h" />
-    <ClInclude Include="Scenes\OffsetTestScene.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Scenes\PixelShaderScene.h" />
-    <ClInclude Include="Scenes\RenderTargetScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
-    <ClInclude Include="Scenes\SolarSystemScene.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="Scenes\TriangleCollisionScene.h" />
-    <ClInclude Include="Scenes\TurorialScene.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="Scenes\UVTestScene.h" />
-    <ClInclude Include="Scenes\WVPScene.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Algorithm\AStar.cpp" />
-    <ClCompile Include="Algorithm\Dijkstra.cpp" />
-    <ClCompile Include="Algorithm\DNode.cpp" />
-    <ClCompile Include="Algorithm\Heap.cpp" />
-    <ClCompile Include="Algorithm\Node.cpp" />
     <ClCompile Include="DX112D_2004.cpp" />
     <ClCompile Include="Framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -292,42 +252,12 @@
     <ClCompile Include="Object\BasicObject\Quad.cpp" />
     <ClCompile Include="Object\BasicObject\QuadMesh.cpp" />
     <ClCompile Include="Object\BasicObject\Sprite.cpp" />
-    <ClCompile Include="Object\GameObject\Gunner.cpp" />
-    <ClCompile Include="Object\GameObject\Knight.cpp" />
-    <ClCompile Include="Object\GameObject\Map.cpp" />
-    <ClCompile Include="Object\GameObject\Mario.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Object\GameObject\Plane.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Object\GameObject\Tank.cpp" />
-    <ClCompile Include="Object\GameObject\Tile.cpp" />
+    <ClCompile Include="Object\GameObject\GameManager.cpp" />
+    <ClCompile Include="Object\GameObject\Gunner\Bullet.cpp" />
+    <ClCompile Include="Object\GameObject\Gunner\Gunner.cpp" />
+    <ClCompile Include="Object\GameObject\Monsters\Monster1.cpp" />
     <ClCompile Include="Program\Program.cpp" />
-    <ClCompile Include="Scenes\AStarScene.cpp" />
-    <ClCompile Include="Scenes\CollisionScene.cpp" />
-    <ClCompile Include="Scenes\ComputeScene.cpp" />
-    <ClCompile Include="Scenes\EffectScene.cpp" />
-    <ClCompile Include="Scenes\FontScene.cpp" />
-    <ClCompile Include="Scenes\GeometryScene.cpp" />
-    <ClCompile Include="Scenes\InstanceScene.cpp" />
-    <ClCompile Include="Scenes\MapToolScene.cpp" />
-    <ClCompile Include="Scenes\OffsetTestScene.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Scenes\PixelShaderScene.cpp" />
-    <ClCompile Include="Scenes\RenderTargetScene.cpp" />
-    <ClCompile Include="Scenes\SolarSystemScene.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Scenes\TriangleCollisionScene.cpp" />
-    <ClCompile Include="Scenes\TurorialScene.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="Scenes\UVTestScene.cpp" />
-    <ClCompile Include="Scenes\WVPScene.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX112D_2004.rc" />

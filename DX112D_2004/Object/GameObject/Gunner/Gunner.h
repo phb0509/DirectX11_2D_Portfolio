@@ -40,13 +40,11 @@ public:
 	void Shot();
 
 	void Test();
+
 private:
-
-
+	
 	Sprite* sprite;
 	vector<Action*> actions;
-	Collider* attackCollider;
-
 	ActionType curAction;
 
 	float walkSpeed;
@@ -74,6 +72,10 @@ private:
 	int count = 0;
 
 	bool isComboShotEndTrigger;
+
+	
+
+
 
 	Vector2 attackOffset;
 

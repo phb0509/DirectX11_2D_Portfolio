@@ -38,6 +38,7 @@
 #define SHADER ShaderManager::Get()
 
 #define CAMERA Camera::Get()
+#define GM GameManager::Get()
 
 #define V(hr) assert(SUCCEEDED(hr))
 
@@ -130,11 +131,7 @@ typedef function<void(void*)> CallBackParam;
 #include "Framework/Animation/Action.h"
 #include "Framework/Camera/Camera.h"
 
-#include "Algorithm/DNode.h"
-#include "Algorithm/Dijkstra.h"
-#include "Algorithm/Node.h"
-#include "Algorithm/Heap.h"
-#include "Algorithm/AStar.h"
+
 //Object Header
 #include "Object/BasicObject/QuadMesh.h"
 #include "Object/BasicObject/Quad.h"
@@ -143,13 +140,13 @@ typedef function<void(void*)> CallBackParam;
 #include "Object/BasicObject/EffectManager.h"
 #include "Object/BasicObject/Button.h"
 
-//#include "Object/GameObject/Plane.h"
-//#include "Object/GameObject/Mario.h"
-#include "Object/GameObject/Knight.h"
-#include "Object/GameObject/Gunner.h"
-#include "Object/GameObject/Tile.h"
-#include "Object/GameObject/Map.h"
-#include "Object/GameObject/Tank.h"
+
+#include "Object/GameObject/Monsters/Monster1.h"
+
+#include "Object/GameObject/Gunner/Bullet.h"
+#include "Object/GameObject/Gunner/Gunner.h"
+
+#include "Object/GameObject/GameManager.h"
 
 //Program;
 #include "Scenes/Scene.h"
