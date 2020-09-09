@@ -202,7 +202,7 @@
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\Scene.h" />
-    <ClInclude Include="Scenes\UVTestScene.h" />
+    <ClInclude Include="Scenes\MirkWoodScene.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -257,7 +257,7 @@
     <ClCompile Include="Object\GameObject\Gunner\Gunner.cpp" />
     <ClCompile Include="Object\GameObject\Monsters\Monster1.cpp" />
     <ClCompile Include="Program\Program.cpp" />
-    <ClCompile Include="Scenes\UVTestScene.cpp" />
+    <ClCompile Include="Scenes\MirkWoodScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX112D_2004.rc" />

@@ -102,9 +102,6 @@
     <ClInclude Include="Framework\State\RasterizerState.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Scenes\UVTestScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Object\BasicObject\Sprite.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -175,6 +172,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Object\GameObject\Monsters\Monster1.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\MirkWoodScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -251,9 +251,6 @@
     <ClCompile Include="Framework\Collision\CircleCollider.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Scenes\UVTestScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Object\BasicObject\Sprite.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -324,6 +321,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Object\GameObject\Monsters\Monster1.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\MirkWoodScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

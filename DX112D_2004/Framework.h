@@ -7,8 +7,8 @@
 #include "targetver.h"
 #define WIN32_LEAN_AND_MEAN
 
-#define WIN_WIDTH 1240
-#define WIN_HEIGHT 720
+#define WIN_WIDTH 1500
+#define WIN_HEIGHT 600
 
 #define CENTER_X WIN_WIDTH * 0.5f
 #define CENTER_Y WIN_HEIGHT * 0.5f
@@ -128,6 +128,7 @@ typedef function<void(void*)> CallBackParam;
 #include "Framework/Collision/CircleCollider.h"
 #include "Framework/Collision/PolygonCollider.h"
 
+
 #include "Framework/Animation/Action.h"
 #include "Framework/Camera/Camera.h"
 
@@ -140,12 +141,10 @@ typedef function<void(void*)> CallBackParam;
 #include "Object/BasicObject/EffectManager.h"
 #include "Object/BasicObject/Button.h"
 
-
 #include "Object/GameObject/Monsters/Monster1.h"
 
 #include "Object/GameObject/Gunner/Bullet.h"
 #include "Object/GameObject/Gunner/Gunner.h"
-
 #include "Object/GameObject/GameManager.h"
 
 //Program;

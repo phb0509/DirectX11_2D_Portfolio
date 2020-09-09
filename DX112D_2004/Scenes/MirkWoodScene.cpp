@@ -1,14 +1,18 @@
 #include "Framework.h"
-#include "UVTestScene.h"
+#include "MirkWoodScene.h"
 
-UVTestScene::UVTestScene()
+MirkWoodScene::MirkWoodScene()
 {
 	gunner = GM->GetGunner();
 	gunner_bullets = GM->GetGunnerBullets();
-	monster1 = new Monster1({ 700,400 });
+	monster1 = new Monster1({ 700,200 });
 
 
-	//bg = new Quad(L"Textures/sample.png", L"TextureShader");
+	bg = new Quad(L"Textures/MirkWood/MirkWoodBackground.png", L"TextureShader");
+	bg->pos = { CENTER_X, CENTER_Y+147 };
+
+	tile = new Quad(L"Textures/MirkWood/MirkWoodTile.png", L"TextureShader");
+	tile->pos = { 700, 40};
 	//bgTransform = new Transform();
 	//bgTransform->scale = { 3, 3 };
 
@@ -23,19 +27,21 @@ UVTestScene::UVTestScene()
 	//CAMERA->SetTarget(knight);
 }
 
-UVTestScene::~UVTestScene()
+MirkWoodScene::~MirkWoodScene()
 {
-	//delete bg;
+	delete bg;
 		//delete bgTransform;
 }
 
-void UVTestScene::Update()
+void MirkWoodScene::Update()
 {
 	//if (KEY_DOWN(VK_LBUTTON))
 	//{
 	//	EffectManager::Get()->Play("whity", CAMERA->GetMouseWorldPos());
 	//}
 
+	bg->Update();
+	tile->Update();
 	gunner->Update();
 	monster1->Update();
 
@@ -46,15 +52,20 @@ void UVTestScene::Update()
 			gunner_bullets[i]->Update(monster1);
 		}
 	}
+
+
+
+
 	//bgTransform->UpdateWorld();
 }
 
-void UVTestScene::Render()
+void MirkWoodScene::Render()
 {
 	ALPHA_BLEND_STATE->SetState();
 	//	bgTransform->SetWorldBuffer();
 		//bg->Render();
-
+	bg->Render();
+	tile->Render();
 	gunner->Render();
 	monster1->Render();
 	for (int i = 0; i < gunner_bullets.size(); i++)
@@ -66,6 +77,6 @@ void UVTestScene::Render()
 	}
 }
 
-void UVTestScene::PostRender()
+void MirkWoodScene::PostRender()
 {
 }

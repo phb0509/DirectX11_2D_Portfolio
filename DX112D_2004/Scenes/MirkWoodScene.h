@@ -1,17 +1,19 @@
 #pragma once
 
-class UVTestScene : public Scene
+class MirkWoodScene : public Scene
 {
 private:
 	Gunner* gunner;
 	vector<Bullet*> gunner_bullets;
 	Monster1* monster1;
 
-	//Quad* bg;
+
+	Quad* bg;
+	Quad* tile;
 	//Transform* bgTransform;
 public:
-	UVTestScene();
-	~UVTestScene();
+	MirkWoodScene();
+	~MirkWoodScene();
 
 	virtual void Update() override;
 	virtual void Render() override;

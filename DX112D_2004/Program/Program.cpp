@@ -1,13 +1,13 @@
 #include "Framework.h"
 
-#include "Scenes/UVTestScene.h"
+#include "Scenes/MirkWoodScene.h"
 
 
 
 
 Program::Program()
 {	
-	scene = new UVTestScene();
+	scene = new MirkWoodScene();
 }
 
 Program::~Program()

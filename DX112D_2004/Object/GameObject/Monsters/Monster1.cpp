@@ -76,6 +76,8 @@ void Monster1::Render()
 
 void Monster1::Move()
 {
+	Vector2 dir = (GM->GetGunner()->pos - pos).Normal();
+	pos += dir * 100 * DELTA;
 }
 
 void Monster1::Attack()

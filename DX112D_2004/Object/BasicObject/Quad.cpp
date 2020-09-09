@@ -17,6 +17,7 @@ Quad::~Quad()
 {
 	delete material;
 	delete mesh;
+
 }
 
 void Quad::Update()
