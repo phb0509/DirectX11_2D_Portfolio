@@ -1,10 +1,10 @@
 #pragma once
 
-class MirkWoodScene : public Scene
+class ElvenGardenScene : public Scene
 {
 public:
-	MirkWoodScene();
-	~MirkWoodScene();
+	ElvenGardenScene();
+	~ElvenGardenScene();
 
 	virtual void Update() override;
 	virtual void Render() override;
@@ -16,14 +16,11 @@ public:
 
 private:
 	Gunner* gunner;
-	vector<Bullet*> gunner_bullets;
-	Gnoll_Mirkwood* gnoll;
 
 	Quad* bg;
 	Quad* tile;
-	
-	vector<Monster*> monsters;
-	
+
+
 
 
 

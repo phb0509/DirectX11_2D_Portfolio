@@ -18,13 +18,13 @@ public:
 	static void Create() { instance = new GameManager(); }
 	static void Delete() { delete instance; }
 
+	void SetMirkWoodScene();
 
 
 private:
 	Gunner* gunner;
 	Bullet* bullet;
-
-
 	vector<Bullet*> gunner_bullets;
+	vector<Monster*> monsters_MirkWoodScene;
 
 };

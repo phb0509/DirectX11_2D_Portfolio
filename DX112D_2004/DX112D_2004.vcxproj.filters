@@ -171,10 +171,19 @@
     <ClInclude Include="Object\GameObject\GameManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Object\GameObject\Monsters\Monster1.h">
+    <ClInclude Include="Scenes\MirkWoodScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Scenes\MirkWoodScene.h">
+    <ClInclude Include="Object\GameObject\Monsters\Monster.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\GameObject\Monsters\Gnoll_Mirkwood.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utility\SceneManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Scenes\ElvenGardenScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -320,10 +329,19 @@
     <ClCompile Include="Object\GameObject\GameManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Object\GameObject\Monsters\Monster1.cpp">
+    <ClCompile Include="Scenes\MirkWoodScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Scenes\MirkWoodScene.cpp">
+    <ClCompile Include="Object\GameObject\Monsters\Monster.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\GameObject\Monsters\Gnoll_Mirkwood.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utility\SceneManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Scenes\ElvenGardenScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -15,7 +15,7 @@ public:
 	~Bullet();
 
 	void Update();
-	void Update(Monster1* monster1);
+	void Update(vector<Monster*> monsters);
 	void Render();
 	void Fire(Vector2 gunner_position, bool gunner_isRight);
 	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);

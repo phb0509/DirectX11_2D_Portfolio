@@ -3,10 +3,8 @@
 
 MirkWoodScene::MirkWoodScene()
 {
-	gunner = GM->GetGunner();
-	gunner_bullets = GM->GetGunnerBullets();
-	monster1 = new Monster1({ 700,200 });
-
+	SetGunner();
+	SetMonsters();
 
 	bg = new Quad(L"Textures/MirkWood/MirkWoodBackground.png", L"TextureShader");
 	bg->pos = { CENTER_X, CENTER_Y+147 };
@@ -43,16 +41,23 @@ void MirkWoodScene::Update()
 	bg->Update();
 	tile->Update();
 	gunner->Update();
-	monster1->Update();
+	
 
 	for (int i = 0; i < gunner_bullets.size(); i++)
 	{
 		if (gunner_bullets[i]->isActive)
 		{
-			gunner_bullets[i]->Update(monster1);
+			gunner_bullets[i]->Update(monsters);
 		}
 	}
 
+	for (int i = 0; i < monsters.size(); i++)
+	{
+		if (monsters[i]->isActive)
+		{
+			monsters[i]->Update();
+		}
+	}
 
 
 
@@ -67,7 +72,8 @@ void MirkWoodScene::Render()
 	bg->Render();
 	tile->Render();
 	gunner->Render();
-	monster1->Render();
+
+
 	for (int i = 0; i < gunner_bullets.size(); i++)
 	{
 		if (gunner_bullets[i]->isActive)
@@ -75,8 +81,35 @@ void MirkWoodScene::Render()
 			gunner_bullets[i]->Render();
 		}
 	}
+
+	for (int i = 0; i < monsters.size(); i++)
+	{
+		if (monsters[i]->isActive)
+		{
+			monsters[i]->Render();
+		}
+	}
 }
 
 void MirkWoodScene::PostRender()
 {
+}
+
+void MirkWoodScene::SetGunner()
+{
+	gunner = GM->GetGunner();
+	gunner_bullets = GM->GetGunnerBullets();
+	
+}
+
+void MirkWoodScene::SetMonsters()
+{
+	for (int y = 0; y < 2; y++)
+	{
+		for (int x = 0; x < 2; x++)
+		{
+			gnoll = new Gnoll_Mirkwood({ 700.0f + x * 150.0f,100.0f + y * 150.0f });
+			monsters.emplace_back(gnoll);
+		}
+	}
 }

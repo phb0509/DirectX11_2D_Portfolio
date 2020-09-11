@@ -39,6 +39,10 @@
 
 #define CAMERA Camera::Get()
 #define GM GameManager::Get()
+#define SOUND SoundManager::Get()
+#define SCENE SceneManager::Get()
+
+
 
 #define V(hr) assert(SUCCEEDED(hr))
 
@@ -141,7 +145,10 @@ typedef function<void(void*)> CallBackParam;
 #include "Object/BasicObject/EffectManager.h"
 #include "Object/BasicObject/Button.h"
 
-#include "Object/GameObject/Monsters/Monster1.h"
+
+
+#include "Object/GameObject/Monsters/Monster.h"
+#include "Object/GameObject/Monsters/Gnoll_Mirkwood.h"
 
 #include "Object/GameObject/Gunner/Bullet.h"
 #include "Object/GameObject/Gunner/Gunner.h"
@@ -149,6 +156,8 @@ typedef function<void(void*)> CallBackParam;
 
 //Program;
 #include "Scenes/Scene.h"
+#include "Framework/Utility/SceneManager.h"
+//#include "Framework/Utility/SoundManager.h"
 #include "Program/Program.h"
 
 extern Vector2 mousePos;

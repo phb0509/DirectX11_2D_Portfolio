@@ -50,7 +50,7 @@ void Bullet::Update()
 	//UpdateWorld();
 }
 
-void Bullet::Update(Monster1* monster1)
+void Bullet::Update(vector<Monster*> monsters)
 {
 	if (!isActive) return;
 
@@ -73,14 +73,23 @@ void Bullet::Update(Monster1* monster1)
 		bulletCollider->SetOffset({ -35,0 });
 	}
 
-
-	if (bulletCollider->IsCollision(monster1->GetCollider()))
+	for (int i = 0; i < monsters.size(); i++)
 	{
-		monster1->OnDamage(20);
-		isActive = false;
-		pos = { -100,-100 };
-		bulletCollider->pos = { -100,-100 };
+		if (bulletCollider->IsCollision(monsters[i]->GetCollider()))
+		{
+			monsters[i]->OnDamage(20);
+			isActive = false;
+			pos = { -100,-100 };
+			bulletCollider->pos = { -100,-100 };
+		}
 	}
+	
+
+
+
+
+
+
 
 
 

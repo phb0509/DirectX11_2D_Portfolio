@@ -21,3 +21,7 @@ GameManager::~GameManager()
 		delete gunner_bullets[i];
 	}
 }
+
+void GameManager::SetMirkWoodScene()
+{
+}

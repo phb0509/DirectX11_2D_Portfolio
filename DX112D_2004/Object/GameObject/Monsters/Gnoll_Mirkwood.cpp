@@ -1,6 +1,6 @@
 #include "Framework.h"
 
-Monster1::Monster1() 
+Gnoll_Mirkwood::Gnoll_Mirkwood()
 {
 	sprite = new Sprite();
 
@@ -11,11 +11,9 @@ Monster1::Monster1()
 	LoadAction(path, "IDLE.xml", Action::END);
 	LoadAction(path, "WALK.xml", Action::PINGPONG);
 
-
-	//actions[FIRSTSHOT]->SetEndEvent(bind(&Gunner::FirstFire, this));
 }
 
-Monster1::Monster1(Vector2 _pos) : isRight(false) , isAttack(false), hp(100), isDie(false)
+Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos)
 {
 	sprite = new Sprite();
 	collider = new RectCollider({118, 116 }, this);
@@ -26,11 +24,9 @@ Monster1::Monster1(Vector2 _pos) : isRight(false) , isAttack(false), hp(100), is
 	LoadAction(path, "IDLE.xml", Action::END);
 	LoadAction(path, "WALK.xml", Action::PINGPONG);
 
-
-	//actions[FIRSTSHOT]->SetEndEvent(bind(&Gunner::FirstFire, this));
 }
 
-Monster1::~Monster1()
+Gnoll_Mirkwood::~Gnoll_Mirkwood()
 {
 	delete sprite;
 
@@ -38,14 +34,16 @@ Monster1::~Monster1()
 		delete action;
 }
 
-void Monster1::Update()
+void Gnoll_Mirkwood::Update()
 {
-	if (!isActive) return;
-	//Test();
 
+	if (!isActive) return;
+
+
+	
+	DetectPlayer();
 	Move();
 	Attack();
-	//Jump();
 
 	Action::Clip curClip = actions[curAction]->GetCurClip();
 	sprite->SetAction(curClip);
@@ -59,12 +57,11 @@ void Monster1::Update()
 	collider->Update();
 	UpdateWorld();
 
-	//attackCollider->Update();
 
 	//effect->Update();
 }
 
-void Monster1::Render()
+void Gnoll_Mirkwood::Render()
 {
 	if (!isActive) return;
 
@@ -74,19 +71,28 @@ void Monster1::Render()
 	collider->Render();
 }
 
-void Monster1::Move()
+void Gnoll_Mirkwood::Move()
 {
-	Vector2 dir = (GM->GetGunner()->pos - pos).Normal();
-	pos += dir * 100 * DELTA;
+	if (isDetectedPlayer)
+	{
+		SetAction(WALK);
+		Vector2 dir = (GM->GetGunner()->pos - pos).Normal();
+		pos += dir * speed * DELTA;
+	}
+	else SetAction(IDLE);
+
 }
 
-void Monster1::Attack()
+void Gnoll_Mirkwood::Attack()
 {
 }
 
-void Monster1::OnDamage(float damage)
+void Gnoll_Mirkwood::OnDamage(float damage)
 {
+	if (isDie) return;
+
 	hp -= damage;
+
 	if (hp <= 0)
 	{
 		hp = 0;
@@ -94,8 +100,33 @@ void Monster1::OnDamage(float damage)
 	}
 }
 
-void Monster1::Die()
+void Gnoll_Mirkwood::DetectPlayer()
 {
+
+	playerPos = GM->GetGunner()->pos;
+
+	if (
+		playerPos.x > pos.x - detectRange.x &&
+		playerPos.x < pos.x + detectRange.x &&
+		playerPos.y < pos.y + detectRange.y &&
+		playerPos.y > pos.y - detectRange.y
+		)
+		isDetectedPlayer = true;
+	else
+	{
+		isDetectedPlayer = false;
+	}
+
+	if (playerPos.x > pos.x) isRight = true;
+	else isRight = false;
+}
+
+void Gnoll_Mirkwood::Die()
+{
+	char buff[100];
+	sprintf_s(buff, "¿Ö È£Ãâ\n");
+	OutputDebugStringA(buff);
+
 	if (!isDie)
 	{
 		isDie = true;
@@ -106,7 +137,7 @@ void Monster1::Die()
 	}
 }
 
-void Monster1::LoadAction(string path, string file, Action::Type type, float speed)
+void Gnoll_Mirkwood::LoadAction(string path, string file, Action::Type type, float speed)
 {
 	XmlDocument* document = new XmlDocument();
 	document->LoadFile((path + file).c_str());
@@ -141,7 +172,7 @@ void Monster1::LoadAction(string path, string file, Action::Type type, float spe
 	delete document;
 }
 
-void Monster1::SetAction(ActionType type)
+void Gnoll_Mirkwood::SetAction(ActionType type)
 {
 	if (curAction != type)
 	{
@@ -150,10 +181,10 @@ void Monster1::SetAction(ActionType type)
 	}
 }
 
-void Monster1::SetIdle()
+void Gnoll_Mirkwood::SetIdle()
 {
 }
 
-void Monster1::Test()
+void Gnoll_Mirkwood::Test()
 {
 }

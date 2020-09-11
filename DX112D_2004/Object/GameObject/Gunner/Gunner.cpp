@@ -8,7 +8,7 @@ Gunner::Gunner()
 	sprite = new Sprite();
 
 
-	pos = { 0, 0 };
+	pos = { 0, 200 };
 
 	string path = "Textures/Gunner/";
 
@@ -202,7 +202,6 @@ void Gunner::Attack()
 	{
 		isAttack = false;
 		isFirstAttack = false;
-		//SetAction(IDLE);
 		comboAttackCount = 0;
 	}
 
@@ -246,13 +245,6 @@ bool Gunner::CheckAttackInterval()
 
 void Gunner::Shot()
 {
-	//count++;
-	//char buff[100];
-	//sprintf_s(buff, "%d 번째 총알 발사!\n", count);
-	//OutputDebugStringA(buff);
-
-
-	
 
 	for (int i = 0; i < GM->GetGunnerBullets().size(); i++)
 	{

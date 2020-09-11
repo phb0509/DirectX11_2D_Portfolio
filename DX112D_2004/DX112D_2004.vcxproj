@@ -186,6 +186,7 @@
     <ClInclude Include="Framework\Utility\BinaryWriter.h" />
     <ClInclude Include="Framework\Utility\DirectWrite.h" />
     <ClInclude Include="Framework\Utility\Keyboard.h" />
+    <ClInclude Include="Framework\Utility\SceneManager.h" />
     <ClInclude Include="Framework\Utility\Timer.h" />
     <ClInclude Include="Framework\Render\Texture.h" />
     <ClInclude Include="Framework\Utility\Xml.h" />
@@ -198,9 +199,11 @@
     <ClInclude Include="Object\GameObject\GameManager.h" />
     <ClInclude Include="Object\GameObject\Gunner\Bullet.h" />
     <ClInclude Include="Object\GameObject\Gunner\Gunner.h" />
-    <ClInclude Include="Object\GameObject\Monsters\Monster1.h" />
+    <ClInclude Include="Object\GameObject\Monsters\Monster.h" />
+    <ClInclude Include="Object\GameObject\Monsters\Gnoll_Mirkwood.h" />
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scenes\ElvenGardenScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\MirkWoodScene.h" />
     <ClInclude Include="targetver.h" />
@@ -243,6 +246,7 @@
     <ClCompile Include="Framework\Utility\BinaryWriter.cpp" />
     <ClCompile Include="Framework\Utility\DirectWrite.cpp" />
     <ClCompile Include="Framework\Utility\Keyboard.cpp" />
+    <ClCompile Include="Framework\Utility\SceneManager.cpp" />
     <ClCompile Include="Framework\Utility\Timer.cpp" />
     <ClCompile Include="Framework\Render\Texture.cpp" />
     <ClCompile Include="Framework\Utility\Xml.cpp" />
@@ -255,8 +259,10 @@
     <ClCompile Include="Object\GameObject\GameManager.cpp" />
     <ClCompile Include="Object\GameObject\Gunner\Bullet.cpp" />
     <ClCompile Include="Object\GameObject\Gunner\Gunner.cpp" />
-    <ClCompile Include="Object\GameObject\Monsters\Monster1.cpp" />
+    <ClCompile Include="Object\GameObject\Monsters\Monster.cpp" />
+    <ClCompile Include="Object\GameObject\Monsters\Gnoll_Mirkwood.cpp" />
     <ClCompile Include="Program\Program.cpp" />
+    <ClCompile Include="Scenes\ElvenGardenScene.cpp" />
     <ClCompile Include="Scenes\MirkWoodScene.cpp" />
   </ItemGroup>
   <ItemGroup>

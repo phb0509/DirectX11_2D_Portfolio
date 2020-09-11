@@ -25,11 +25,6 @@ public:
 	void Move();
 	void Attack();
 	void Jump();
-
-	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
-
-	void SetAction(ActionType type);
-
 	void Fire();
 	void FirstFire();
 	void SecondFire();
@@ -38,8 +33,12 @@ public:
 	void SetIdle();
 	bool CheckAttackInterval();
 	void Shot();
+	void SetPosition(Vector2 _pos) { pos = _pos; };
+
 
 	void Test();
+	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
+	void SetAction(ActionType type);
 
 private:
 	

@@ -1,13 +1,17 @@
 #include "Framework.h"
 
 #include "Scenes/MirkWoodScene.h"
-
+#include "Scenes/ElvenGardenScene.h"
 
 
 
 Program::Program()
 {	
-	scene = new MirkWoodScene();
+	//scene = new MirkWoodScene();
+	SCENE->Add("ElvenGarden", new ElvenGardenScene());
+	SCENE->Add("Mirkwood", new MirkWoodScene());
+
+	SCENE->ChangeScene("ElvenGarden");
 }
 
 Program::~Program()
@@ -20,7 +24,7 @@ void Program::Update()
 	Keyboard::Get()->Update();
 	Timer::Get()->Update();	
 
-	scene->Update();
+	SCENE->Update();
 
 	Camera::Get()->Update();
 
@@ -32,7 +36,7 @@ void Program::Update()
 void Program::Render()
 {		
 	ALPHA_BLEND_STATE->SetState();
-	scene->PreRender();
+	SCENE->PreRender();
 		
 	Device::Get()->SetRenderTarget();
 	Device::Get()->Clear();	
@@ -47,7 +51,7 @@ void Program::Render()
 	//ImGui::Text("FPS : %d", Timer::Get()->GetFPS());	
 
 	ALPHA_BLEND_STATE->SetState();
-	scene->Render();
+	SCENE->Render();
 
 	DirectWrite::Get()->GetDC()->BeginDraw();
 
@@ -62,7 +66,7 @@ void Program::Render()
 	EffectManager::Get()->Render();
 
 	Camera::Get()->PostRender();
-	scene->PostRender();
+	SCENE->PostRender();
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
