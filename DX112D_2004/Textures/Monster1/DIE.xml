@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:b03b2da26d5424249344ae92b042b5d8:5be057c1e951b9ed4442eac747e930ec:b54a3552a2c6eebc0e53689109c2dc71$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="DIE.png" width="390" height="122">
+    <sprite n="DIE_01.png" x="1" y="1" w="112" h="120" pX="0.5" pY="0.5"/>
+    <sprite n="DIE_02.png" x="115" y="1" w="120" h="108" pX="0.5" pY="0.5"/>
+    <sprite n="DIE_03.png" x="237" y="1" w="152" h="83" pX="0.5" pY="0.5"/>
+</TextureAtlas>

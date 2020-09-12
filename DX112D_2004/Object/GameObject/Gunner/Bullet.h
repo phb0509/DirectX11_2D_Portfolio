@@ -17,9 +17,11 @@ public:
 	void Update();
 	void Update(vector<Monster*> monsters);
 	void Render();
-	void Fire(Vector2 gunner_position, bool gunner_isRight);
-	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
 
+	void Fire(Vector2 gunner_position, bool gunner_isRight);
+	void CheckDisabledTime();
+
+	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
 	void SetAction(ActionType type);
 
 
@@ -31,6 +33,8 @@ private:
 	Collider* bulletCollider;
 
 
+	float damage;
+	float disabledTime;
 	bool isRight;
 	double speed;
 

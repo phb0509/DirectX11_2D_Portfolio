@@ -5,8 +5,10 @@ class Gnoll_Mirkwood : public Monster
 public:
 	enum ActionType
 	{
-		IDLE,
-		WALK
+		Idle,
+		Walk,
+		StandOnDamage,
+		DIE,
 	};
 
 
@@ -22,6 +24,8 @@ public:
 	virtual void Move() override;
 	virtual void Attack() override;
 	virtual void OnDamage(float damage) override;
+	virtual void CheckOnDamage() override;
+	virtual void CheckDead() override;
 	virtual void DetectPlayer() override;
 	virtual void Die() override;
 

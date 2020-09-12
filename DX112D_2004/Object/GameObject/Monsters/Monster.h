@@ -13,25 +13,34 @@ public:
 	virtual void Move() = 0;
 	virtual void Attack() = 0;
 	virtual void OnDamage(float damage) = 0;
+	virtual void CheckOnDamage() = 0;
+	virtual void CheckDead() = 0;
 	virtual void DetectPlayer() = 0;
 	virtual void Die() = 0;
 
 
 	//Get
 	Collider* GetCollider() { return collider; }
-
+	bool GetColliderIsActive() { return collider->isActive; }
 protected:
 
 	int hp;
 	float speed;
 	float gravity;
+	float onDamageStateCheckTime;
+	float maxSlipMove;
+	float hitRecovery;
+	float deadTime;
+
 	bool isRight;
 	bool isDie;
 	bool isAttack;
 	bool isDetectedPlayer;
+	bool isOnDamage;
+
 	Collider* collider;
 	Vector2 detectRange;
 	Vector2 playerPos;
-	
+
 
 };

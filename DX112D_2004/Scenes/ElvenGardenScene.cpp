@@ -6,6 +6,7 @@ ElvenGardenScene::ElvenGardenScene()
 	gunner = GM->GetGunner();
 	bg = new Quad(L"Textures/Earth.png", L"TextureShader");
 	bg->pos = { CENTER_X, CENTER_Y + 147 };
+
 }
 
 ElvenGardenScene::~ElvenGardenScene()

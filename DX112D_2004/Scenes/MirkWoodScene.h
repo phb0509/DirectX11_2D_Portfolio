@@ -23,10 +23,6 @@ private:
 	Quad* tile;
 	
 	vector<Monster*> monsters;
-	
-
-
-
-	//Transform* bgTransform;
+	Transform* bgTransform;
 
 };

@@ -1,7 +1,7 @@
 #include "Framework.h"
 
 Bullet::Bullet() : 
-	curAction(IDLE), isRight(true), speed(700)
+	curAction(IDLE), isRight(true), speed(700), damage(20), disabledTime(0)
 {
 	sprite = new Sprite();
 
@@ -54,6 +54,8 @@ void Bullet::Update(vector<Monster*> monsters)
 {
 	if (!isActive) return;
 
+	CheckDisabledTime();
+
 	Action::Clip curClip = actions[curAction]->GetCurClip();
 	sprite->SetAction(curClip);
 
@@ -62,11 +64,13 @@ void Bullet::Update(vector<Monster*> monsters)
 	scale.x = isRight ? curClip.size.x : -curClip.size.x;
 	scale.y = curClip.size.y;
 
+
 	if (isRight)
 	{
 		pos.x += speed * DELTA;
 		bulletCollider->SetOffset({ 35,0 });
 	}
+
 	else
 	{
 		pos.x -= speed * DELTA;
@@ -75,24 +79,16 @@ void Bullet::Update(vector<Monster*> monsters)
 
 	for (int i = 0; i < monsters.size(); i++)
 	{
-		if (bulletCollider->IsCollision(monsters[i]->GetCollider()))
+		if (monsters[i]->GetColliderIsActive())
 		{
-			monsters[i]->OnDamage(20);
-			isActive = false;
-			pos = { -100,-100 };
-			bulletCollider->pos = { -100,-100 };
+			if (bulletCollider->IsCollision(monsters[i]->GetCollider()))
+			{
+				monsters[i]->OnDamage(damage);
+				isActive = false;
+			}
 		}
 	}
 	
-
-
-
-
-
-
-
-
-
 	bulletCollider->Update();
 	UpdateWorld();
 }
@@ -115,14 +111,28 @@ void Bullet::Fire(Vector2 gunner_position, bool gunner_isRight)
 	if (isRight)
 	{
 		pos.x = gunner_position.x + 40;
+		disabledTime = pos.x + 500;
 	}
 	else
 	{
 		pos.x = gunner_position.x - 40;
+		disabledTime = pos.x - 500;
 	}
 
 	isActive = true;
 
+}
+
+void Bullet::CheckDisabledTime()
+{
+	if (isRight)
+	{
+		if (pos.x >= disabledTime) isActive = false;
+	}
+	else
+	{
+		if(pos.x <= disabledTime) isActive = false;
+	}
 }
 
 void Bullet::LoadAction(string path, string file, Action::Type type, float speed)

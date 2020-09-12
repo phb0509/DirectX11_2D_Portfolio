@@ -3,6 +3,7 @@
 Gnoll_Mirkwood::Gnoll_Mirkwood()
 {
 	sprite = new Sprite();
+	collider = new RectCollider({ 118, 116 }, this);
 
 	pos = { 300, 300 };
 
@@ -10,6 +11,8 @@ Gnoll_Mirkwood::Gnoll_Mirkwood()
 
 	LoadAction(path, "IDLE.xml", Action::END);
 	LoadAction(path, "WALK.xml", Action::PINGPONG);
+	LoadAction(path, "StandOnDamage.xml", Action::END);
+	LoadAction(path, "DIE.xml", Action::END, 0.3f);
 
 }
 
@@ -23,7 +26,8 @@ Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos)
 
 	LoadAction(path, "IDLE.xml", Action::END);
 	LoadAction(path, "WALK.xml", Action::PINGPONG);
-
+	LoadAction(path, "StandOnDamage.xml", Action::END,0.1f);
+	LoadAction(path, "DIE.xml", Action::END, 0.1f);
 }
 
 Gnoll_Mirkwood::~Gnoll_Mirkwood()
@@ -36,14 +40,21 @@ Gnoll_Mirkwood::~Gnoll_Mirkwood()
 
 void Gnoll_Mirkwood::Update()
 {
-
 	if (!isActive) return;
 
+	char buff[100];
+	sprintf_s(buff, "isActive : %d\n isColliderActive : %d\n pos.x : %f\n pos.y : %f\n", isActive,collider->isActive, pos.x, pos.y);
+	OutputDebugStringA(buff);
 
-	
-	DetectPlayer();
-	Move();
-	Attack();
+
+
+
+
+	CheckDead(); // 안죽었으면 X
+	CheckOnDamage(); // 죽으면 X
+	DetectPlayer(); // 죽으면 X
+	Move(); // 죽거나,공격받는중이면 X  
+	Attack(); // 미구현.
 
 	Action::Clip curClip = actions[curAction]->GetCurClip();
 	sprite->SetAction(curClip);
@@ -73,13 +84,15 @@ void Gnoll_Mirkwood::Render()
 
 void Gnoll_Mirkwood::Move()
 {
+	if (isDie) return;
+	if (isOnDamage) return;
 	if (isDetectedPlayer)
 	{
-		SetAction(WALK);
+		SetAction(Walk);
 		Vector2 dir = (GM->GetGunner()->pos - pos).Normal();
 		pos += dir * speed * DELTA;
 	}
-	else SetAction(IDLE);
+	else SetAction(Idle);
 
 }
 
@@ -91,6 +104,8 @@ void Gnoll_Mirkwood::OnDamage(float damage)
 {
 	if (isDie) return;
 
+	onDamageStateCheckTime = Timer::Get()->GetRunTime() + hitRecovery;
+
 	hp -= damage;
 
 	if (hp <= 0)
@@ -100,8 +115,45 @@ void Gnoll_Mirkwood::OnDamage(float damage)
 	}
 }
 
+
+
+void Gnoll_Mirkwood::CheckOnDamage()
+{
+	if (isDie) return;
+
+	if (Timer::Get()->GetRunTime() < onDamageStateCheckTime) // 아직 피격중이면.
+	{
+		isOnDamage = true;
+		SetAction(StandOnDamage);
+
+		if (isRight) pos.x -= 50 * DELTA;
+		else pos.x += 50 * DELTA;
+
+	}
+	else
+	{
+		isOnDamage = false;
+	}
+}
+
+void Gnoll_Mirkwood::CheckDead()
+{
+	if(!isDie) return;
+
+	if (Timer::Get()->GetRunTime() < deadTime)
+	{
+		SetAction(DIE);
+	}
+
+	else
+	{
+		isActive = false;
+	}
+}
+
 void Gnoll_Mirkwood::DetectPlayer()
 {
+	if (isDie) return;
 
 	playerPos = GM->GetGunner()->pos;
 
@@ -117,23 +169,23 @@ void Gnoll_Mirkwood::DetectPlayer()
 		isDetectedPlayer = false;
 	}
 
-	if (playerPos.x > pos.x) isRight = true;
+	if (playerPos.x >= pos.x) isRight = true;
 	else isRight = false;
 }
 
 void Gnoll_Mirkwood::Die()
 {
-	char buff[100];
-	sprintf_s(buff, "왜 호출\n");
-	OutputDebugStringA(buff);
-
 	if (!isDie)
 	{
 		isDie = true;
-		isActive = false;
+		deadTime = Timer::Get()->GetRunTime() + 2.0f;
 		collider->isActive = false;
-		pos = { 2000,2000 };
-		collider->pos = { 2000,2000 };
+
+
+
+
+		//pos = { 2000,2000 };
+		//collider->pos = { 2000,2000 };
 	}
 }
 
