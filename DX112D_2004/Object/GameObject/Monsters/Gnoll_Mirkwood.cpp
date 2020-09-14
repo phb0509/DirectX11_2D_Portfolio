@@ -88,11 +88,22 @@ void Gnoll_Mirkwood::Move()
 	if (isDetectedPlayer)
 	{
 		SetAction(Walk);
+
+		if (GM->GetGunner()->pos == pos)
+		{
+			char buff[100];
+			sprintf_s(buff, "이게 호출된다고??\n");
+			OutputDebugStringA(buff);
+
+			pos.x -= 0.5f;
+		}
+
+
 		Vector2 dir = (GM->GetGunner()->pos - pos).Normal();
 		pos += dir * speed * DELTA;
 	}
-	else SetAction(Idle);
 
+	else SetAction(Idle);
 }
 
 void Gnoll_Mirkwood::Attack()

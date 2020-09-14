@@ -41,11 +41,11 @@ void MirkWoodScene::Update()
 		SCENE->ChangeScene("ElvenGarden");
 	}
 
-	gnoll = GM->GetMirkwoodMonsters()[0];
+	//gnoll = GM->GetMirkwoodMonsters()[0];
 
-	char buff[100];
-	sprintf_s(buff, "isActive : %d\n  pos.x : %f\n pos.y : %f\n", gnoll->isActive,gnoll->pos.x, gnoll->pos.y);
-	OutputDebugStringA(buff);
+	//char buff[100];
+	//sprintf_s(buff, "isActive : %d\n  pos.x : %f\n pos.y : %f\n", gnoll->isActive,gnoll->pos.x, gnoll->pos.y);
+	//OutputDebugStringA(buff);
 
 
 	//if (KEY_DOWN(VK_LBUTTON))
