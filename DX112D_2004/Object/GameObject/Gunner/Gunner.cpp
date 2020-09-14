@@ -5,45 +5,19 @@ Gunner::Gunner()
 	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), rightRunCheckTime(0.0f), leftRunCheckTime(0.0f),
 	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false)
 {
-	sprite = new Sprite();
-
-
 	pos = { 0, 200 };
 
-	string path = "Textures/Gunner/";
-
-	LoadAction(path, "IDLE.xml", Action::PINGPONG, 0.15f);
-	LoadAction(path, "WALK.xml", Action::LOOP);
-	LoadAction(path, "RUN.xml", Action::LOOP);
-
-	// 평타모션 head
-	LoadAction(path, "FIRSTSHOT.xml", Action::END);
-	LoadAction(path, "COMBOSHOT.xml", Action::END);
-	LoadAction(path, "LASTSHOT.xml", Action::END, 0.07);
-	LoadAction(path, "FINISHMOTION.xml", Action::END);
-	// 평타모션 footer
+	InitMotion();
 
 
-	actions[FIRSTSHOT]->SetEndEvent(bind(&Gunner::FirstFire, this));
-	actions[COMBOSHOT]->SetEndEvent(bind(&Gunner::ComboShotEnd, this));
-	actions[LASTSHOT]->SetEndEvent(bind(&Gunner::SecondFire, this));
-	actions[FINISHMOTION]->SetEndEvent(bind(&Gunner::SetIdle, this));
+	// Init Bullet
+	for (int i = 0; i < 500; i++)
+	{
+		bullet = new Bullet();
+		gunner_bullets.emplace_back(bullet);
+	}
 
-	/*FIRSTSHOT->EndEvent(Fire(1));
-	LASTSHOT->EndEvent(Fire(2));*/
-
-
-	//attackCollider = new RectCollider({ 150, 100 }, this);
-	//attackCollider->isActive = false;
-
-	/*effect = new Effect(L"Textures/Effects/fire_8x2.png", 8, 2);
-	effect->SetAdditive(true);
-
-	intBuffer = new IntBuffer();
-	intBuffer->data.index[2] = 1;
-	colorBuffer = new ColorBuffer();
-	colorBuffer->data.color = Float4(1, 0, 0, 1);*/
-
+	
 }
 
 Gunner::~Gunner()
@@ -53,11 +27,16 @@ Gunner::~Gunner()
 	for (Action* action : actions)
 		delete action;
 
+	for (int i = 0; i < gunner_bullets.size(); i++)
+	{
+		delete gunner_bullets[i];
+	}
+
 }
 
 void Gunner::Update()
 {
-
+	if (!isActive) return;
 	//Test();
 
 	Move();
@@ -72,17 +51,35 @@ void Gunner::Update()
 	scale.x = isRight ? curClip.size.x : -curClip.size.x;
 	scale.y = curClip.size.y;
 
+	for (int i = 0; i < gunner_bullets.size(); i++)
+	{
+		if (gunner_bullets[i]->isActive)
+		{
+			gunner_bullets[i]->Update(GM->GetMirkwoodMonsters());
+		}
+	}
+
 	UpdateWorld();
 
 	//attackCollider->Update();
-
 	//effect->Update();
 }
 
 void Gunner::Render()
 {
+	if (!isActive) return;
 	/*intBuffer->SetPSBuffer(1);
 	colorBuffer->SetPSBuffer(2);*/
+
+	for (int i = 0; i < gunner_bullets.size(); i++)
+	{
+		if (gunner_bullets[i]->isActive)
+		{
+			gunner_bullets[i]->Render();
+		}
+	}
+
+
 
 	SetWorldBuffer();
 	sprite->Render();
@@ -185,13 +182,11 @@ void Gunner::Attack()
 		{
 			SetAction(IDLE);
 			isComboShotEndTrigger = false;
-			count = 0;
 			isAttack = false;
 			isFirstAttack = false;
 			comboAttackCount = 0;
 		}
 	}
-
 
 	if (CheckAttackInterval())
 	{
@@ -246,17 +241,22 @@ bool Gunner::CheckAttackInterval()
 void Gunner::Shot()
 {
 
-	for (int i = 0; i < GM->GetGunnerBullets().size(); i++)
+	for (int i = 0; i < gunner_bullets.size(); i++)
 	{
-		if (GM->GetGunnerBullets()[i]->isActive == false)
+		if (gunner_bullets[i]->isActive == false)
 		{
-			GM->GetGunnerBullets()[i]->Fire(pos, isRight);
+			gunner_bullets[i]->Fire(pos, isRight);
 			break;
 		}
 	}
 
 }
 
+void Gunner::Jump()
+{
+
+
+}
 
 void Gunner::Fire()
 {
@@ -273,7 +273,6 @@ void Gunner::SecondFire()
 {
 	SetAction(FINISHMOTION);
 	Shot();
-	count = 0;
 }
 
 void Gunner::ComboShotEnd()
@@ -281,6 +280,8 @@ void Gunner::ComboShotEnd()
 	maxAttackTime = Timer::Get()->GetRunTime() + 0.25f;
 	isComboShotEndTrigger = true;
 }
+
+
 
 void Gunner::SetIdle()
 {
@@ -384,7 +385,43 @@ void Gunner::LoadAction(string path, string file, Action::Type type, float speed
 	delete document;
 }
 
-void Gunner::Jump()
+
+
+void Gunner::InitMotion()
 {
+	sprite = new Sprite();
+	string path = "Textures/Gunner/";
+
+	LoadAction(path, "IDLE.xml", Action::PINGPONG, 0.15f);
+	LoadAction(path, "WALK.xml", Action::LOOP);
+	LoadAction(path, "RUN.xml", Action::LOOP);
+
+	// 평타모션 head
+	LoadAction(path, "FIRSTSHOT.xml", Action::END);
+	LoadAction(path, "COMBOSHOT.xml", Action::END);
+	LoadAction(path, "LASTSHOT.xml", Action::END, 0.07);
+	LoadAction(path, "FINISHMOTION.xml", Action::END);
+	// 평타모션 footer
+
+
+	actions[FIRSTSHOT]->SetEndEvent(bind(&Gunner::FirstFire, this));
+	actions[COMBOSHOT]->SetEndEvent(bind(&Gunner::ComboShotEnd, this));
+	actions[LASTSHOT]->SetEndEvent(bind(&Gunner::SecondFire, this));
+	actions[FINISHMOTION]->SetEndEvent(bind(&Gunner::SetIdle, this));
+
+	/*FIRSTSHOT->EndEvent(Fire(1));
+	LASTSHOT->EndEvent(Fire(2));*/
+
+
+	//attackCollider = new RectCollider({ 150, 100 }, this);
+	//attackCollider->isActive = false;
+
+	/*effect = new Effect(L"Textures/Effects/fire_8x2.png", 8, 2);
+	effect->SetAdditive(true);
+
+	intBuffer = new IntBuffer();
+	intBuffer->data.index[2] = 1;
+	colorBuffer = new ColorBuffer();
+	colorBuffer->data.color = Float4(1, 0, 0, 1);*/
 
 }

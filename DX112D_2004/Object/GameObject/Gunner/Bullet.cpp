@@ -1,53 +1,27 @@
 #include "Framework.h"
 
 Bullet::Bullet() : 
-	curAction(IDLE), isRight(true), speed(700), damage(20), disabledTime(0)
+	curAction(IDLE), isRight(true), speed(700), damage(20), disabledDistance(0)
 {
-	sprite = new Sprite();
-
 	pos = { 0, 0 };
+	sprite = new Sprite();
+	collider = new RectCollider({ 20, 10 }, this);
+
 	isActive = false;
+	collider->isActive = false;
+
 	string path = "Textures/Gunner/";
-
 	LoadAction(path, "BULLET.xml", Action::PINGPONG, 0.1f);
-	
-	//actions[FINISHMOTION]->SetEndEvent(bind(&Gunner::SetIdle, this));
 
-	bulletCollider = new RectCollider({ 20, 10 }, this);
-	//bulletCollider->SetOffset({ 35,0 });
-
-	//bulletCollider->isActive = true;
 }
 
 Bullet::~Bullet()
 {
-}
+	delete sprite;
+	delete collider;
+	for (Action* action : actions)
+		delete action;
 
-void Bullet::Update()
-{
-	//if (!isActive) return;
-
-	//Action::Clip curClip = actions[curAction]->GetCurClip();
-	//sprite->SetAction(curClip);
-
-	//actions[curAction]->Update();
-
-	//scale.x = isRight ? curClip.size.x : -curClip.size.x;
-	//scale.y = curClip.size.y;
-
-	//if (isRight)
-	//{
-	//	pos.x += speed * DELTA;
-	//	bulletCollider->SetOffset({ 35,0 });
-	//}
-	//else
-	//{
-	//	pos.x -= speed * DELTA;
-	//	bulletCollider->SetOffset({ -35,0 });
-	//}
-
-	//bulletCollider->Update();
-	//UpdateWorld();
 }
 
 void Bullet::Update(vector<Monster*> monsters)
@@ -68,28 +42,29 @@ void Bullet::Update(vector<Monster*> monsters)
 	if (isRight)
 	{
 		pos.x += speed * DELTA;
-		bulletCollider->SetOffset({ 35,0 });
+		collider->SetOffset({ 35,0 });
 	}
 
 	else
 	{
 		pos.x -= speed * DELTA;
-		bulletCollider->SetOffset({ -35,0 });
+		collider->SetOffset({ -35,0 });
 	}
 
 	for (int i = 0; i < monsters.size(); i++)
 	{
 		if (monsters[i]->GetColliderIsActive())
 		{
-			if (bulletCollider->IsCollision(monsters[i]->GetCollider()))
+			if (collider->IsCollision(monsters[i]->GetCollider()))
 			{
 				monsters[i]->OnDamage(damage);
 				isActive = false;
+				collider->isActive = false;
 			}
 		}
 	}
 	
-	bulletCollider->Update();
+	collider->Update();
 	UpdateWorld();
 }
 
@@ -100,7 +75,7 @@ void Bullet::Render()
 	SetWorldBuffer();
 	sprite->Render();
 
-	bulletCollider->Render();
+	collider->Render();
 }
 
 void Bullet::Fire(Vector2 gunner_position, bool gunner_isRight)
@@ -111,15 +86,16 @@ void Bullet::Fire(Vector2 gunner_position, bool gunner_isRight)
 	if (isRight)
 	{
 		pos.x = gunner_position.x + 40;
-		disabledTime = pos.x + 500;
+		disabledDistance = pos.x + 500;
 	}
 	else
 	{
 		pos.x = gunner_position.x - 40;
-		disabledTime = pos.x - 500;
+		disabledDistance = pos.x - 500;
 	}
 
 	isActive = true;
+	collider->isActive = true;
 
 }
 
@@ -127,13 +103,25 @@ void Bullet::CheckDisabledTime()
 {
 	if (isRight)
 	{
-		if (pos.x >= disabledTime) isActive = false;
+		if (pos.x >= disabledDistance)
+		{
+			isActive = false;
+			collider->isActive = false;
+		}
 	}
+
 	else
 	{
-		if(pos.x <= disabledTime) isActive = false;
+		if (pos.x <= disabledDistance)
+		{
+			isActive = false;
+			collider->isActive = false;
+		}
 	}
 }
+
+
+
 
 void Bullet::LoadAction(string path, string file, Action::Type type, float speed)
 {

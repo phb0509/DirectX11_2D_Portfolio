@@ -17,11 +17,15 @@ public:
 	virtual void CheckDead() = 0;
 	virtual void DetectPlayer() = 0;
 	virtual void Die() = 0;
+	virtual void Reactivation() = 0;
 
 
 	//Get
 	Collider* GetCollider() { return collider; }
 	bool GetColliderIsActive() { return collider->isActive; }
+
+	//Set
+	void SetIsDie(bool _isDie) { isDie = _isDie; }
 protected:
 
 	int hp;

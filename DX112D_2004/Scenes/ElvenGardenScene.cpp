@@ -30,13 +30,15 @@ void ElvenGardenScene::Render()
 }
 
 
-
-
-
-
-
-
 void ElvenGardenScene::PostRender()
+{
+}
+
+void ElvenGardenScene::Start()
+{
+}
+
+void ElvenGardenScene::End()
 {
 }
 

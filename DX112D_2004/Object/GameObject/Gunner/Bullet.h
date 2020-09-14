@@ -14,7 +14,7 @@ public:
 	Bullet();
 	~Bullet();
 
-	void Update();
+
 	void Update(vector<Monster*> monsters);
 	void Render();
 
@@ -30,11 +30,11 @@ private:
 	Sprite* sprite;
 	vector<Action*> actions;
 	ActionType curAction;
-	Collider* bulletCollider;
+	Collider* collider;
 
 
 	float damage;
-	float disabledTime;
+	float disabledDistance;
 	bool isRight;
 	double speed;
 

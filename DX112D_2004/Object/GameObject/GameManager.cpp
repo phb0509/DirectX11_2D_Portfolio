@@ -4,24 +4,28 @@ GameManager* GameManager::instance = nullptr;
 
 GameManager::GameManager()
 {
-	for (int i = 0; i < 500; i++)
-	{
-		bullet = new Bullet();
-		gunner_bullets.emplace_back(bullet);
-	}
-
 	gunner = new Gunner();
+	SetMirkWoodScene();
 }
 
 GameManager::~GameManager()
 {
 	delete gunner;
-	for (int i = 0; i < gunner_bullets.size(); i++)
-	{
-		delete gunner_bullets[i];
-	}
+
 }
 
 void GameManager::SetMirkWoodScene()
 {
+	for (int y = 0; y < 2; y++)
+	{
+		for (int x = 0; x < 2; x++)
+		{
+			gnoll = new Gnoll_Mirkwood({ 700.0f + x * 150.0f,100.0f + y * 150.0f });
+			monsters_MirkwoodScene.emplace_back(gnoll);
+		}
+	}
+
+
+	//gnoll = new Gnoll_Mirkwood({ 700.0f,100.0f});
+	//monsters_MirkwoodScene.push_back(gnoll);
 }

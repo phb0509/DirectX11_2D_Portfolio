@@ -33,7 +33,7 @@ Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos)
 Gnoll_Mirkwood::~Gnoll_Mirkwood()
 {
 	delete sprite;
-
+	delete collider;
 	for (Action* action : actions)
 		delete action;
 }
@@ -42,13 +42,9 @@ void Gnoll_Mirkwood::Update()
 {
 	if (!isActive) return;
 
-	char buff[100];
-	sprintf_s(buff, "isActive : %d\n isColliderActive : %d\n pos.x : %f\n pos.y : %f\n", isActive,collider->isActive, pos.x, pos.y);
-	OutputDebugStringA(buff);
-
-
-
-
+	//char buff[100];
+	//sprintf_s(buff, "isActive : %d\n isColliderActive : %d\n pos.x : %f\n pos.y : %f\n", isActive,collider->isActive, pos.x, pos.y);
+	//OutputDebugStringA(buff);
 
 	CheckDead(); // ¾ÈÁ×¾úÀ¸¸é X
 	CheckOnDamage(); // Á×À¸¸é X
@@ -82,10 +78,13 @@ void Gnoll_Mirkwood::Render()
 	collider->Render();
 }
 
+
 void Gnoll_Mirkwood::Move()
 {
 	if (isDie) return;
+
 	if (isOnDamage) return;
+
 	if (isDetectedPlayer)
 	{
 		SetAction(Walk);
@@ -151,6 +150,7 @@ void Gnoll_Mirkwood::CheckDead()
 	}
 }
 
+
 void Gnoll_Mirkwood::DetectPlayer()
 {
 	if (isDie) return;
@@ -180,13 +180,15 @@ void Gnoll_Mirkwood::Die()
 		isDie = true;
 		deadTime = Timer::Get()->GetRunTime() + 2.0f;
 		collider->isActive = false;
-
-
-
-
-		//pos = { 2000,2000 };
-		//collider->pos = { 2000,2000 };
 	}
+}
+
+void Gnoll_Mirkwood::Reactivation()
+{
+	hp = 100.0f;
+	isActive = true;
+	collider->isActive = true;
+	isDie = false;
 }
 
 void Gnoll_Mirkwood::LoadAction(string path, string file, Action::Type type, float speed)

@@ -9,6 +9,8 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 	virtual void PostRender() override;
+	virtual void Start() override;
+	virtual void End() override;
 
 	void SetGunner();
 	void SetMonsters();

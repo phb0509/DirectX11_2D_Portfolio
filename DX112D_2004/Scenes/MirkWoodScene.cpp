@@ -1,10 +1,11 @@
 #include "Framework.h"
 #include "MirkWoodScene.h"
 
-MirkWoodScene::MirkWoodScene()
+MirkWoodScene::MirkWoodScene() : gunner(nullptr)
 {
-	SetGunner();
-	SetMonsters();
+	gunner = GM->GetGunner();
+	monsters = GM->GetMirkwoodMonsters();
+
 
 	bg = new Quad(L"Textures/MirkWood/MirkWoodBackground.png", L"TextureShader");
 	bg->pos = { CENTER_X, CENTER_Y + 147 };
@@ -29,11 +30,24 @@ MirkWoodScene::MirkWoodScene()
 MirkWoodScene::~MirkWoodScene()
 {
 	delete bg;
-	//delete bgTransform;
+	delete tile;
+	delete bgTransform;
 }
 
 void MirkWoodScene::Update()
 {
+	if (KEY_DOWN(VK_F1))
+	{
+		SCENE->ChangeScene("ElvenGarden");
+	}
+
+	gnoll = GM->GetMirkwoodMonsters()[0];
+
+	char buff[100];
+	sprintf_s(buff, "isActive : %d\n  pos.x : %f\n pos.y : %f\n", gnoll->isActive,gnoll->pos.x, gnoll->pos.y);
+	OutputDebugStringA(buff);
+
+
 	//if (KEY_DOWN(VK_LBUTTON))
 	//{
 	//	EffectManager::Get()->Play("whity", CAMERA->GetMouseWorldPos());
@@ -44,20 +58,9 @@ void MirkWoodScene::Update()
 	gunner->Update();
 
 
-	for (int i = 0; i < gunner_bullets.size(); i++)
-	{
-		if (gunner_bullets[i]->isActive)
-		{
-			gunner_bullets[i]->Update(monsters);
-		}
-	}
-
 	for (int i = 0; i < monsters.size(); i++)
 	{
-		if (monsters[i]->isActive)
-		{
-			monsters[i]->Update();
-		}
+		monsters[i]->Update();	
 	}
 
 	bgTransform->UpdateWorld();
@@ -73,20 +76,9 @@ void MirkWoodScene::Render()
 	gunner->Render();
 
 
-	for (int i = 0; i < gunner_bullets.size(); i++)
-	{
-		if (gunner_bullets[i]->isActive)
-		{
-			gunner_bullets[i]->Render();
-		}
-	}
-
 	for (int i = 0; i < monsters.size(); i++)
 	{
-		if (monsters[i]->isActive)
-		{
-			monsters[i]->Render();
-		}
+		monsters[i]->Render();
 	}
 }
 
@@ -94,28 +86,17 @@ void MirkWoodScene::PostRender()
 {
 }
 
-void MirkWoodScene::SetGunner()
+void MirkWoodScene::Start()
 {
-	gunner = GM->GetGunner();
-	gunner_bullets = GM->GetGunnerBullets();
+	
+	for (int i = 0; i < monsters.size(); i++)
+	{
+		monsters[i]->Reactivation();
+	}
+
 }
 
-void MirkWoodScene::SetMonsters()
+void MirkWoodScene::End()
 {
-	//for (int y = 0; y < 2; y++)
-	//{
-	//	for (int x = 0; x < 2; x++)
-	//	{
-	//		gnoll = new Gnoll_Mirkwood({ 700.0f + x * 150.0f,100.0f + y * 150.0f });
-	//		monsters.emplace_back(gnoll);
-	//	}
-	//}
 
-	for (int y = 0; y < 1; y++)
-	{
-
-		gnoll = new Gnoll_Mirkwood({ 700.0f ,100.0f });
-		monsters.emplace_back(gnoll);
-
-	}
 }

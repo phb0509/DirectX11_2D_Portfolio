@@ -28,6 +28,7 @@ public:
 	virtual void CheckDead() override;
 	virtual void DetectPlayer() override;
 	virtual void Die() override;
+	virtual void Reactivation() override;
 
 
 	////Get

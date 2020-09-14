@@ -9,15 +9,14 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 	virtual void PostRender() override;
-
-	void SetGunner();
-	void SetMonsters();
+	virtual void Start() override;
+	virtual void End() override;
 
 
 private:
 	Gunner* gunner;
-	vector<Bullet*> gunner_bullets;
-	Gnoll_Mirkwood* gnoll;
+	Monster* gnoll;
+
 
 	Quad* bg;
 	Quad* tile;

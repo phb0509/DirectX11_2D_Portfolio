@@ -10,6 +10,7 @@ public:
 	Vector2 scale;
 
 	bool isActive;
+
 protected:
 	Matrix matrix;
 
@@ -24,6 +25,7 @@ protected:
 	Vector2 up;
 
 	Float4x4 matWorld;
+
 public:
 	Transform(string tag = "Untagged");
 	virtual ~Transform();

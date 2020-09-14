@@ -12,11 +12,15 @@ public:
 
 	
 	Gunner* GetGunner() { return gunner; }
- 	vector<Bullet*> GetGunnerBullets() { return gunner_bullets; }
+ 	//vector<Bullet*> GetGunnerBullets() { return gunner_bullets; }
 
 	static GameManager* Get() { return instance; }
 	static void Create() { instance = new GameManager(); }
 	static void Delete() { delete instance; }
+
+	//Get
+	vector<Monster*> GetMirkwoodMonsters() { return monsters_MirkwoodScene;  }
+
 
 	void SetMirkWoodScene();
 
@@ -24,7 +28,7 @@ public:
 private:
 	Gunner* gunner;
 	Bullet* bullet;
-	vector<Bullet*> gunner_bullets;
-	vector<Monster*> monsters_MirkWoodScene;
+	Gnoll_Mirkwood* gnoll;
+	vector<Monster*> monsters_MirkwoodScene;
 
 };

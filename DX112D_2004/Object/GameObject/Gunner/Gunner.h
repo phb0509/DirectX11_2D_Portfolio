@@ -29,6 +29,7 @@ public:
 	void FirstFire();
 	void SecondFire();
 	void ComboShotEnd();
+	void InitMotion();
 
 	void SetIdle();
 	bool CheckAttackInterval();
@@ -45,6 +46,9 @@ private:
 	Sprite* sprite;
 	vector<Action*> actions;
 	ActionType curAction;
+	vector<Bullet*> gunner_bullets;
+	Bullet* bullet;
+
 
 	float walkSpeed;
 	float runSpeed;
