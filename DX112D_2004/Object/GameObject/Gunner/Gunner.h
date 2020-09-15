@@ -50,20 +50,21 @@ private:
 	Bullet* bullet;
 
 
-	float walkSpeed;
-	float runSpeed;
+	float walkSpeed; // WALK 애니메이션 실행 시 이동속도.
+	float runSpeed; // RUN 애니메이션 실행 시 이동속도.
 
 	float jumpPower;
 	float gravity;
 
-	bool isRight;
+	bool isRight; 
 
-	bool isRightRun;
-	bool isLeftRun;
+	bool isRightRun; // 오른쪽대쉬 상태인가?
+	bool isLeftRun; // 왼쪽대쉬 상태인가?
+	bool isVerticalRun;
 
-	double rightRunCheckTime;
-	double leftRunCheckTime;
-	double verticalCheckTime;
+	float rightRunCheckTime; // 오른쪽대쉬상태인지를 체크하기위한 시간체크. 
+	float leftRunCheckTime;  // 왼쪽대쉬상태인지를 체크하기위한 시간체크.
+	float verticalRunCheckTime;
 
 	bool isAttack;
 	bool isJump;

@@ -30,11 +30,6 @@ Bullet::~Bullet()
 
 void Bullet::Update(vector<Monster*> monsters)
 {
-	//char buff[100];
-	//sprintf_s(buff, "텍스쳐위치 X : %f,  Y: %f\n  Collider위치 X : %f,  Y: %f\n", pos.x, pos.y, collider->pos.x, collider->pos.y);
-	//OutputDebugStringA(buff);
-
-
 	if (!isActive) return;
 
 	CheckDisabledTime();
@@ -47,15 +42,12 @@ void Bullet::Update(vector<Monster*> monsters)
 	scale.x = isRight ? curClip.size.x : -curClip.size.x;
 	scale.y = curClip.size.y;
 
-
-
-
-
 	if (isRight)
 	{
 		pos.x += speed * DELTA;
 		collider->SetOffset({ 35,0 });
 	}
+
 	else
 	{
 		pos.x -= speed * DELTA;
@@ -78,8 +70,6 @@ void Bullet::Update(vector<Monster*> monsters)
 			}
 		}
 	}
-	
-
 }
 
 void Bullet::Render()
