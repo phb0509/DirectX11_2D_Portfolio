@@ -11,13 +11,13 @@ Gunner::Gunner()
 
 
 	// Init Bullet
-	for (int i = 0; i < 500; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		bullet = new Bullet();
 		gunner_bullets.emplace_back(bullet);
 	}
 
-	
+
 }
 
 Gunner::~Gunner()
@@ -39,6 +39,13 @@ void Gunner::Update()
 	if (!isActive) return;
 	//Test();
 
+	//for (int i = 0; i < gunner_bullets.size(); i++)
+	//{
+	//	char buff[10000];
+	//	sprintf_s(buff, " %d번째 총알 isActive : %d, 컬라이더 isActive : %d\n",i, gunner_bullets[i]->isActive, gunner_bullets[i]->collider->isActive);
+	//	OutputDebugStringA(buff);
+	//}
+
 	Move();
 	Attack();
 	//Jump();
@@ -51,12 +58,17 @@ void Gunner::Update()
 	scale.x = isRight ? curClip.size.x : -curClip.size.x;
 	scale.y = curClip.size.y;
 
+	//for (int i = 0; i < gunner_bullets.size(); i++)
+	//{
+	//	if (gunner_bullets[i]->isActive)
+	//	{
+	//		gunner_bullets[i]->Update(GM->GetMirkwoodMonsters());
+	//	}
+	//}
+
 	for (int i = 0; i < gunner_bullets.size(); i++)
 	{
-		if (gunner_bullets[i]->isActive)
-		{
-			gunner_bullets[i]->Update(GM->GetMirkwoodMonsters());
-		}
+		gunner_bullets[i]->Update(GM->GetMirkwoodMonsters());
 	}
 
 	UpdateWorld();
@@ -71,14 +83,18 @@ void Gunner::Render()
 	/*intBuffer->SetPSBuffer(1);
 	colorBuffer->SetPSBuffer(2);*/
 
+	//for (int i = 0; i < gunner_bullets.size(); i++)
+	//{
+	//	if (gunner_bullets[i]->isActive)
+	//	{
+	//		gunner_bullets[i]->Render();
+	//	}
+	//}
+
 	for (int i = 0; i < gunner_bullets.size(); i++)
 	{
-		if (gunner_bullets[i]->isActive)
-		{
-			gunner_bullets[i]->Render();
-		}
+		gunner_bullets[i]->Render();
 	}
-
 
 
 	SetWorldBuffer();
@@ -240,6 +256,13 @@ bool Gunner::CheckAttackInterval()
 
 void Gunner::Shot()
 {
+	//count++;
+	//char buff[100];
+	//sprintf_s(buff, "%d번째 Shot함수 호출.\n",count);
+	//OutputDebugStringA(buff);
+
+
+
 
 	for (int i = 0; i < gunner_bullets.size(); i++)
 	{
