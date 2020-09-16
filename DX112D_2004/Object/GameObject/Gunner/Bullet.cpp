@@ -1,11 +1,15 @@
 #include "Framework.h"
 
 Bullet::Bullet() : 
-	curAction(IDLE), isRight(true), speed(700), damage(20), disabledDistance(0)
+	curAction(IDLE), isRight(true), speed(700), damage(10), disabledDistance(0)
 {
 	pos = { 0, 0 };
 	sprite = new Sprite();
 	collider = new RectCollider({ 20, 10 }, this);
+
+
+
+
 
 	isActive = false;
 	collider->isActive = false;
@@ -38,7 +42,6 @@ void Bullet::Update(vector<Monster*> monsters)
 	scale.x = isRight ? curClip.size.x : -curClip.size.x;
 	scale.y = curClip.size.y;
 
-
 	if (isRight)
 	{
 		pos.x += speed * DELTA;
@@ -51,21 +54,22 @@ void Bullet::Update(vector<Monster*> monsters)
 		collider->SetOffset({ -35,0 });
 	}
 
+	collider->Update();
+	UpdateWorld();
+
 	for (int i = 0; i < monsters.size(); i++)
 	{
-		if (monsters[i]->GetColliderIsActive())
+		if (monsters[i]->GetColliderIsActive()) // 몬스터 컬라이더의 isActive 체크.
 		{
-			if (collider->IsCollision(monsters[i]->GetCollider()))
+			if (collider->IsCollision(monsters[i]->GetCollider())) // 총알과 몬스터 컬라이더의 충돌여부.
 			{
 				monsters[i]->OnDamage(damage);
 				isActive = false;
 				collider->isActive = false;
+				break;
 			}
 		}
 	}
-	
-	collider->Update();
-	UpdateWorld();
 }
 
 void Bullet::Render()
