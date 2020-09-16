@@ -2,7 +2,7 @@
 
 Gunner::Gunner()
 	: walkSpeed(250), runSpeed(600), jumpPower(0), gravity(980.0f), curAction(IDLE), attackOffset(100, 0),
-	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), rightRunCheckTime(0.0f), leftRunCheckTime(0.0f),
+	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), isVerticalRun(false),rightRunCheckTime(0.0f), leftRunCheckTime(0.0f), verticalRunCheckTime(0.0f),
 	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false)
 {
 	pos = { 0, 200 };
@@ -16,8 +16,6 @@ Gunner::Gunner()
 		bullet = new Bullet();
 		gunner_bullets.emplace_back(bullet);
 	}
-
-	
 }
 
 Gunner::~Gunner()
@@ -39,6 +37,13 @@ void Gunner::Update()
 	if (!isActive) return;
 	//Test();
 
+	//for (int i = 0; i < gunner_bullets.size(); i++)
+	//{
+	//	char buff[10000];
+	//	sprintf_s(buff, " %d번째 총알 isActive : %d, 컬라이더 isActive : %d\n",i, gunner_bullets[i]->isActive, gunner_bullets[i]->collider->isActive);
+	//	OutputDebugStringA(buff);
+	//}
+
 	Move();
 	Attack();
 	//Jump();
@@ -53,10 +58,7 @@ void Gunner::Update()
 
 	for (int i = 0; i < gunner_bullets.size(); i++)
 	{
-		if (gunner_bullets[i]->isActive)
-		{
-			gunner_bullets[i]->Update(GM->GetMirkwoodMonsters());
-		}
+		gunner_bullets[i]->Update(GM->GetMirkwoodMonsters());
 	}
 
 	UpdateWorld();
@@ -73,13 +75,8 @@ void Gunner::Render()
 
 	for (int i = 0; i < gunner_bullets.size(); i++)
 	{
-		if (gunner_bullets[i]->isActive)
-		{
-			gunner_bullets[i]->Render();
-		}
+		gunner_bullets[i]->Render();
 	}
-
-
 
 	SetWorldBuffer();
 	sprite->Render();
@@ -116,7 +113,6 @@ void Gunner::Move()
 		{
 			leftRunCheckTime = Timer::Get()->GetRunTime() + 0.1f;
 		}
-
 	}
 
 
@@ -158,17 +154,25 @@ void Gunner::Move()
 	if (KEY_PRESS(VK_UP))
 	{
 		pos.y += walkSpeed * DELTA;
+		
 	}
 
 	if (KEY_PRESS(VK_DOWN))
 	{
 		pos.y -= walkSpeed * DELTA;
+
 	}
+
+
+
+
+
 
 	if (KEY_UP(VK_RIGHT) || KEY_UP(VK_LEFT)) // 여기서 땠을 때 카운트. 0.1초안에 위,아래 입력이 들어가며
 	{
 		isRightRun = false;
 		isLeftRun = false;
+		
 		SetAction(IDLE);
 	}
 }
@@ -176,7 +180,7 @@ void Gunner::Move()
 
 void Gunner::Attack()
 {
-	if (isComboShotEndTrigger == 1)
+	if (isComboShotEndTrigger == true)
 	{
 		if (CheckAttackInterval())
 		{
@@ -240,7 +244,6 @@ bool Gunner::CheckAttackInterval()
 
 void Gunner::Shot()
 {
-
 	for (int i = 0; i < gunner_bullets.size(); i++)
 	{
 		if (gunner_bullets[i]->isActive == false)
@@ -249,7 +252,6 @@ void Gunner::Shot()
 			break;
 		}
 	}
-
 }
 
 void Gunner::Jump()

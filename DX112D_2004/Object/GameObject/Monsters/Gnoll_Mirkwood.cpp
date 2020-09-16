@@ -91,13 +91,8 @@ void Gnoll_Mirkwood::Move()
 
 		if (GM->GetGunner()->pos == pos)
 		{
-			char buff[100];
-			sprintf_s(buff, "이게 호출된다고??\n");
-			OutputDebugStringA(buff);
-
 			pos.x -= 0.5f;
 		}
-
 
 		Vector2 dir = (GM->GetGunner()->pos - pos).Normal();
 		pos += dir * speed * DELTA;
@@ -140,6 +135,7 @@ void Gnoll_Mirkwood::CheckOnDamage()
 		else pos.x += 50 * DELTA;
 
 	}
+
 	else
 	{
 		isOnDamage = false;

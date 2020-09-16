@@ -24,13 +24,13 @@ public:
 	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
 	void SetAction(ActionType type);
 
-
+	Collider* collider;
 private:
 
 	Sprite* sprite;
 	vector<Action*> actions;
 	ActionType curAction;
-	Collider* collider;
+	
 
 
 	float damage;
