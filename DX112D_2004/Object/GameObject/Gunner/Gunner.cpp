@@ -84,7 +84,6 @@ void Gunner::Move()
 {
 	if (isAttack) return;
 
-
 	{ // 오른쪽 달리기 체크
 		if (KEY_DOWN(VK_RIGHT) && (currentTime <= rightRunCheckTime))
 		{
@@ -126,6 +125,13 @@ void Gunner::Move()
 		{
 			isRight = true;
 		}
+
+		if (KEY_PRESS(VK_DOWN))
+		{
+			char buff[100];
+			sprintf_s(buff, "들어오냐...\n");
+			OutputDebugStringA(buff);
+		}
 	}
 
 	if (KEY_PRESS(VK_LEFT))
@@ -149,22 +155,51 @@ void Gunner::Move()
 	if (KEY_PRESS(VK_UP))
 	{
 		pos.y += walkSpeed * DELTA;
+		if (!isRightRun && !isLeftRun)
+		{
+			SetAction(WALK);
+		}
+		else if (isVerticalRun)
+		{
+			SetAction(RUN);
+
+		}
 	}
 
 	if (KEY_PRESS(VK_DOWN))
 	{
 		pos.y -= walkSpeed * DELTA;
+		if (!isRightRun && !isLeftRun)
+		{
+			SetAction(WALK);
+		}
+		else if (isVerticalRun)
+		{
+			SetAction(RUN);
+		}
 	}
 
 
 
-	if (currentTime <= idleCheckTime_afterRun - 1.0f)
+	if (KEY_UP(VK_UP) || KEY_UP(VK_DOWN))
+	{
+		//if (!isRightRun && !isLeftRun)
+		//{
+		//	SetAction(IDLE);
+		//}
+
+		SetAction(IDLE);
+	}
+
+
+
+	if (currentTime <= idleCheckTime_afterRun - 0.05f)
 	{
 		if (KEY_DOWN(VK_UP) || KEY_DOWN(VK_DOWN))
 		{
 			isVerticalRun = true;
 			trigger_CheckIdle = false;
-		}
+		}	
 	}
 
 
@@ -172,8 +207,12 @@ void Gunner::Move()
 	{
 		if (isRightRun || isLeftRun)
 		{
-			idleCheckTime_afterRun = currentTime + 0.2f;
+			idleCheckTime_afterRun = currentTime + 0.15f;
 			trigger_CheckIdle = true;
+		}
+		else
+		{
+			SetAction(IDLE);
 		}
 	}
 }
@@ -184,11 +223,6 @@ void Gunner::CheckIdle_AfterRun()
 	{
 		if (currentTime >= idleCheckTime_afterRun)
 		{
-
-			char buff[100];
-			sprintf_s(buff, "이거호출\n");
-			OutputDebugStringA(buff);
-
 			SetAction(IDLE);
 			isRightRun = false;
 			isLeftRun = false;
