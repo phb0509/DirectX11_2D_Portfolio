@@ -197,7 +197,7 @@ void Gunner::Run()
 
 
 
-
+	
 	if (isRight)
 	{
 		if (KEY_DOWN(VK_LEFT))
