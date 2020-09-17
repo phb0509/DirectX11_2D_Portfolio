@@ -1,8 +1,8 @@
 #include "Framework.h"
 
 Gunner::Gunner()
-	: walkSpeed(250), runSpeed(600), jumpPower(0), gravity(980.0f), curAction(IDLE), attackOffset(100, 0),
-	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), isVerticalRun(false),rightRunCheckTime(0.0f), leftRunCheckTime(0.0f), verticalRunCheckTime(0.0f),
+	: currentTime(0.0f),walkSpeed(250), runSpeed(600), jumpPower(0), gravity(980.0f), curAction(IDLE), attackOffset(100, 0),
+	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), isVerticalRun(false),rightRunCheckTime(0.0f), leftRunCheckTime(0.0f), idleCheckTime_afterRun(0.0f),
 	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false)
 {
 	pos = { 0, 200 };
@@ -35,15 +35,10 @@ Gunner::~Gunner()
 void Gunner::Update()
 {
 	if (!isActive) return;
-	//Test();
 
-	//for (int i = 0; i < gunner_bullets.size(); i++)
-	//{
-	//	char buff[10000];
-	//	sprintf_s(buff, " %d번째 총알 isActive : %d, 컬라이더 isActive : %d\n",i, gunner_bullets[i]->isActive, gunner_bullets[i]->collider->isActive);
-	//	OutputDebugStringA(buff);
-	//}
+	currentTime = Timer::Get()->GetRunTime();
 
+	CheckIdle_AfterRun();
 	Move();
 	Attack();
 	//Jump();
@@ -91,27 +86,27 @@ void Gunner::Move()
 
 
 	{ // 오른쪽 달리기 체크
-		if (KEY_DOWN(VK_RIGHT) && (Timer::Get()->GetRunTime() <= rightRunCheckTime))
+		if (KEY_DOWN(VK_RIGHT) && (currentTime <= rightRunCheckTime))
 		{
 			isRightRun = true;
 		}
 
 		if (KEY_UP(VK_RIGHT))
 		{
-			rightRunCheckTime = Timer::Get()->GetRunTime() + 0.1f;
+			rightRunCheckTime = currentTime + 0.1f;
 		}
 	}
 
 	{ // 왼쪽 달리기 체크
 
-		if (KEY_DOWN(VK_LEFT) && (Timer::Get()->GetRunTime() <= leftRunCheckTime))
+		if (KEY_DOWN(VK_LEFT) && (currentTime <= leftRunCheckTime))
 		{
 			isLeftRun = true;
 		}
 
 		if (KEY_UP(VK_LEFT))
 		{
-			leftRunCheckTime = Timer::Get()->GetRunTime() + 0.1f;
+			leftRunCheckTime = currentTime + 0.1f;
 		}
 	}
 
@@ -154,28 +149,54 @@ void Gunner::Move()
 	if (KEY_PRESS(VK_UP))
 	{
 		pos.y += walkSpeed * DELTA;
-		
 	}
 
 	if (KEY_PRESS(VK_DOWN))
 	{
 		pos.y -= walkSpeed * DELTA;
-
 	}
 
 
 
-
+	if (currentTime <= idleCheckTime_afterRun - 1.0f)
+	{
+		if (KEY_DOWN(VK_UP) || KEY_DOWN(VK_DOWN))
+		{
+			isVerticalRun = true;
+			trigger_CheckIdle = false;
+		}
+	}
 
 
 	if (KEY_UP(VK_RIGHT) || KEY_UP(VK_LEFT)) // 여기서 땠을 때 카운트. 0.1초안에 위,아래 입력이 들어가며
 	{
-		isRightRun = false;
-		isLeftRun = false;
-		
-		SetAction(IDLE);
+		if (isRightRun || isLeftRun)
+		{
+			idleCheckTime_afterRun = currentTime + 0.2f;
+			trigger_CheckIdle = true;
+		}
 	}
 }
+
+void Gunner::CheckIdle_AfterRun()
+{
+	if (trigger_CheckIdle)
+	{
+		if (currentTime >= idleCheckTime_afterRun)
+		{
+
+			char buff[100];
+			sprintf_s(buff, "이거호출\n");
+			OutputDebugStringA(buff);
+
+			SetAction(IDLE);
+			isRightRun = false;
+			isLeftRun = false;
+			trigger_CheckIdle = false;
+		}
+	}
+}
+
 
 
 void Gunner::Attack()
@@ -210,7 +231,7 @@ void Gunner::Attack()
 
 	if (KEY_DOWN('X'))
 	{
-		maxAttackTime = Timer::Get()->GetRunTime() + 0.4f;
+		maxAttackTime = currentTime + 0.4f;
 
 		if (!isFirstAttack && comboAttackCount == 0)
 		{
@@ -237,9 +258,11 @@ void Gunner::Attack()
 
 bool Gunner::CheckAttackInterval()
 {
-	if (Timer::Get()->GetRunTime() <= maxAttackTime) return true;
+	if (currentTime <= maxAttackTime) return true;
 	else return false;
 }
+
+
 
 
 void Gunner::Shot()
@@ -279,7 +302,7 @@ void Gunner::SecondFire()
 
 void Gunner::ComboShotEnd()
 {
-	maxAttackTime = Timer::Get()->GetRunTime() + 0.25f;
+	maxAttackTime = currentTime + 0.25f;
 	isComboShotEndTrigger = true;
 }
 

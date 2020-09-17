@@ -31,12 +31,14 @@ public:
 	void ComboShotEnd();
 	void InitMotion();
 
-	void SetIdle();
+
 	bool CheckAttackInterval();
+	void CheckIdle_AfterRun();
 	void Shot();
+
+
 	void SetPosition(Vector2 _pos) { pos = _pos; };
-
-
+	void SetIdle();
 	void Test();
 	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
 	void SetAction(ActionType type);
@@ -49,22 +51,22 @@ private:
 	vector<Bullet*> gunner_bullets;
 	Bullet* bullet;
 
+	double currentTime;
 
 	float walkSpeed; // WALK 애니메이션 실행 시 이동속도.
 	float runSpeed; // RUN 애니메이션 실행 시 이동속도.
-
 	float jumpPower;
 	float gravity;
 
 	bool isRight; 
-
 	bool isRightRun; // 오른쪽대쉬 상태인가?
 	bool isLeftRun; // 왼쪽대쉬 상태인가?
 	bool isVerticalRun;
+	bool trigger_CheckIdle;
 
 	float rightRunCheckTime; // 오른쪽대쉬상태인지를 체크하기위한 시간체크. 
 	float leftRunCheckTime;  // 왼쪽대쉬상태인지를 체크하기위한 시간체크.
-	float verticalRunCheckTime;
+	double idleCheckTime_afterRun;
 
 	bool isAttack;
 	bool isJump;
