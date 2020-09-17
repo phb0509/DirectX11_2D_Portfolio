@@ -23,6 +23,7 @@ public:
 	void Render();
 
 	void Move();
+	void Run();
 	void Attack();
 	void Jump();
 	void Fire();
@@ -61,12 +62,13 @@ private:
 	bool isRight; 
 	bool isRightRun; // 오른쪽대쉬 상태인가?
 	bool isLeftRun; // 왼쪽대쉬 상태인가?
-	bool isVerticalRun;
-	bool trigger_CheckIdle;
+	bool trigger_Move;
+
+	
 
 	float rightRunCheckTime; // 오른쪽대쉬상태인지를 체크하기위한 시간체크. 
 	float leftRunCheckTime;  // 왼쪽대쉬상태인지를 체크하기위한 시간체크.
-	double idleCheckTime_afterRun;
+
 
 	bool isAttack;
 	bool isJump;

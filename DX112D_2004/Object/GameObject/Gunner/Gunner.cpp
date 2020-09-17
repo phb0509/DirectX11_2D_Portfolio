@@ -1,8 +1,8 @@
 #include "Framework.h"
 
 Gunner::Gunner()
-	: currentTime(0.0f),walkSpeed(250), runSpeed(600), jumpPower(0), gravity(980.0f), curAction(IDLE), attackOffset(100, 0),
-	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), isVerticalRun(false),rightRunCheckTime(0.0f), leftRunCheckTime(0.0f), idleCheckTime_afterRun(0.0f),
+	: currentTime(0.0f), walkSpeed(250), runSpeed(600), jumpPower(0), gravity(980.0f), curAction(IDLE), attackOffset(100, 0),
+	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), rightRunCheckTime(0.0f), leftRunCheckTime(0.0f), trigger_Move(true),
 	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false)
 {
 	pos = { 0, 200 };
@@ -40,6 +40,7 @@ void Gunner::Update()
 
 	CheckIdle_AfterRun();
 	Move();
+	Run();
 	Attack();
 	//Jump();
 
@@ -82,68 +83,30 @@ void Gunner::Render()
 
 void Gunner::Move()
 {
+	if (isJump) return;
 	if (isAttack) return;
-
-	{ // 오른쪽 달리기 체크
-		if (KEY_DOWN(VK_RIGHT) && (currentTime <= rightRunCheckTime))
-		{
-			isRightRun = true;
-		}
-
-		if (KEY_UP(VK_RIGHT))
-		{
-			rightRunCheckTime = currentTime + 0.1f;
-		}
-	}
-
-	{ // 왼쪽 달리기 체크
-
-		if (KEY_DOWN(VK_LEFT) && (currentTime <= leftRunCheckTime))
-		{
-			isLeftRun = true;
-		}
-
-		if (KEY_UP(VK_LEFT))
-		{
-			leftRunCheckTime = currentTime + 0.1f;
-		}
-	}
+	if (!trigger_Move) return;
 
 
 	if (KEY_PRESS(VK_RIGHT))
 	{
-		if (!isJump)
-		{
-			if (!isRightRun) SetAction(WALK);
-			else if (isRightRun) SetAction(RUN);
-		}
+		SetAction(WALK);
 
-		if (!isRightRun) pos.x += walkSpeed * DELTA;
-		else if (isRightRun) pos.x += runSpeed * DELTA;
+		pos.x += walkSpeed * DELTA;
 
 		if (!isRight)
 		{
 			isRight = true;
 		}
-
-		if (KEY_PRESS(VK_DOWN))
-		{
-			char buff[100];
-			sprintf_s(buff, "들어오냐...\n");
-			OutputDebugStringA(buff);
-		}
 	}
 
 	if (KEY_PRESS(VK_LEFT))
 	{
-		if (!isJump)
-		{
-			if (!isLeftRun) SetAction(WALK);
-			else if (isLeftRun) SetAction(RUN);
-		}
 
-		if (!isLeftRun) pos.x -= walkSpeed * DELTA;
-		else if (isLeftRun) pos.x -= runSpeed * DELTA;
+		SetAction(WALK);
+
+
+		pos.x -= walkSpeed * DELTA;
 
 		if (isRight)
 		{
@@ -155,80 +118,119 @@ void Gunner::Move()
 	if (KEY_PRESS(VK_UP))
 	{
 		pos.y += walkSpeed * DELTA;
-		if (!isRightRun && !isLeftRun)
-		{
-			SetAction(WALK);
-		}
-		else if (isVerticalRun)
-		{
-			SetAction(RUN);
 
-		}
+		SetAction(WALK);
 	}
+
 
 	if (KEY_PRESS(VK_DOWN))
 	{
 		pos.y -= walkSpeed * DELTA;
-		if (!isRightRun && !isLeftRun)
-		{
-			SetAction(WALK);
-		}
-		else if (isVerticalRun)
-		{
-			SetAction(RUN);
-		}
-	}
 
+		SetAction(WALK);
+	}
 
 
 	if (KEY_UP(VK_UP) || KEY_UP(VK_DOWN))
 	{
-		//if (!isRightRun && !isLeftRun)
-		//{
-		//	SetAction(IDLE);
-		//}
-
 		SetAction(IDLE);
 	}
 
-
-
-	if (currentTime <= idleCheckTime_afterRun - 0.05f)
-	{
-		if (KEY_DOWN(VK_UP) || KEY_DOWN(VK_DOWN))
+	{ // 오른쪽 달리기 체크
+		if (KEY_DOWN(VK_RIGHT) && (currentTime <= rightRunCheckTime))
 		{
-			isVerticalRun = true;
-			trigger_CheckIdle = false;
-		}	
+			isRightRun = true;
+			trigger_Move = false;
+		}
+
+		if (KEY_UP(VK_RIGHT))
+		{
+			rightRunCheckTime = currentTime + 0.1f;
+			SetAction(IDLE);
+		}
 	}
 
+	{ // 왼쪽 달리기 체크
 
-	if (KEY_UP(VK_RIGHT) || KEY_UP(VK_LEFT)) // 여기서 땠을 때 카운트. 0.1초안에 위,아래 입력이 들어가며
-	{
-		if (isRightRun || isLeftRun)
+		if (KEY_DOWN(VK_LEFT) && (currentTime <= leftRunCheckTime))
 		{
-			idleCheckTime_afterRun = currentTime + 0.15f;
-			trigger_CheckIdle = true;
+			isLeftRun = true;
+			trigger_Move = false;
 		}
-		else
+
+		if (KEY_UP(VK_LEFT))
 		{
+			leftRunCheckTime = currentTime + 0.1f;
 			SetAction(IDLE);
 		}
 	}
 }
 
-void Gunner::CheckIdle_AfterRun()
+void Gunner::Run()
 {
-	if (trigger_CheckIdle)
+	if (isJump) return;
+	if (isAttack) return;
+	if (trigger_Move) return;
+
+
+	SetAction(RUN);
+
+	if (KEY_PRESS(VK_RIGHT))
 	{
-		if (currentTime >= idleCheckTime_afterRun)
+		pos.x += runSpeed * DELTA;
+	}
+
+	if (KEY_PRESS(VK_LEFT))
+	{
+		pos.x -= runSpeed * DELTA;
+	}
+
+	if (KEY_PRESS(VK_UP))
+	{
+		pos.y += runSpeed * DELTA;
+	}
+
+	if (KEY_PRESS(VK_DOWN))
+	{
+		pos.y -= runSpeed * DELTA;
+	}
+
+
+
+
+	if (isRight)
+	{
+		if (KEY_DOWN(VK_LEFT))
 		{
-			SetAction(IDLE);
-			isRightRun = false;
-			isLeftRun = false;
-			trigger_CheckIdle = false;
+			trigger_Move = true;
 		}
 	}
+	else
+	{
+		if (KEY_DOWN(VK_RIGHT))
+		{
+			trigger_Move = true;
+		}
+	}
+
+	if (!(GetAsyncKeyState(VK_UP) & 0x8000) &&
+		!(GetAsyncKeyState(VK_DOWN) & 0x8000) &&
+		!(GetAsyncKeyState(VK_LEFT) & 0x8000) &&
+		!(GetAsyncKeyState(VK_RIGHT) & 0x8000))
+	{
+		trigger_Move = true;
+		SetAction(IDLE);
+	}
+}
+
+
+
+
+
+
+void Gunner::CheckIdle_AfterRun()
+{
+
 }
 
 
@@ -349,6 +351,7 @@ void Gunner::SetIdle()
 
 
 
+
 void Gunner::SetAction(ActionType type)
 {
 	if (type == COMBOSHOT)
@@ -366,6 +369,17 @@ void Gunner::SetAction(ActionType type)
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
 
 void Gunner::Test()
 {
