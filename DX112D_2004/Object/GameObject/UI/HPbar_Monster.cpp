@@ -2,7 +2,7 @@
 
 
 
-HPbar_Monster::HPbar_Monster(float _maxHP)
+HPbar_Monster::HPbar_Monster(float _maxHP): reduction(0.0f), decreaseSpeed(0.2f)
 {
 	back_HPbar = new Quad(L"Textures/Interface/Monster/HPBAR_BACK.png", L"TextureShader");
 	front_HPbar = new Quad(L"Textures/Interface/Monster/HPBAR_RED.png", L"TextureShader");
@@ -11,7 +11,8 @@ HPbar_Monster::HPbar_Monster(float _maxHP)
 	maxHP = _maxHP;
 	currentHP = maxHP;
 
-
+	back_HPbar->pos = Vector2(200, 200);
+	front_HPbar->pos = back_HPbar->pos + Vector2(15.0f, -6.0f);
 
 	//front_HPbar->pos = { }
 }
@@ -25,20 +26,18 @@ HPbar_Monster::~HPbar_Monster()
 void HPbar_Monster::Update()
 {
 	//cameraPosition = CAMERA->pos;
-	back_HPbar->pos = GM->GetGunner()->pos;
-	front_HPbar->pos = back_HPbar->pos + Vector2(15.0f, -6.0f);
-
-
-	char buff[100];
-	sprintf_s(buff, "scale.x : %f,   y : %f\n", front_HPbar->scale.x, front_HPbar->scale.y);
-	OutputDebugStringA(buff);
 
 
 	if (KEY_PRESS('S'))
 	{
-		front_HPbar->scale.x -= 1 * DELTA;
+		front_HPbar->scale.x -= decreaseSpeed * DELTA;
+		front_HPbar->pos.x -= front_HPbar->GetSize().x * decreaseSpeed * 0.5 * DELTA;
 	}
 
+	if (front_HPbar->scale.x < 0.0f)
+	{
+		front_HPbar->scale.x = 0.0f;
+	}
 
 
 	back_HPbar->Update();
@@ -49,5 +48,4 @@ void HPbar_Monster::Render()
 {
 	back_HPbar->Render();
 	front_HPbar->Render();
-
 }

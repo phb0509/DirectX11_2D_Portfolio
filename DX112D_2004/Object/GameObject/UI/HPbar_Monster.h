@@ -18,5 +18,7 @@ private:
 
 	float maxHP;
 	float currentHP;
+	float reduction;
+	float decreaseSpeed;
 };
 
