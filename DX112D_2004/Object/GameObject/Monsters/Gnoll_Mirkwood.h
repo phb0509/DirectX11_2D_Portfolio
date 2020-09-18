@@ -11,9 +11,6 @@ public:
 		DIE,
 	};
 
-
-
-	Gnoll_Mirkwood();
 	Gnoll_Mirkwood(Vector2 pos);
 	~Gnoll_Mirkwood();
 
@@ -45,6 +42,8 @@ private:
 	Sprite* sprite;
 	vector<Action*> actions;
 	ActionType curAction;
+	
+	HPbar_Monster* hpBar;
 
 
 	

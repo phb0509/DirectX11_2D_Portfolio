@@ -1,25 +1,12 @@
 #include "Framework.h"
 
-Gnoll_Mirkwood::Gnoll_Mirkwood()
-{
-	sprite = new Sprite();
-	collider = new RectCollider({ 118, 116 }, this);
 
-	pos = { 300, 300 };
-
-	string path = "Textures/Monster1/";
-
-	LoadAction(path, "IDLE.xml", Action::END);
-	LoadAction(path, "WALK.xml", Action::PINGPONG);
-	LoadAction(path, "StandOnDamage.xml", Action::END);
-	LoadAction(path, "DIE.xml", Action::END, 0.3f);
-
-}
 
 Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos)
 {
 	sprite = new Sprite();
 	collider = new RectCollider({118, 116 }, this);
+	hpBar = new HPbar_Monster(hp);
 	pos = _pos;
 
 	string path = "Textures/Monster1/";
@@ -34,6 +21,8 @@ Gnoll_Mirkwood::~Gnoll_Mirkwood()
 {
 	delete sprite;
 	delete collider;
+	delete hpBar;
+
 	for (Action* action : actions)
 		delete action;
 }
@@ -41,10 +30,6 @@ Gnoll_Mirkwood::~Gnoll_Mirkwood()
 void Gnoll_Mirkwood::Update()
 {
 	if (!isActive) return;
-
-	//char buff[100];
-	//sprintf_s(buff, "isActive : %d\n isColliderActive : %d\n pos.x : %f\n pos.y : %f\n", isActive,collider->isActive, pos.x, pos.y);
-	//OutputDebugStringA(buff);
 
 	CheckDead(); // ¾ÈÁ×¾úÀ¸¸é X
 	CheckOnDamage(); // Á×À¸¸é X
@@ -60,10 +45,9 @@ void Gnoll_Mirkwood::Update()
 	scale.x = isRight ? curClip.size.x : -curClip.size.x;
 	scale.y = curClip.size.y;
 
-
 	collider->Update();
+	hpBar->Update();
 	UpdateWorld();
-
 
 	//effect->Update();
 }
@@ -76,6 +60,7 @@ void Gnoll_Mirkwood::Render()
 	sprite->Render();
 
 	collider->Render();
+	hpBar->Render();
 }
 
 

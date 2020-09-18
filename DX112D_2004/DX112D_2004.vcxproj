@@ -201,6 +201,7 @@
     <ClInclude Include="Object\GameObject\Gunner\Gunner.h" />
     <ClInclude Include="Object\GameObject\Monsters\Monster.h" />
     <ClInclude Include="Object\GameObject\Monsters\Gnoll_Mirkwood.h" />
+    <ClInclude Include="Object\GameObject\UI\HPbar_Monster.h" />
     <ClInclude Include="Program\Program.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Scenes\ElvenGardenScene.h" />
@@ -261,6 +262,7 @@
     <ClCompile Include="Object\GameObject\Gunner\Gunner.cpp" />
     <ClCompile Include="Object\GameObject\Monsters\Monster.cpp" />
     <ClCompile Include="Object\GameObject\Monsters\Gnoll_Mirkwood.cpp" />
+    <ClCompile Include="Object\GameObject\UI\HPbar_Monster.cpp" />
     <ClCompile Include="Program\Program.cpp" />
     <ClCompile Include="Scenes\ElvenGardenScene.cpp" />
     <ClCompile Include="Scenes\MirkWoodScene.cpp" />

@@ -146,13 +146,16 @@ typedef function<void(void*)> CallBackParam;
 #include "Object/BasicObject/Button.h"
 
 
-
+#include "Object/GameObject/UI/HPbar_Monster.h"
 #include "Object/GameObject/Monsters/Monster.h"
 #include "Object/GameObject/Monsters/Gnoll_Mirkwood.h"
 
 #include "Object/GameObject/Gunner/Bullet.h"
 #include "Object/GameObject/Gunner/Gunner.h"
 #include "Object/GameObject/GameManager.h"
+
+
+
 
 //Program;
 #include "Scenes/Scene.h"

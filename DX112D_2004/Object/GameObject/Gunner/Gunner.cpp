@@ -5,7 +5,7 @@ Gunner::Gunner()
 	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), rightRunCheckTime(0.0f), leftRunCheckTime(0.0f), trigger_Move(true),
 	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false)
 {
-	pos = { 0, 200 };
+	pos = { 0, 0 };
 
 	InitMotion();
 
@@ -74,6 +74,7 @@ void Gunner::Render()
 		gunner_bullets[i]->Render();
 	}
 
+
 	SetWorldBuffer();
 	sprite->Render();
 
@@ -86,6 +87,7 @@ void Gunner::Move()
 	if (isJump) return;
 	if (isAttack) return;
 	if (!trigger_Move) return;
+
 
 
 	if (KEY_PRESS(VK_RIGHT))
@@ -172,7 +174,6 @@ void Gunner::Run()
 	if (isAttack) return;
 	if (trigger_Move) return;
 
-
 	SetAction(RUN);
 
 	if (KEY_PRESS(VK_RIGHT))
@@ -196,8 +197,6 @@ void Gunner::Run()
 	}
 
 
-
-	
 	if (isRight)
 	{
 		if (KEY_DOWN(VK_LEFT))
