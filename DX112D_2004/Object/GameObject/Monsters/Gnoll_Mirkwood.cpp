@@ -6,8 +6,10 @@ Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos)
 {
 	sprite = new Sprite();
 	collider = new RectCollider({118, 116 }, this);
+	hp = 10000;
 	hpBar = new HPbar_Monster(hp);
 	pos = _pos;
+
 
 	string path = "Textures/Monster1/";
 
@@ -119,7 +121,6 @@ void Gnoll_Mirkwood::CheckOnDamage()
 
 		if (isRight) pos.x -= 50 * DELTA;
 		else pos.x += 50 * DELTA;
-
 	}
 
 	else
@@ -178,7 +179,7 @@ void Gnoll_Mirkwood::Die()
 
 void Gnoll_Mirkwood::Reactivation()
 {
-	hp = 100.0f;
+	hp = 10000.0f;
 	isActive = true;
 	collider->isActive = true;
 	isDie = false;

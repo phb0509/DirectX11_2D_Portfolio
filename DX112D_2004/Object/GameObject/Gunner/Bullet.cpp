@@ -1,15 +1,11 @@
 #include "Framework.h"
 
 Bullet::Bullet() : 
-	curAction(IDLE), isRight(true), speed(700), damage(10), disabledDistance(0)
+	curAction(IDLE), isRight(true), speed(700), damage(1000), disabledDistance(0)
 {
 	pos = { 0, 0 };
 	sprite = new Sprite();
 	collider = new RectCollider({ 20, 10 }, this);
-
-
-
-
 
 	isActive = false;
 	collider->isActive = false;

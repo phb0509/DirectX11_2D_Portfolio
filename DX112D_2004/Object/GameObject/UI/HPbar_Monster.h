@@ -20,5 +20,8 @@ private:
 	float currentHP;
 	float reduction;
 	float decreaseSpeed;
+
+	float curScale;
+	float t_damage = 1000;
 };
 

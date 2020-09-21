@@ -95,6 +95,7 @@ void Camera::FollowMode()
 
 		
 	pos = LERP(pos, targetPos * -1, DELTA * speed);
+
 }
 
 void Camera::ShakeStart(float magnitude, float duration, float reduceDamping)
@@ -135,6 +136,7 @@ void Camera::Shake()
 
 	duration -= DELTA;
 	magnitude -= DELTA * reduceDamping;
+
 	if (magnitude < 0.0f)
 	{
 		magnitude = 0.0f;

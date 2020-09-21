@@ -147,6 +147,7 @@ typedef function<void(void*)> CallBackParam;
 
 
 #include "Object/GameObject/UI/HPbar_Monster.h"
+#include "Object/GameObject/UI/UIManager.h"
 #include "Object/GameObject/Monsters/Monster.h"
 #include "Object/GameObject/Monsters/Gnoll_Mirkwood.h"
 

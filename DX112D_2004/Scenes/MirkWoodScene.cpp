@@ -6,12 +6,10 @@ MirkWoodScene::MirkWoodScene() : gunner(nullptr)
 	gunner = GM->GetGunner();
 	monsters = GM->GetMirkwoodMonsters();
 
-
 	bg = new Quad(L"Textures/MirkWood/MirkWoodBackground.png", L"TextureShader");
 	bg->pos = { 0, 180 };
 
 	tile = new Quad(L"Textures/MirkWood/MirkWoodTile.png", L"TextureShader");
-	//tile->pos = { 700, 40 };
 	tile->pos = { 0, 0 };
 
 	Vector2 bgLeftBottom = tile->GetSize() * tile->scale * -0.5f;
