@@ -67,11 +67,6 @@ void Gnoll_Mirkwood::Render()
 void Gnoll_Mirkwood::Move()
 {
 
-	char buff[100];
-	sprintf_s(buff, "GunnerPosition.x : %f,  y : %f \n Monster Position.x : %f,  y: %f\n",GM->GetGunner()->pos.x, GM->GetGunner()->pos.y, pos.x, pos.y);
-	OutputDebugStringA(buff);
-
-
 	if (isDie) return;
 
 	if (isOnDamage) return;
@@ -80,22 +75,13 @@ void Gnoll_Mirkwood::Move()
 	{
 		SetAction(Walk);
 
-		//if (GM->GetGunner()->pos == pos)
-		//{
-		//	pos.x -= 0.5f;
-		//}
+		if (GM->GetGunner()->pos == pos)
+		{
+			pos.x -= 0.5f;
+		}
 
 		Vector2 dir = (GM->GetGunner()->pos - pos).Normal();
 		pos += dir * speed * DELTA;
-
-		if (isnan(pos.x))
-		{
-			char buff[100];
-			sprintf_s(buff, " isnan 함수 호출.\n");
-			OutputDebugStringA(buff);
-
-			isActive = false;
-		}
 	}
 
 	else SetAction(Idle);

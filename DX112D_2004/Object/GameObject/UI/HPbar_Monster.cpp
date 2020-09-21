@@ -6,12 +6,12 @@ HPbar_Monster::HPbar_Monster(float _maxHP): reduction(0.0f), decreaseSpeed(0.2f)
 {
 	back_HPbar = new Quad(L"Textures/Interface/Monster/HPBAR_BACK.png", L"TextureShader");
 	front_HPbar = new Quad(L"Textures/Interface/Monster/HPBAR_RED.png", L"TextureShader");
-	temp = { 600,250 };
+	temp = { 0,250 };
 
 	maxHP = _maxHP;
 	currentHP = maxHP;
 
-	back_HPbar->pos = Vector2(200, 200);
+	back_HPbar->pos = Vector2(-375.0f, 200.0f);
 	front_HPbar->pos = back_HPbar->pos + Vector2(15.0f, -6.0f);
 
 	//front_HPbar->pos = { }
@@ -26,6 +26,12 @@ HPbar_Monster::~HPbar_Monster()
 void HPbar_Monster::Update()
 {
 	//cameraPosition = CAMERA->pos;
+
+	//back_HPbar->pos.x = -cameraPosition.x;
+	//back_HPbar->pos.y = -cameraPosition.y;
+	
+
+	 
 
 
 	if (KEY_PRESS('S'))

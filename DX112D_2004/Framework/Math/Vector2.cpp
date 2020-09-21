@@ -93,13 +93,27 @@ bool Vector2::operator==(const Vector2& value) const
     return false;
 }
 
+
+
+Vector2 Vector2::Normal() const
+{
+    float length = Length();
+
+    return Vector2(x / length, y / length);
+}
+
 float Vector2::Length() const
 {
+
+
     return sqrt(LengthSqr());
 }
 
 float Vector2::LengthSqr() const
 {
+
+
+
     return x*x + y*y;
 }
 
@@ -111,12 +125,18 @@ void Vector2::Normalize()
     y /= length;
 }
 
-Vector2 Vector2::Normal() const
-{
-    float length = Length();
 
-    return Vector2(x / length, y / length);
-}
+
+
+
+
+
+
+
+
+
+
+
 
 float Vector2::Angle() const
 {

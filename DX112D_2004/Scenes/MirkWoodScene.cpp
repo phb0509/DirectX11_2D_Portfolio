@@ -8,16 +8,14 @@ MirkWoodScene::MirkWoodScene() : gunner(nullptr)
 
 
 	bg = new Quad(L"Textures/MirkWood/MirkWoodBackground.png", L"TextureShader");
-	bg->pos = { CENTER_X, CENTER_Y + 147 };
+	bg->pos = { 0, 180 };
 
 	tile = new Quad(L"Textures/MirkWood/MirkWoodTile.png", L"TextureShader");
-	tile->pos = { 700, 40 };
-	//CAMERA->SetTarget(gunner);
-	bgTransform = new Transform();
-	bgTransform->scale = { 3, 3 };
+	//tile->pos = { 700, 40 };
+	tile->pos = { 0, 0 };
 
-	Vector2 bgLeftBottom = tile->GetSize() * bgTransform->scale * -0.5f;
-	Vector2 bgRightTop = tile->GetSize() * bgTransform->scale * 0.5f;
+	Vector2 bgLeftBottom = tile->GetSize() * tile->scale * -0.5f;
+	Vector2 bgRightTop = tile->GetSize() * tile->scale * 0.5f;
 
 	CAMERA->SetLeftBottom(bgLeftBottom);
 	CAMERA->SetRightTop(bgRightTop);
@@ -31,7 +29,6 @@ MirkWoodScene::~MirkWoodScene()
 {
 	delete bg;
 	delete tile;
-	delete bgTransform;
 }
 
 void MirkWoodScene::Update()
@@ -41,13 +38,6 @@ void MirkWoodScene::Update()
 		SCENE->ChangeScene("ElvenGarden");
 	}
 
-	//gnoll = GM->GetMirkwoodMonsters()[0];
-
-	//char buff[100];
-	//sprintf_s(buff, "isActive : %d\n  pos.x : %f\n pos.y : %f\n", gnoll->isActive,gnoll->pos.x, gnoll->pos.y);
-	//OutputDebugStringA(buff);
-
-
 	//if (KEY_DOWN(VK_LBUTTON))
 	//{
 	//	EffectManager::Get()->Play("whity", CAMERA->GetMouseWorldPos());
@@ -56,20 +46,17 @@ void MirkWoodScene::Update()
 	bg->Update();
 	tile->Update();
 	gunner->Update();
-
+	
 
 	for (int i = 0; i < monsters.size(); i++)
 	{
-		monsters[i]->Update();	
+		monsters[i]->Update();
 	}
-
-	bgTransform->UpdateWorld();
 }
 
 void MirkWoodScene::Render()
 {
 	ALPHA_BLEND_STATE->SetState();
-	bgTransform->SetWorldBuffer();
 
 	bg->Render();
 	tile->Render();
@@ -88,7 +75,7 @@ void MirkWoodScene::PostRender()
 
 void MirkWoodScene::Start()
 {
-	
+
 	for (int i = 0; i < monsters.size(); i++)
 	{
 		monsters[i]->Reactivation();
