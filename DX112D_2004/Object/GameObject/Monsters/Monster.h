@@ -18,6 +18,7 @@ public:
 	virtual void DetectPlayer() = 0;
 	virtual void Die() = 0;
 	virtual void Reactivation() = 0;
+	virtual void CheckAttackRange() = 0;
 
 
 	//Get
@@ -40,10 +41,12 @@ protected:
 	bool isDie;
 	bool isAttack;
 	bool isDetectedPlayer;
+	bool isDetectedPlayerInAttackRange;
 	bool isOnDamage;
 
 	Collider* collider;
 	Vector2 detectRange;
+	Vector2 attackRange;
 	Vector2 playerPos;
 
 

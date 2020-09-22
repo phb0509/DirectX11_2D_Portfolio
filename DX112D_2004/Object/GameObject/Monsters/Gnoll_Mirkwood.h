@@ -9,6 +9,7 @@ public:
 		Walk,
 		StandOnDamage,
 		DIE,
+		SMASHATTACK,
 	};
 
 	Gnoll_Mirkwood(Vector2 pos);
@@ -26,6 +27,7 @@ public:
 	virtual void DetectPlayer() override;
 	virtual void Die() override;
 	virtual void Reactivation() override;
+	virtual void CheckAttackRange() override;
 
 
 	////Get
@@ -38,14 +40,11 @@ public:
 	void Test();
 
 private:
-	
+	Gunner* gunner;
 	Sprite* sprite;
 	vector<Action*> actions;
 	ActionType curAction;
-	
 	HPbar_Monster* hpBar;
 
-
-	
 };
 

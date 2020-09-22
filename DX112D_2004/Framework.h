@@ -41,6 +41,7 @@
 #define GM GameManager::Get()
 #define SOUND SoundManager::Get()
 #define SCENE SceneManager::Get()
+#define UM UIManager::Get()
 
 
 

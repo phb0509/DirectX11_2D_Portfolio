@@ -16,10 +16,11 @@ public:
 
 	void Update();
 	void Render();
-	
-
+	void Change_MonsterHPbar(HPbar_Monster* _hpBar_Monster);
+	void set_IsRender_MonsterHPbar(bool isRender);
 
 private:
-	HPbar_Monster* hpBar_Monster;
+	HPbar_Monster* current_HPbar_Monster;
+	bool isRender_MonsterHPbar;
 
 };

@@ -73,7 +73,7 @@ void MirkWoodScene::PostRender()
 
 void MirkWoodScene::Start()
 {
-
+	UM->set_IsRender_MonsterHPbar(true);
 	for (int i = 0; i < monsters.size(); i++)
 	{
 		monsters[i]->Reactivation();
@@ -83,5 +83,5 @@ void MirkWoodScene::Start()
 
 void MirkWoodScene::End()
 {
-
+	UM->set_IsRender_MonsterHPbar(false);
 }

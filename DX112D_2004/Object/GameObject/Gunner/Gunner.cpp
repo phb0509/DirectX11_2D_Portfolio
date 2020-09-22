@@ -74,7 +74,6 @@ void Gunner::Render()
 		gunner_bullets[i]->Render();
 	}
 
-
 	SetWorldBuffer();
 	sprite->Render();
 

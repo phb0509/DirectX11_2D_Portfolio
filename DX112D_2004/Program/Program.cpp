@@ -29,6 +29,7 @@ void Program::Update()
 	Camera::Get()->Update();
 
 	EffectManager::Get()->Update();
+	UIManager::Get()->Update();
 
 	mouseWheel = 0;
 }
@@ -67,6 +68,7 @@ void Program::Render()
 
 	Camera::Get()->PostRender();
 	SCENE->PostRender();
+	UIManager::Get()->Render();
 
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

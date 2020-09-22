@@ -1,7 +1,7 @@
 #include "Framework.h"
 
 Bullet::Bullet() : 
-	curAction(IDLE), isRight(true), speed(700), damage(1000), disabledDistance(0)
+	curAction(IDLE), isRight(true), speed(700), damage(2000), disabledDistance(0)
 {
 	pos = { 0, 0 };
 	sprite = new Sprite();

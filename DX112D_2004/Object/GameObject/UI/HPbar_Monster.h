@@ -9,18 +9,16 @@ public:
 	void Update();
 	void Render();
 	void UpdateHPbar(float beforeHP, float afterHP);
-	void SetDead();
+	void SetHPbarDead();
+	void SetMonsterDead();
+	void Reactivation();
 
 private:
 	Quad* back_HPbar;
 	Quad* front_HPbar;
-
-	Vector2 cameraPosition;
-	Vector2 temp;
+	Quad* dead_HPbar;
 
 	float maxHP;
-	float currentHP;
-	float reduction;
 	float decreaseSpeed;
 
 	float curScale;
@@ -28,8 +26,10 @@ private:
 	float lerpEnd;
 	float reductionSum;
 	
-
 	bool trigger_UpdateHP;
-	bool isDead;
+	bool isHPbarDead;
+	bool isMonsterDead;
+
+	MatrixBuffer* viewBuffer;
 };
 

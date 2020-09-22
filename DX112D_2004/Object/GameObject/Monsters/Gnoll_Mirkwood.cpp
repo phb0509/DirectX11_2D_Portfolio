@@ -5,18 +5,20 @@
 Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos)
 {
 	sprite = new Sprite();
-	collider = new RectCollider({118, 116 }, this);
+	collider = new RectCollider({ 118, 116 }, this);
 	hp = 10000;
 	hpBar = new HPbar_Monster(hp);
 	pos = _pos;
 
+	gunner = GM->GetGunner();
 
 	string path = "Textures/Monster1/";
 
 	LoadAction(path, "IDLE.xml", Action::END);
 	LoadAction(path, "WALK.xml", Action::PINGPONG);
-	LoadAction(path, "StandOnDamage.xml", Action::END,0.1f);
+	LoadAction(path, "StandOnDamage.xml", Action::END, 0.1f);
 	LoadAction(path, "DIE.xml", Action::END, 0.1f);
+	LoadAction(path, "SMASHATTACK.xml", Action::END, 0.1f);
 }
 
 Gnoll_Mirkwood::~Gnoll_Mirkwood()
@@ -36,6 +38,7 @@ void Gnoll_Mirkwood::Update()
 	CheckDead(); // 안죽었으면 X
 	CheckOnDamage(); // 죽으면 X
 	DetectPlayer(); // 죽으면 X
+	CheckAttackRange();
 	Move(); // 죽거나,공격받는중이면 X  
 	Attack(); // 미구현.
 
@@ -62,27 +65,32 @@ void Gnoll_Mirkwood::Render()
 	sprite->Render();
 
 	collider->Render();
-	hpBar->Render();
+	//hpBar->Render();
 }
 
 
 void Gnoll_Mirkwood::Move()
 {
-
 	if (isDie) return;
 
 	if (isOnDamage) return;
 
-	if (isDetectedPlayer)
+	if (isDetectedPlayerInAttackRange)
+	{
+		
+	}
+
+
+	else if (isDetectedPlayer)
 	{
 		SetAction(Walk);
 
-		if (GM->GetGunner()->pos == pos)
+		if (gunner->pos == pos)
 		{
 			pos.x -= 0.5f;
 		}
 
-		Vector2 dir = (GM->GetGunner()->pos - pos).Normal();
+		Vector2 dir = (gunner->pos - pos).Normal();
 		pos += dir * speed * DELTA;
 	}
 
@@ -96,6 +104,7 @@ void Gnoll_Mirkwood::Attack()
 void Gnoll_Mirkwood::OnDamage(float damage)
 {
 	if (isDie) return;
+	UM->Change_MonsterHPbar(hpBar);
 
 	onDamageStateCheckTime = Timer::Get()->GetRunTime() + hitRecovery;
 
@@ -109,10 +118,7 @@ void Gnoll_Mirkwood::OnDamage(float damage)
 		hp = 0;
 		Die();
 	}
-
-
 }
-
 
 
 void Gnoll_Mirkwood::CheckOnDamage()
@@ -136,7 +142,7 @@ void Gnoll_Mirkwood::CheckOnDamage()
 
 void Gnoll_Mirkwood::CheckDead()
 {
-	if(!isDie) return;
+	if (!isDie) return;
 
 	if (Timer::Get()->GetRunTime() < deadTime)
 	{
@@ -146,6 +152,7 @@ void Gnoll_Mirkwood::CheckDead()
 	else
 	{
 		isActive = false;
+		hpBar->SetHPbarDead();
 	}
 }
 
@@ -154,7 +161,7 @@ void Gnoll_Mirkwood::DetectPlayer()
 {
 	if (isDie) return;
 
-	playerPos = GM->GetGunner()->pos;
+	playerPos = gunner->pos;
 
 	if (
 		playerPos.x > pos.x - detectRange.x &&
@@ -179,17 +186,51 @@ void Gnoll_Mirkwood::Die()
 		isDie = true;
 		deadTime = Timer::Get()->GetRunTime() + 2.0f;
 		collider->isActive = false;
-		hpBar->SetDead();
+		hpBar->SetMonsterDead();
 	}
 }
 
 void Gnoll_Mirkwood::Reactivation()
 {
 	hp = 10000.0f;
+	hpBar->Reactivation();
 	isActive = true;
 	collider->isActive = true;
 	isDie = false;
 }
+
+void Gnoll_Mirkwood::CheckAttackRange()
+{
+	if (isDie) return;
+
+	playerPos = gunner->pos;
+
+	if (
+		playerPos.x > pos.x - attackRange.x &&
+		playerPos.x < pos.x + attackRange.x &&
+		playerPos.y < pos.y + attackRange.y &&
+		playerPos.y > pos.y - attackRange.y
+		)
+		isDetectedPlayerInAttackRange = true;
+	else
+	{
+		isDetectedPlayerInAttackRange = false;
+	}
+
+
+
+	/*if (playerPos.x >= pos.x) isRight = true;
+	else isRight = false;*/
+}
+
+
+
+
+
+
+
+
+
 
 void Gnoll_Mirkwood::LoadAction(string path, string file, Action::Type type, float speed)
 {
