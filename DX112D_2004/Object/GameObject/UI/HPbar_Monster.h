@@ -8,6 +8,8 @@ public:
 
 	void Update();
 	void Render();
+	void UpdateHPbar(float beforeHP, float afterHP);
+	void SetDead();
 
 private:
 	Quad* back_HPbar;
@@ -22,6 +24,12 @@ private:
 	float decreaseSpeed;
 
 	float curScale;
-	float t_damage = 1000;
+	float lerpStart;
+	float lerpEnd;
+	float reductionSum;
+	
+
+	bool trigger_UpdateHP;
+	bool isDead;
 };
 

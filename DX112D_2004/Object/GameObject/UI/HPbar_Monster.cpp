@@ -2,7 +2,8 @@
 
 
 
-HPbar_Monster::HPbar_Monster(float _maxHP): reduction(0.0f), decreaseSpeed(1.0f)
+HPbar_Monster::HPbar_Monster(float _maxHP) : reduction(0.0f), decreaseSpeed(1.0f), lerpStart(1.0f), lerpEnd(1.0f),
+trigger_UpdateHP(false), isDead(false), reductionSum(0.0f)
 {
 	back_HPbar = new Quad(L"Textures/Interface/Monster/HPBAR_BACK.png", L"TextureShader");
 	front_HPbar = new Quad(L"Textures/Interface/Monster/HPBAR_RED.png", L"TextureShader");
@@ -28,40 +29,45 @@ HPbar_Monster::~HPbar_Monster()
 
 void HPbar_Monster::Update()
 {
-
-
-
-	//cameraPosition = CAMERA->pos;
-	//back_HPbar->pos.x = -cameraPosition.x + 450.0f;
-	//back_HPbar->pos.y = -cameraPosition.y + 500.0f;
-	//
-	//front_HPbar->pos = back_HPbar->pos + Vector2(15, -6);
-
-
-
-	 
-	if (KEY_PRESS('A')) // 몬스터의 OnDamage가 호출되었다고 가정.
+	if (trigger_UpdateHP)
 	{
-		float e = 1 - (t_damage / maxHP); // 0.9
-		float t = LERP(curScale, e, 10.0f * DELTA);
-		front_HPbar->scale.x = t; // 이것이 감소량
-		front_HPbar->pos.x -= front_HPbar->GetSize().x * 0.5 * (1-t) * DELTA; // 여기서바꿔도 위에서 다시 강제로잡아버리니까.
+		if (front_HPbar->scale.x >= lerpEnd &&
+			front_HPbar->scale.x < lerpEnd + 0.001f)
+		{
+			trigger_UpdateHP = false;
+		}
 
-		curScale = front_HPbar->scale.x;
-		// 동시에 x좌표도 이동.
+		else  // lerpEnd 까지 줄어들어야함.
+		{
+			front_HPbar->scale.x -= 0.3f * DELTA;
+			reductionSum += 0.15f * DELTA;
+
+			char buff[100];
+			sprintf_s(buff, "scale.x : %f\n reductionSum : %f\n",front_HPbar->scale.x,reductionSum);
+			OutputDebugStringA(buff);
+		}
 	}
 
+	else if (isDead)
+	{
+		front_HPbar->scale.x = 0.0f;
+	}
 
-	//if (KEY_PRESS('S'))
-	//{
-	//	front_HPbar->scale.x -= decreaseSpeed * DELTA;
-	//	front_HPbar->pos.x -= front_HPbar->GetSize().x * 0.5 * decreaseSpeed  * DELTA;
-	//}
+	//float tmp = reductionSum * front_HPbar->GetSize().x * 100.0f;
 
-	//if (front_HPbar->scale.x < 0.0f)
-	//{
-	//	front_HPbar->scale.x = 0.0f;
-	//}
+	//char buff[100];
+	//sprintf_s(buff, "reductionSum : %f\n front_Hpbar->GetSize().x : %f\n, tmp : %f\n", reductionSum,front_HPbar->GetSize().x, tmp);
+	//OutputDebugStringA(buff);
+
+
+
+
+	/*cameraPosition = CAMERA->pos;
+	back_HPbar->pos.x = -cameraPosition.x + 450.0f;
+	back_HPbar->pos.y = -cameraPosition.y + 500.0f;
+
+	front_HPbar->pos = back_HPbar->pos + Vector2(15, -6);*/
+
 
 
 	back_HPbar->Update();
@@ -72,4 +78,16 @@ void HPbar_Monster::Render()
 {
 	back_HPbar->Render();
 	front_HPbar->Render();
+}
+
+void HPbar_Monster::UpdateHPbar(float beforeHP, float afterHP)
+{
+	trigger_UpdateHP = true;
+	lerpStart = beforeHP / maxHP;  //  10/10
+	lerpEnd = afterHP / maxHP;    // 9/10
+}
+
+void HPbar_Monster::SetDead()
+{
+	isDead = true;
 }

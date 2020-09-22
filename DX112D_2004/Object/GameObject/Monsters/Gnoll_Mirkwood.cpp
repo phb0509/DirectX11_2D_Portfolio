@@ -99,13 +99,18 @@ void Gnoll_Mirkwood::OnDamage(float damage)
 
 	onDamageStateCheckTime = Timer::Get()->GetRunTime() + hitRecovery;
 
+	hpBar->UpdateHPbar(hp, hp - damage);
+
 	hp -= damage;
+
 
 	if (hp <= 0)
 	{
 		hp = 0;
 		Die();
 	}
+
+
 }
 
 
@@ -174,6 +179,7 @@ void Gnoll_Mirkwood::Die()
 		isDie = true;
 		deadTime = Timer::Get()->GetRunTime() + 2.0f;
 		collider->isActive = false;
+		hpBar->SetDead();
 	}
 }
 
