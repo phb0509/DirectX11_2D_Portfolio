@@ -13,6 +13,9 @@ public:
 		COMBOSHOT,
 		LASTSHOT,
 		FINISHMOTION,
+		ONDAMAGE,
+		ONDAMAGE1,
+		DIE,
 	};
 
 
@@ -32,9 +35,11 @@ public:
 	void ComboShotEnd();
 	void InitMotion();
 	void OnDamage(float damage);
+	void Die();
+	void CheckDead();
 
 	bool CheckAttackInterval();
-	void CheckIdle_AfterRun();
+	void CheckOnDamage();
 	void Shot();
 
 
@@ -59,26 +64,29 @@ private:
 
 	double currentTime;
 
-
-
 	float hp;
 	float mp;
 	float walkSpeed; // WALK 애니메이션 실행 시 이동속도.
 	float runSpeed; // RUN 애니메이션 실행 시 이동속도.
 	float jumpPower;
 	float gravity;
+	float hitRecovery;
 
 	bool isRight; 
 	bool isRightRun; // 오른쪽대쉬 상태인가?
 	bool isLeftRun; // 왼쪽대쉬 상태인가?
 	bool trigger_Move;
+	bool isOnDamage;
+	bool trigger_AfterOnDamage;
 
 	float rightRunCheckTime; // 오른쪽대쉬상태인지를 체크하기위한 시간체크. 
 	float leftRunCheckTime;  // 왼쪽대쉬상태인지를 체크하기위한 시간체크.
+	float onDamageStateCheckTime;
+	float deadTime;
 
+	bool isDie;
 	bool isAttack;
 	bool isJump;
-
 	bool isFirstAttack;
 	int comboAttackCount;
 

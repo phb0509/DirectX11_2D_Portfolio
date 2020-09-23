@@ -11,7 +11,7 @@ Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos)
 	hp = 10000;
 	hpBar = new HPbar_Monster(hp);
 	pos = _pos;
-	damage = 1000.0f;
+	damage = 2000.0f;
 
 	InitMotion();
 }
@@ -72,7 +72,7 @@ void Gnoll_Mirkwood::Render()
 	SetWorldBuffer();
 	sprite->Render();
 
-	collider->Render();
+	//collider->Render();
 }
 
 void Gnoll_Mirkwood::Attack()
@@ -94,7 +94,7 @@ void Gnoll_Mirkwood::Attack()
 
 				if (attackCollider->IsCollision(gunner->GetGunnerCollider()))
 				{
-					gunner->OnDamage(0);
+					gunner->OnDamage(damage);
 				}
 			}
 		}
@@ -109,13 +109,6 @@ void Gnoll_Mirkwood::Attack()
 		}
 	}
 }
-
-
-
-
-
-
-
 
 
 
@@ -290,9 +283,6 @@ void Gnoll_Mirkwood::AttackEnd()
 {
 	isAttack = false;
 }
-
-
-
 
 
 void Gnoll_Mirkwood::InitMotion()

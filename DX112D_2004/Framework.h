@@ -54,6 +54,7 @@
 #include <cmath>
 #include <assert.h>
 #include <functional>
+#include <algorithm>
 
 #include <d3d11.h>
 #include <d3dcompiler.h>

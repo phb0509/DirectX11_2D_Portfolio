@@ -1,9 +1,9 @@
 #include "Framework.h"
 
 Gunner::Gunner()
-	: currentTime(0.0f), walkSpeed(250), runSpeed(600), jumpPower(0), gravity(980.0f), curAction(IDLE), attackOffset(100, 0),
-	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), rightRunCheckTime(0.0f), leftRunCheckTime(0.0f), trigger_Move(true),
-	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false) , hp(10000), mp(2000)
+	: currentTime(0.0f), walkSpeed(250), runSpeed(600), jumpPower(0), gravity(980.0f), curAction(IDLE), attackOffset(100, 0), isDie(false), hitRecovery(0.3f),deadTime(0.0f),
+	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), rightRunCheckTime(0.0f), leftRunCheckTime(0.0f), trigger_Move(true), trigger_AfterOnDamage(false),
+	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false) , hp(10000), mp(2000), isOnDamage(false), onDamageStateCheckTime(0.0f)
 {
 	pos = { 0, 0 };
 	collider = new RectCollider({ 80,120 }, this);
@@ -38,10 +38,12 @@ void Gunner::Update()
 
 	currentTime = Timer::Get()->GetRunTime();
 
-	CheckIdle_AfterRun();
 	Move();
 	Run();
 	Attack();
+	CheckOnDamage();
+	CheckDead();
+
 	//Jump();
 
 	Action::Clip curClip = actions[curAction]->GetCurClip();
@@ -74,7 +76,6 @@ void Gunner::Render()
 		gunner_bullets[i]->Render();
 	}
 
-
 	collider->Render();
 
 	SetWorldBuffer();
@@ -82,11 +83,86 @@ void Gunner::Render()
 	//effect->Render();
 }
 
+
+void Gunner::OnDamage(float damage)
+{
+	if (isDie) return;
+
+	//UM->Change_MonsterHPbar(hpBar);
+
+	onDamageStateCheckTime = Timer::Get()->GetRunTime() + hitRecovery;
+
+	//hpBar->UpdateHPbar(hp, hp - damage);
+
+	hp -= damage;
+
+	char buff[100];
+	sprintf_s(buff, "HP : %f\n", hp);
+	OutputDebugStringA(buff);
+
+	if (hp <= 0)
+	{
+		hp = 0;
+		Die();
+	}
+}
+
+
+void Gunner::CheckOnDamage()
+{
+	if (Timer::Get()->GetRunTime() < onDamageStateCheckTime) // 아직 피격중이면.
+	{
+		isOnDamage = true;
+		SetAction(ONDAMAGE);
+		trigger_AfterOnDamage = true;
+
+		if (isRight) pos.x -= 100 * DELTA;
+		else pos.x += 100 * DELTA;
+	}
+
+	else if(trigger_AfterOnDamage)
+	{
+		isOnDamage = false;
+		trigger_AfterOnDamage = false;
+		SetAction(IDLE);
+	}
+}
+
+void Gunner::Die()
+{
+	if (!isDie)
+	{
+		isDie = true;
+		deadTime = Timer::Get()->GetRunTime() + 2.0f;
+		collider->isActive = false;
+		//hpBar->SetMonsterDead();
+	}
+}
+
+void Gunner::CheckDead()
+{
+	if (!isDie) return;
+
+	if (Timer::Get()->GetRunTime() < deadTime)
+	{
+		SetAction(DIE);
+	}
+
+	else
+	{
+		isActive = false;
+		//hpBar->SetHPbarDead();
+	}
+}
+
+
 void Gunner::Move()
 {
+	if (isDie) return;
 	if (isJump) return;
 	if (isAttack) return;
 	if (!trigger_Move) return;
+	if (isOnDamage) return;
 
 
 
@@ -104,9 +180,7 @@ void Gunner::Move()
 
 	if (KEY_PRESS(VK_LEFT))
 	{
-
 		SetAction(WALK);
-
 
 		pos.x -= walkSpeed * DELTA;
 
@@ -170,9 +244,11 @@ void Gunner::Move()
 
 void Gunner::Run()
 {
+	if (isDie) return;
 	if (isJump) return;
 	if (isAttack) return;
 	if (trigger_Move) return;
+	if (isOnDamage) return;
 
 	SetAction(RUN);
 
@@ -220,16 +296,6 @@ void Gunner::Run()
 		trigger_Move = true;
 		SetAction(IDLE);
 	}
-}
-
-
-
-
-
-
-void Gunner::CheckIdle_AfterRun()
-{
-
 }
 
 
@@ -296,8 +362,6 @@ bool Gunner::CheckAttackInterval()
 	if (currentTime <= maxAttackTime) return true;
 	else return false;
 }
-
-
 
 
 void Gunner::Shot()
@@ -475,6 +539,9 @@ void Gunner::InitMotion()
 	LoadAction(path, "FINISHMOTION.xml", Action::END);
 	// 평타모션 footer
 
+	LoadAction(path, "ONDAMAGE.xml", Action::END);
+	LoadAction(path, "ONDAMAGE1.xml", Action::END);
+	LoadAction(path, "Die.xml", Action::END);
 
 	actions[FIRSTSHOT]->SetEndEvent(bind(&Gunner::FirstFire, this));
 	actions[COMBOSHOT]->SetEndEvent(bind(&Gunner::ComboShotEnd, this));
@@ -496,12 +563,4 @@ void Gunner::InitMotion()
 	colorBuffer = new ColorBuffer();
 	colorBuffer->data.color = Float4(1, 0, 0, 1);*/
 
-}
-
-void Gunner::OnDamage(float damage)
-{
-
-	char buff[100];
-	sprintf_s(buff, "들어오냐...\n");
-	OutputDebugStringA(buff);
 }

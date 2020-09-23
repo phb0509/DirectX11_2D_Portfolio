@@ -1,6 +1,21 @@
 #include "Framework.h"
 #include "MirkWoodScene.h"
 
+
+bool compare(Monster*& a, Monster*& b)
+{
+	if (a->pos.y >= b->pos.y)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+
+
 MirkWoodScene::MirkWoodScene() : gunner(nullptr)
 {
 	gunner = GM->GetGunner();
@@ -45,6 +60,20 @@ void MirkWoodScene::Update()
 	tile->Update();
 	gunner->Update();
 	
+
+	sort(monsters.begin(), monsters.end(), compare);
+
+	for (int i = 0; i < monsters.size(); i++)
+	{
+
+		char buff[100];
+		sprintf_s(buff, "%d 번째 몬스터 y값 : %f\n", i,monsters[i]->pos.y);
+		OutputDebugStringA(buff);
+
+
+	}
+
+
 
 	for (int i = 0; i < monsters.size(); i++)
 	{
