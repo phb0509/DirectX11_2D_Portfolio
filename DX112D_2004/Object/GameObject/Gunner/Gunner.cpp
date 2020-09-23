@@ -3,10 +3,10 @@
 Gunner::Gunner()
 	: currentTime(0.0f), walkSpeed(250), runSpeed(600), jumpPower(0), gravity(980.0f), curAction(IDLE), attackOffset(100, 0),
 	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), rightRunCheckTime(0.0f), leftRunCheckTime(0.0f), trigger_Move(true),
-	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false)
+	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false) , hp(10000), mp(2000)
 {
 	pos = { 0, 0 };
-
+	collider = new RectCollider({ 80,120 }, this);
 	InitMotion();
 
 
@@ -57,9 +57,9 @@ void Gunner::Update()
 		gunner_bullets[i]->Update(GM->GetMirkwoodMonsters());
 	}
 
+	collider->Update();
 	UpdateWorld();
 
-	//attackCollider->Update();
 	//effect->Update();
 }
 
@@ -74,10 +74,11 @@ void Gunner::Render()
 		gunner_bullets[i]->Render();
 	}
 
+
+	collider->Render();
+
 	SetWorldBuffer();
 	sprite->Render();
-
-	//attackCollider->Render();
 	//effect->Render();
 }
 
@@ -495,4 +496,12 @@ void Gunner::InitMotion()
 	colorBuffer = new ColorBuffer();
 	colorBuffer->data.color = Float4(1, 0, 0, 1);*/
 
+}
+
+void Gunner::OnDamage(float damage)
+{
+
+	char buff[100];
+	sprintf_s(buff, "들어오냐...\n");
+	OutputDebugStringA(buff);
 }

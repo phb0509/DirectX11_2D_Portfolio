@@ -6,19 +6,14 @@ Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos)
 {
 	sprite = new Sprite();
 	collider = new RectCollider({ 118, 116 }, this);
+	attackCollider = new RectCollider({ 50,90 });
+	attackCollider->isActive = false;
 	hp = 10000;
 	hpBar = new HPbar_Monster(hp);
 	pos = _pos;
+	damage = 1000.0f;
 
-	
-
-	string path = "Textures/Monster1/";
-
-	LoadAction(path, "IDLE.xml", Action::END);
-	LoadAction(path, "WALK.xml", Action::PINGPONG);
-	LoadAction(path, "StandOnDamage.xml", Action::END, 0.1f);
-	LoadAction(path, "DIE.xml", Action::END, 0.1f);
-	LoadAction(path, "SMASHATTACK.xml", Action::END, 0.2f);
+	InitMotion();
 }
 
 Gnoll_Mirkwood::~Gnoll_Mirkwood()
@@ -36,6 +31,7 @@ void Gnoll_Mirkwood::Update()
 	if (!isActive) return;
 
 	gunner = GM->GetGunner();
+	attackCollider->pos = pos + Vector2(-90, -20);
 
 	CheckDead(); // 안죽었으면 X
 	CheckOnDamage(); // 죽으면 X
@@ -46,22 +42,20 @@ void Gnoll_Mirkwood::Update()
 
 	Action::Clip curClip = actions[curAction]->GetCurClip();
 	sprite->SetAction(curClip);
-
 	actions[curAction]->Update();
 
 	scale.x = isRight ? curClip.size.x : -curClip.size.x;
 	scale.y = curClip.size.y;
 
 	collider->Update();
+	attackCollider->Update();
 	hpBar->Update();
+
 	UpdateWorld();
 
-
-
-
-	char buff[100];
+	/*char buff[100];
 	sprintf_s(buff, "gunner pos.y : %f\n monster pos.y : %f\n", gunner->pos.y, pos.y);
-	OutputDebugStringA(buff);
+	OutputDebugStringA(buff);*/
 
 	//effect->Update();
 }
@@ -70,11 +64,59 @@ void Gnoll_Mirkwood::Render()
 {
 	if (!isActive) return;
 
+	if (attackCollider->isActive)
+	{
+		attackCollider->Render();
+	}
+
 	SetWorldBuffer();
 	sprite->Render();
 
 	collider->Render();
 }
+
+void Gnoll_Mirkwood::Attack()
+{
+	if (!isAttack) return;
+	if (isOnDamage) return;
+	if (isDie) return;
+
+	SetAction(SMASHATTACK);
+
+	if (curAction == SMASHATTACK)
+	{
+		if (actions[curAction]->GetCurClipNum() == 2)
+		{
+			if (isAttackColliderTrigger)
+			{
+				attackCollider->isActive = true;
+				isAttackColliderTrigger = false;
+
+				if (attackCollider->IsCollision(gunner->GetGunnerCollider()))
+				{
+					gunner->OnDamage(0);
+				}
+			}
+		}
+
+		else
+		{
+			if (actions[curAction]->GetCurClipNum() == 3)
+			{
+				attackCollider->isActive = false;
+				isAttackColliderTrigger = true;
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
 
 
 void Gnoll_Mirkwood::Move()
@@ -89,22 +131,17 @@ void Gnoll_Mirkwood::Move()
 
 		if (gunner->pos.y > pos.y)
 		{
-			pos.y += speed * DELTA;			
+			pos.y += speed * DELTA;
 		}
 
 		else
 		{
-			pos.y -=  speed* DELTA;
+			pos.y -= speed * DELTA;
 		}
 
 		if (gunner->pos.y + 2.0f > pos.y &&
 			gunner->pos.y - 2.0f <= pos.y)
 		{
-
-			char buff[100];
-			sprintf_s(buff, "이거호출\n");
-			OutputDebugStringA(buff);
-
 			isAttack = true;
 		}
 	}
@@ -126,16 +163,12 @@ void Gnoll_Mirkwood::Move()
 	else SetAction(Idle);
 }
 
-void Gnoll_Mirkwood::Attack()
-{
-	if (!isAttack) return;
-	SetAction(SMASHATTACK);
 
-}
 
 void Gnoll_Mirkwood::OnDamage(float damage)
 {
 	if (isDie) return;
+
 	UM->Change_MonsterHPbar(hpBar);
 
 	onDamageStateCheckTime = Timer::Get()->GetRunTime() + hitRecovery;
@@ -143,7 +176,6 @@ void Gnoll_Mirkwood::OnDamage(float damage)
 	hpBar->UpdateHPbar(hp, hp - damage);
 
 	hp -= damage;
-
 
 	if (hp <= 0)
 	{
@@ -162,8 +194,8 @@ void Gnoll_Mirkwood::CheckOnDamage()
 		isOnDamage = true;
 		SetAction(StandOnDamage);
 
-		if (isRight) pos.x -= 50 * DELTA;
-		else pos.x += 50 * DELTA;
+		if (isRight) pos.x -= 200 * DELTA;
+		else pos.x += 200 * DELTA;
 	}
 
 	else
@@ -231,7 +263,7 @@ void Gnoll_Mirkwood::Reactivation()
 	isDie = false;
 }
 
-void Gnoll_Mirkwood::CheckAttackRange()
+void Gnoll_Mirkwood::CheckAttackRange() // SMASHATTACK 체크.
 {
 	if (isDie) return;
 
@@ -254,10 +286,27 @@ void Gnoll_Mirkwood::CheckAttackRange()
 	else isRight = false;
 }
 
+void Gnoll_Mirkwood::AttackEnd()
+{
+	isAttack = false;
+}
 
 
 
 
+
+void Gnoll_Mirkwood::InitMotion()
+{
+	string path = "Textures/Monster1/";
+
+	LoadAction(path, "IDLE.xml", Action::END);
+	LoadAction(path, "WALK.xml", Action::PINGPONG);
+	LoadAction(path, "StandOnDamage.xml", Action::END, 0.1f);
+	LoadAction(path, "DIE.xml", Action::END, 0.1f);
+	LoadAction(path, "SMASHATTACK.xml", Action::END, 0.2f);
+
+	actions[SMASHATTACK]->SetEndEvent(bind(&Gnoll_Mirkwood::AttackEnd, this));
+}
 
 
 

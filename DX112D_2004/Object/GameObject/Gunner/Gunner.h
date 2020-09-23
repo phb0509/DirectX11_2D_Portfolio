@@ -31,7 +31,7 @@ public:
 	void SecondFire();
 	void ComboShotEnd();
 	void InitMotion();
-
+	void OnDamage(float damage);
 
 	bool CheckAttackInterval();
 	void CheckIdle_AfterRun();
@@ -40,6 +40,9 @@ public:
 
 	void SetPosition(Vector2 _pos) { pos = _pos; };
 	void SetIdle();
+	
+	Collider* GetGunnerCollider() { return collider; }
+
 	void Test();
 	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
 	void SetAction(ActionType type);
@@ -49,11 +52,17 @@ private:
 	Sprite* sprite;
 	vector<Action*> actions;
 	ActionType curAction;
+	Collider* collider;
+
 	vector<Bullet*> gunner_bullets;
 	Bullet* bullet;
 
 	double currentTime;
 
+
+
+	float hp;
+	float mp;
 	float walkSpeed; // WALK 애니메이션 실행 시 이동속도.
 	float runSpeed; // RUN 애니메이션 실행 시 이동속도.
 	float jumpPower;
@@ -64,11 +73,8 @@ private:
 	bool isLeftRun; // 왼쪽대쉬 상태인가?
 	bool trigger_Move;
 
-	
-
 	float rightRunCheckTime; // 오른쪽대쉬상태인지를 체크하기위한 시간체크. 
 	float leftRunCheckTime;  // 왼쪽대쉬상태인지를 체크하기위한 시간체크.
-
 
 	bool isAttack;
 	bool isJump;
@@ -84,12 +90,10 @@ private:
 
 
 
-
 	Vector2 attackOffset;
 
 	Effect* effect;
 
 	IntBuffer* intBuffer;
 	ColorBuffer* colorBuffer;
-
 };

@@ -52,4 +52,5 @@ public:
 	void SetFireEndEvent(CallBackParam Event) { EndFireEvent = Event; }
 
 	Clip GetCurClip() { return clips[curClipNum]; }
+	UINT GetCurClipNum() { return curClipNum; }
 };

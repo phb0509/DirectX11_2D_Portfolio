@@ -17,10 +17,10 @@ public:
 	Gnoll_Mirkwood(Vector2 pos);
 	~Gnoll_Mirkwood();
 
-
 	virtual void Update() override;
 	virtual void Render() override;
 
+	virtual void InitMotion() override;
 	virtual void Move() override;
 	virtual void Attack() override;
 	virtual void OnDamage(float damage) override;
@@ -30,7 +30,7 @@ public:
 	virtual void Die() override;
 	virtual void Reactivation() override;
 	virtual void CheckAttackRange() override;
-
+	virtual void AttackEnd() override;
 
 	////Get
 	//Collider* GetCollider() { return collider; }

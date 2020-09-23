@@ -7,9 +7,11 @@ public:
 	Monster();
 	virtual ~Monster();
 
+	
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 
+	virtual void InitMotion() = 0;
 	virtual void Move() = 0;
 	virtual void Attack() = 0;
 	virtual void OnDamage(float damage) = 0;
@@ -19,6 +21,8 @@ public:
 	virtual void Die() = 0;
 	virtual void Reactivation() = 0;
 	virtual void CheckAttackRange() = 0;
+	virtual void AttackEnd() = 0;
+	
 
 
 	//Get
@@ -36,6 +40,7 @@ protected:
 	float maxSlipMove;
 	float hitRecovery;
 	float deadTime;
+	float damage;
 
 	bool isRight;
 	bool isDie;
@@ -43,8 +48,10 @@ protected:
 	bool isDetectedPlayer;
 	bool isDetectedPlayerInAttackRange;
 	bool isOnDamage;
+	bool isAttackColliderTrigger;
 
 	Collider* collider;
+	Collider* attackCollider;
 	Vector2 detectRange;
 	Vector2 attackRange;
 	Vector2 playerPos;
