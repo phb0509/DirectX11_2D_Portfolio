@@ -10,7 +10,7 @@ Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos)
 	hpBar = new HPbar_Monster(hp);
 	pos = _pos;
 
-	gunner = GM->GetGunner();
+	
 
 	string path = "Textures/Monster1/";
 
@@ -18,7 +18,7 @@ Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos)
 	LoadAction(path, "WALK.xml", Action::PINGPONG);
 	LoadAction(path, "StandOnDamage.xml", Action::END, 0.1f);
 	LoadAction(path, "DIE.xml", Action::END, 0.1f);
-	LoadAction(path, "SMASHATTACK.xml", Action::END, 0.1f);
+	LoadAction(path, "SMASHATTACK.xml", Action::END, 0.2f);
 }
 
 Gnoll_Mirkwood::~Gnoll_Mirkwood()
@@ -34,6 +34,8 @@ Gnoll_Mirkwood::~Gnoll_Mirkwood()
 void Gnoll_Mirkwood::Update()
 {
 	if (!isActive) return;
+
+	gunner = GM->GetGunner();
 
 	CheckDead(); // 안죽었으면 X
 	CheckOnDamage(); // 죽으면 X
@@ -54,6 +56,13 @@ void Gnoll_Mirkwood::Update()
 	hpBar->Update();
 	UpdateWorld();
 
+
+
+
+	char buff[100];
+	sprintf_s(buff, "gunner pos.y : %f\n monster pos.y : %f\n", gunner->pos.y, pos.y);
+	OutputDebugStringA(buff);
+
 	//effect->Update();
 }
 
@@ -65,19 +74,39 @@ void Gnoll_Mirkwood::Render()
 	sprite->Render();
 
 	collider->Render();
-	//hpBar->Render();
 }
 
 
 void Gnoll_Mirkwood::Move()
 {
 	if (isDie) return;
-
+	if (isAttack) return;
 	if (isOnDamage) return;
 
 	if (isDetectedPlayerInAttackRange)
 	{
-		
+		SetAction(Walk);
+
+		if (gunner->pos.y > pos.y)
+		{
+			pos.y += speed * DELTA;			
+		}
+
+		else
+		{
+			pos.y -=  speed* DELTA;
+		}
+
+		if (gunner->pos.y + 2.0f > pos.y &&
+			gunner->pos.y - 2.0f <= pos.y)
+		{
+
+			char buff[100];
+			sprintf_s(buff, "이거호출\n");
+			OutputDebugStringA(buff);
+
+			isAttack = true;
+		}
 	}
 
 
@@ -99,6 +128,9 @@ void Gnoll_Mirkwood::Move()
 
 void Gnoll_Mirkwood::Attack()
 {
+	if (!isAttack) return;
+	SetAction(SMASHATTACK);
+
 }
 
 void Gnoll_Mirkwood::OnDamage(float damage)
@@ -218,9 +250,8 @@ void Gnoll_Mirkwood::CheckAttackRange()
 	}
 
 
-
-	/*if (playerPos.x >= pos.x) isRight = true;
-	else isRight = false;*/
+	if (playerPos.x >= pos.x) isRight = true;
+	else isRight = false;
 }
 
 

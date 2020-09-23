@@ -1,5 +1,7 @@
 #pragma once
 
+class Gunner;
+
 class Gnoll_Mirkwood : public Monster
 {
 public:
@@ -41,6 +43,7 @@ public:
 
 private:
 	Gunner* gunner;
+
 	Sprite* sprite;
 	vector<Action*> actions;
 	ActionType curAction;
