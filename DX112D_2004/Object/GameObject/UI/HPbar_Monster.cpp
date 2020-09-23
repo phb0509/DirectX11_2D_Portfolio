@@ -37,6 +37,11 @@ void HPbar_Monster::Update()
 		{
 			front_HPbar->scale.x -= 0.3f * DELTA;
 			reductionSum += 0.15f * DELTA;
+
+			if (front_HPbar->scale.x < 0.0f)
+			{
+				front_HPbar->scale.x = 0.0f;
+			}
 		}
 	}
 

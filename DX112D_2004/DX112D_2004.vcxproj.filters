@@ -192,6 +192,12 @@
     <ClInclude Include="Object\GameObject\UI\UIManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Object\GameObject\ElvenGardenObject\Brazier.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Object\GameObject\MirkwoodObject\UpGate.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX112D_2004.cpp">
@@ -356,6 +362,12 @@
     <ClCompile Include="Object\GameObject\UI\UIManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Object\GameObject\ElvenGardenObject\Brazier.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Object\GameObject\MirkwoodObject\UpGate.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX112D_2004.rc">
@@ -398,5 +410,6 @@
     <FxCompile Include="Shaders\ByteAddress.hlsl" />
     <FxCompile Include="Shaders\IntersectCircleAndPos.hlsl" />
     <FxCompile Include="Shaders\InstancingShader.hlsl" />
+    <FxCompile Include="Shaders\PathGateShader.hlsl" />
   </ItemGroup>
 </Project>

@@ -34,9 +34,10 @@ public:
 	void SecondFire();
 	void ComboShotEnd();
 	void InitMotion();
-	void OnDamage(float damage);
+	void OnDamage(float damage, bool onDamageDir);
 	void Die();
 	void CheckDead();
+	void Reactivation();
 
 	bool CheckAttackInterval();
 	void CheckOnDamage();
@@ -47,6 +48,7 @@ public:
 	void SetIdle();
 	
 	Collider* GetGunnerCollider() { return collider; }
+	bool GetIsDie() { return isDie; }
 
 	void Test();
 	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
@@ -64,8 +66,12 @@ private:
 
 	double currentTime;
 
-	float hp;
-	float mp;
+	float maxHP;
+	float currentHP;
+	
+	float maxMP;
+	float currentMP;
+
 	float walkSpeed; // WALK 애니메이션 실행 시 이동속도.
 	float runSpeed; // RUN 애니메이션 실행 시 이동속도.
 	float jumpPower;
@@ -75,6 +81,7 @@ private:
 	bool isRight; 
 	bool isRightRun; // 오른쪽대쉬 상태인가?
 	bool isLeftRun; // 왼쪽대쉬 상태인가?
+	bool onDamageDir;
 	bool trigger_Move;
 	bool isOnDamage;
 	bool trigger_AfterOnDamage;

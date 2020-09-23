@@ -20,7 +20,7 @@ void GameManager::SetMirkWoodScene()
 	{
 		for (int x = 0; x < 2; x++)
 		{
-			gnoll = new Gnoll_Mirkwood({ 700.0f + x * 150.0f,100.0f + y * 150.0f });
+			gnoll = new Gnoll_Mirkwood({ 700.0f + y * 150.0f,100.0f + x * 150.0f });
 			monsters_MirkwoodScene.emplace_back(gnoll);
 		}
 	}

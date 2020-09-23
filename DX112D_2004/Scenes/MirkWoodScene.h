@@ -12,6 +12,7 @@ public:
 	virtual void Start() override;
 	virtual void End() override;
 
+	void CheckMonsterDeath();
 
 private:
 	Gunner* gunner;
@@ -20,8 +21,11 @@ private:
 
 	Quad* bg;
 	Quad* tile;
+	UpGate* upGate;
 	
 	vector<Monster*> monsters;
+
+	int monsterDeathCount;
 
 
 };

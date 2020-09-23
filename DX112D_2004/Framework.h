@@ -7,7 +7,7 @@
 #include "targetver.h"
 #define WIN32_LEAN_AND_MEAN
 
-#define WIN_WIDTH 1500
+#define WIN_WIDTH 1000
 #define WIN_HEIGHT 600
 
 #define CENTER_X WIN_WIDTH * 0.5f
@@ -148,6 +148,8 @@ typedef function<void(void*)> CallBackParam;
 #include "Object/BasicObject/Button.h"
 
 
+
+
 #include "Object/GameObject/UI/HPbar_Monster.h"
 #include "Object/GameObject/UI/UIManager.h"
 #include "Object/GameObject/Monsters/Monster.h"
@@ -158,6 +160,13 @@ typedef function<void(void*)> CallBackParam;
 #include "Object/GameObject/GameManager.h"
 
 
+
+//ElvenGarden Object
+#include "Object/GameObject/ElvenGardenObject/Brazier.h"
+
+
+//MirkWood Object
+#include "Object/GameObject/MirkwoodObject/UpGate.h"
 
 
 //Program;

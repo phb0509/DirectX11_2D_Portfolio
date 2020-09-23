@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:65abed34cc23e9c85f47dd2968a3c8a1:601bb580fe3d081dd5727d75fbd0303c:606569bd210a8722d9976360fc093fa5$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="Brazier.png" width="966" height="170">
+    <sprite n="brazier_01.png" x="1" y="1" w="320" h="168" pX="0.5" pY="0.5"/>
+    <sprite n="brazier_02.png" x="323" y="1" w="320" h="168" pX="0.5" pY="0.5"/>
+    <sprite n="brazier_03.png" x="645" y="1" w="320" h="168" pX="0.5" pY="0.5"/>
+</TextureAtlas>

@@ -32,6 +32,9 @@ public:
 	virtual void CheckAttackRange() override;
 	virtual void AttackEnd() override;
 
+	void CheckPlayerDeath();
+	void MoveAfterPlayerDeath();
+
 	////Get
 	//Collider* GetCollider() { return collider; }
 	
@@ -48,6 +51,11 @@ private:
 	vector<Action*> actions;
 	ActionType curAction;
 	HPbar_Monster* hpBar;
+
+	Vector2 dir;
+	float moveCheckTimeafterPlayerDeath;
+	bool trigger_CheckPlayerDeath;
+	bool trigger_MoveAfterPlayerDeath;
 
 };
 

@@ -2,16 +2,18 @@
 
 
 
-Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos)
+Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos) : moveCheckTimeafterPlayerDeath(0.0f), trigger_CheckPlayerDeath(true), trigger_MoveAfterPlayerDeath(false)
 {
 	sprite = new Sprite();
 	collider = new RectCollider({ 118, 116 }, this);
+
 	attackCollider = new RectCollider({ 50,90 });
 	attackCollider->isActive = false;
+
 	hp = 10000;
 	hpBar = new HPbar_Monster(hp);
 	pos = _pos;
-	damage = 2000.0f;
+	damage = 100.0f;
 
 	InitMotion();
 }
@@ -31,8 +33,19 @@ void Gnoll_Mirkwood::Update()
 	if (!isActive) return;
 
 	gunner = GM->GetGunner();
-	attackCollider->pos = pos + Vector2(-90, -20);
 
+	if (isRight)
+	{
+		attackCollider->pos = pos + Vector2(90, -20);
+	}
+	else
+	{
+		attackCollider->pos = pos + Vector2(-90, -20);
+	}
+
+
+	CheckPlayerDeath();
+	MoveAfterPlayerDeath();
 	CheckDead(); // ¾ÈÁ×¾úÀ¸¸é X
 	CheckOnDamage(); // Á×À¸¸é X
 	DetectPlayer(); // Á×À¸¸é X
@@ -94,7 +107,15 @@ void Gnoll_Mirkwood::Attack()
 
 				if (attackCollider->IsCollision(gunner->GetGunnerCollider()))
 				{
-					gunner->OnDamage(damage);
+					if (gunner->pos.x <= pos.x)
+					{
+						gunner->OnDamage(damage, false);
+					}
+					else if(gunner->pos.x > pos.x)
+					{
+						gunner->OnDamage(damage, true);
+					}
+						
 				}
 			}
 		}
@@ -117,6 +138,7 @@ void Gnoll_Mirkwood::Move()
 	if (isDie) return;
 	if (isAttack) return;
 	if (isOnDamage) return;
+	if (gunner->GetIsDie()) return;
 
 	if (isDetectedPlayerInAttackRange)
 	{
@@ -138,7 +160,6 @@ void Gnoll_Mirkwood::Move()
 			isAttack = true;
 		}
 	}
-
 
 	else if (isDetectedPlayer)
 	{
@@ -217,6 +238,8 @@ void Gnoll_Mirkwood::CheckDead()
 void Gnoll_Mirkwood::DetectPlayer()
 {
 	if (isDie) return;
+	if (gunner->GetIsDie()) return;
+
 
 	playerPos = gunner->pos;
 
@@ -253,12 +276,14 @@ void Gnoll_Mirkwood::Reactivation()
 	hpBar->Reactivation();
 	isActive = true;
 	collider->isActive = true;
+	trigger_CheckPlayerDeath = true;
 	isDie = false;
 }
 
 void Gnoll_Mirkwood::CheckAttackRange() // SMASHATTACK Ã¼Å©.
 {
 	if (isDie) return;
+	if (gunner->GetIsDie()) return;
 
 	playerPos = gunner->pos;
 
@@ -282,6 +307,40 @@ void Gnoll_Mirkwood::CheckAttackRange() // SMASHATTACK Ã¼Å©.
 void Gnoll_Mirkwood::AttackEnd()
 {
 	isAttack = false;
+}
+
+void Gnoll_Mirkwood::CheckPlayerDeath()
+{
+	if (trigger_CheckPlayerDeath)
+	{
+		if (gunner->GetIsDie())
+		{
+			trigger_CheckPlayerDeath = false;
+			trigger_MoveAfterPlayerDeath = true;
+
+			dir = { Math::Random(-1.0f, 1.0f), Math::Random(-1.0f, 1.0f) };
+			moveCheckTimeafterPlayerDeath = Timer::Get()->GetRunTime() + 2.0f;
+			isAttack = false;
+		}
+	}
+}
+
+void Gnoll_Mirkwood::MoveAfterPlayerDeath()
+{
+	if (trigger_MoveAfterPlayerDeath)
+	{
+		if (Timer::Get()->GetRunTime() <= moveCheckTimeafterPlayerDeath)
+		{
+			SetAction(Walk);
+			pos += dir * speed * DELTA;
+		}
+		else if (Timer::Get()->GetRunTime() > moveCheckTimeafterPlayerDeath)
+		{
+			trigger_MoveAfterPlayerDeath = false;
+			SetAction(Idle);
+		}
+	}
+
 }
 
 

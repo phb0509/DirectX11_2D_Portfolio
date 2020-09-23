@@ -21,6 +21,8 @@ private:
 
 	Quad* bg;
 	Quad* tile;
+	Quad* sign;
+	Brazier* brazier;
 
 
 

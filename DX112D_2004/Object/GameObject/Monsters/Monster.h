@@ -28,11 +28,13 @@ public:
 	//Get
 	Collider* GetCollider() { return collider; }
 	bool GetColliderIsActive() { return collider->isActive; }
+	bool GetIsDie() { return isDie; }
 
 	//Set
 	void SetIsDie(bool _isDie) { isDie = _isDie; }
-protected:
 
+
+protected:
 	int hp;
 	float speed;
 	float gravity;

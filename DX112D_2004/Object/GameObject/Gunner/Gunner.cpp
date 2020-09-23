@@ -3,8 +3,11 @@
 Gunner::Gunner()
 	: currentTime(0.0f), walkSpeed(250), runSpeed(600), jumpPower(0), gravity(980.0f), curAction(IDLE), attackOffset(100, 0), isDie(false), hitRecovery(0.3f),deadTime(0.0f),
 	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), rightRunCheckTime(0.0f), leftRunCheckTime(0.0f), trigger_Move(true), trigger_AfterOnDamage(false),
-	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false) , hp(10000), mp(2000), isOnDamage(false), onDamageStateCheckTime(0.0f)
+	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false) , maxHP(10000), maxMP(2000),isOnDamage(false), onDamageStateCheckTime(0.0f), onDamageDir(false)
 {
+	currentHP = maxHP;
+	currentMP = maxMP;
+
 	pos = { 0, 0 };
 	collider = new RectCollider({ 80,120 }, this);
 	InitMotion();
@@ -84,31 +87,34 @@ void Gunner::Render()
 }
 
 
-void Gunner::OnDamage(float damage)
+void Gunner::OnDamage(float damage, bool _onDamageDir) 
 {
 	if (isDie) return;
 
 	//UM->Change_MonsterHPbar(hpBar);
 
 	onDamageStateCheckTime = Timer::Get()->GetRunTime() + hitRecovery;
+	onDamageDir = _onDamageDir;
 
+	if (onDamageDir) isRight = false;
+	else isRight = true;
 	//hpBar->UpdateHPbar(hp, hp - damage);
 
-	hp -= damage;
+	currentHP -= damage;
 
 	char buff[100];
-	sprintf_s(buff, "HP : %f\n", hp);
+	sprintf_s(buff, "HP : %f\n", currentHP);
 	OutputDebugStringA(buff);
 
-	if (hp <= 0)
+	if (currentHP <= 0)
 	{
-		hp = 0;
+		currentHP = 0;
 		Die();
 	}
 }
 
 
-void Gunner::CheckOnDamage()
+void Gunner::CheckOnDamage() // onDamageDir이 false면 왼쪽으로 밀려나야함
 {
 	if (Timer::Get()->GetRunTime() < onDamageStateCheckTime) // 아직 피격중이면.
 	{
@@ -116,8 +122,14 @@ void Gunner::CheckOnDamage()
 		SetAction(ONDAMAGE);
 		trigger_AfterOnDamage = true;
 
-		if (isRight) pos.x -= 100 * DELTA;
-		else pos.x += 100 * DELTA;
+		if (onDamageDir)
+		{
+			pos.x += 100 * DELTA;
+		}
+		else
+		{
+			pos.x -= 100 * DELTA;
+		}
 	}
 
 	else if(trigger_AfterOnDamage)
@@ -153,6 +165,18 @@ void Gunner::CheckDead()
 		isActive = false;
 		//hpBar->SetHPbarDead();
 	}
+}
+
+void Gunner::Reactivation()
+{
+	currentHP = maxHP;
+	currentMP = maxMP;
+	//hpBar->Reactivation();
+	isActive = true;
+	collider->isActive = true;
+	//trigger_CheckPlayerDeath = true;
+	isDie = false;
+	SetAction(IDLE);
 }
 
 

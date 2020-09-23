@@ -16,7 +16,7 @@ bool compare(Monster*& a, Monster*& b)
 
 
 
-MirkWoodScene::MirkWoodScene() : gunner(nullptr)
+MirkWoodScene::MirkWoodScene() : gunner(nullptr), monsterDeathCount(0)
 {
 	gunner = GM->GetGunner();
 	monsters = GM->GetMirkwoodMonsters();
@@ -26,6 +26,9 @@ MirkWoodScene::MirkWoodScene() : gunner(nullptr)
 
 	tile = new Quad(L"Textures/MirkWood/MirkWoodTile.png", L"TextureShader");
 	tile->pos = { 0, 0 };
+
+	upGate = new UpGate();
+	upGate->SetPosition({ 50,300 });
 
 	Vector2 bgLeftBottom = tile->GetSize() * tile->scale * -0.5f;
 	Vector2 bgRightTop = tile->GetSize() * tile->scale * 0.5f;
@@ -59,21 +62,9 @@ void MirkWoodScene::Update()
 	bg->Update();
 	tile->Update();
 	gunner->Update();
+	upGate->Update();
 	
-
 	sort(monsters.begin(), monsters.end(), compare);
-
-	for (int i = 0; i < monsters.size(); i++)
-	{
-
-		char buff[100];
-		sprintf_s(buff, "%d 번째 몬스터 y값 : %f\n", i,monsters[i]->pos.y);
-		OutputDebugStringA(buff);
-
-
-	}
-
-
 
 	for (int i = 0; i < monsters.size(); i++)
 	{
@@ -87,7 +78,9 @@ void MirkWoodScene::Render()
 
 	bg->Render();
 	tile->Render();
+	upGate->Render();
 	gunner->Render();
+
 
 
 	for (int i = 0; i < monsters.size(); i++)
@@ -103,6 +96,8 @@ void MirkWoodScene::PostRender()
 void MirkWoodScene::Start()
 {
 	UM->set_IsRender_MonsterHPbar(true);
+
+	gunner->Reactivation();
 	for (int i = 0; i < monsters.size(); i++)
 	{
 		monsters[i]->Reactivation();
@@ -113,4 +108,21 @@ void MirkWoodScene::Start()
 void MirkWoodScene::End()
 {
 	UM->set_IsRender_MonsterHPbar(false);
+}
+
+void MirkWoodScene::CheckMonsterDeath()
+{
+	monsterDeathCount = 0;
+	for (int i = 0; i < monsters.size(); i++)
+	{
+		if (monsters[i]->GetIsDie())
+		{
+			monsterDeathCount++;
+		}
+	}
+
+	if (monsterDeathCount == monsters.size())
+	{
+		upGate->SetGateEffectTrigger(true);
+	}
 }
