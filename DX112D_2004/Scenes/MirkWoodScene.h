@@ -27,5 +27,8 @@ private:
 
 	int monsterDeathCount;
 
+	Vector2 bgLeftBottom;
+	Vector2 bgRightTop;
+
 
 };

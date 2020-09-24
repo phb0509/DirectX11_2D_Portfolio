@@ -31,6 +31,7 @@ public:
 	virtual void Reactivation() override;
 	virtual void CheckAttackRange() override;
 	virtual void AttackEnd() override;
+	virtual void CheckIsPossibleHitState() override;
 
 	void CheckPlayerDeath();
 	void MoveAfterPlayerDeath();
@@ -54,8 +55,10 @@ private:
 
 	Vector2 dir;
 	float moveCheckTimeafterPlayerDeath;
+
 	bool trigger_CheckPlayerDeath;
 	bool trigger_MoveAfterPlayerDeath;
+	bool isPossibleHitState;
 
 };
 

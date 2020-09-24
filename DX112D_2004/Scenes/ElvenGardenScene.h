@@ -22,9 +22,12 @@ private:
 	Quad* bg;
 	Quad* tile;
 	Quad* sign;
+
 	Brazier* brazier;
+	Linus* linus;
 
-
+	Vector2 bgLeftBottom;
+	Vector2 bgRightTop;
 
 
 

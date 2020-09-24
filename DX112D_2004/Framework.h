@@ -163,10 +163,14 @@ typedef function<void(void*)> CallBackParam;
 
 //ElvenGarden Object
 #include "Object/GameObject/ElvenGardenObject/Brazier.h"
+#include "Object/GameObject/ElvenGardenObject/Linus.h"
 
 
 //MirkWood Object
 #include "Object/GameObject/MirkwoodObject/UpGate.h"
+
+
+//SeriaHouse Object
 
 
 //Program;

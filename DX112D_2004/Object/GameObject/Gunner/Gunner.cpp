@@ -3,13 +3,15 @@
 Gunner::Gunner()
 	: currentTime(0.0f), walkSpeed(250), runSpeed(600), jumpPower(0), gravity(980.0f), curAction(IDLE), attackOffset(100, 0), isDie(false), hitRecovery(0.3f),deadTime(0.0f),
 	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), rightRunCheckTime(0.0f), leftRunCheckTime(0.0f), trigger_Move(true), trigger_AfterOnDamage(false),
-	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false) , maxHP(10000), maxMP(2000),isOnDamage(false), onDamageStateCheckTime(0.0f), onDamageDir(false)
+	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false) , maxHP(10000), maxMP(2000),isOnDamage(false), onDamageStateCheckTime(0.0f), onDamageDir(false),
+	hitCheckColliderHeight(13.0f)
 {
 	currentHP = maxHP;
 	currentMP = maxMP;
 
 	pos = { 0, 0 };
 	collider = new RectCollider({ 80,120 }, this);
+	hitCheckCollider = new RectCollider({ 80, hitCheckColliderHeight * 2});
 	InitMotion();
 
 
@@ -24,6 +26,7 @@ Gunner::Gunner()
 Gunner::~Gunner()
 {
 	delete sprite;
+	delete collider;
 
 	for (Action* action : actions)
 		delete action;
@@ -39,7 +42,14 @@ void Gunner::Update()
 {
 	if (!isActive) return;
 
+
 	currentTime = Timer::Get()->GetRunTime();
+	hitCheckCollider->pos = { pos.x,pos.y - 60 };
+
+	char buff[100];
+	sprintf_s(buff, "플레이어 위치 X : %f,  Y : %f\n",pos.x, pos.y);
+	OutputDebugStringA(buff);
+
 
 	Move();
 	Run();
@@ -63,6 +73,7 @@ void Gunner::Update()
 	}
 
 	collider->Update();
+	hitCheckCollider->Update();
 	UpdateWorld();
 
 	//effect->Update();
@@ -80,6 +91,7 @@ void Gunner::Render()
 	}
 
 	collider->Render();
+	hitCheckCollider->Render();
 
 	SetWorldBuffer();
 	sprite->Render();

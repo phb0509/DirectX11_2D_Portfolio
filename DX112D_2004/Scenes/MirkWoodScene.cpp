@@ -30,15 +30,14 @@ MirkWoodScene::MirkWoodScene() : gunner(nullptr), monsterDeathCount(0)
 	upGate = new UpGate();
 	upGate->SetPosition({ 50,300 });
 
-	Vector2 bgLeftBottom = tile->GetSize() * tile->scale * -0.5f;
-	Vector2 bgRightTop = tile->GetSize() * tile->scale * 0.5f;
+	bgLeftBottom = tile->GetSize() * tile->scale * -0.5f;
+	bgRightTop = tile->GetSize() * tile->scale * 0.5f;
 
-	CAMERA->SetLeftBottom(bgLeftBottom);
-	CAMERA->SetRightTop(bgRightTop);
+	//CAMERA->SetLeftBottom(bgLeftBottom);
+	//CAMERA->SetRightTop(bgRightTop);
+	CAMERA->SetTarget(gunner);
 
 	//EffectManager::Get()->Add("whity", 20, L"Textures/Effects/whity_4x4.png", 4, 4, 0.1f, true);
-
-	CAMERA->SetTarget(gunner);
 }
 
 MirkWoodScene::~MirkWoodScene()
@@ -51,7 +50,7 @@ void MirkWoodScene::Update()
 {
 	if (KEY_DOWN(VK_F1))
 	{
-		SCENE->ChangeScene("ElvenGarden");
+		SCENE->ChangeScene("SeriaHouse");
 	}
 
 	//if (KEY_DOWN(VK_LBUTTON))
@@ -95,9 +94,13 @@ void MirkWoodScene::PostRender()
 
 void MirkWoodScene::Start()
 {
+	gunner->pos = { 48,100 };
+	CAMERA->SetLeftBottom(bgLeftBottom);
+	CAMERA->SetRightTop(bgRightTop);
 	UM->set_IsRender_MonsterHPbar(true);
 
 	gunner->Reactivation();
+
 	for (int i = 0; i < monsters.size(); i++)
 	{
 		monsters[i]->Reactivation();

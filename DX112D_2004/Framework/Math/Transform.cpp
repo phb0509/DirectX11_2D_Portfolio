@@ -43,4 +43,8 @@ void Transform::SetWorldBuffer(UINT slot)
 Vector2 Transform::WorldPos()
 {
 	return Vector2::TransformCoord(pos, matrix);
+
+	//Float4x4 temp;
+	//XMStoreFloat4x4(&temp, matrix);
+	//return Vector2(temp._41, temp._42);
 }

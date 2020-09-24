@@ -197,6 +197,7 @@
     <ClInclude Include="Object\BasicObject\QuadMesh.h" />
     <ClInclude Include="Object\BasicObject\Sprite.h" />
     <ClInclude Include="Object\GameObject\ElvenGardenObject\Brazier.h" />
+    <ClInclude Include="Object\GameObject\ElvenGardenObject\Linus.h" />
     <ClInclude Include="Object\GameObject\GameManager.h" />
     <ClInclude Include="Object\GameObject\Gunner\Bullet.h" />
     <ClInclude Include="Object\GameObject\Gunner\Gunner.h" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Scenes\ElvenGardenScene.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\MirkWoodScene.h" />
+    <ClInclude Include="Scenes\SeriaHouseScene.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -261,6 +263,7 @@
     <ClCompile Include="Object\BasicObject\QuadMesh.cpp" />
     <ClCompile Include="Object\BasicObject\Sprite.cpp" />
     <ClCompile Include="Object\GameObject\ElvenGardenObject\Brazier.cpp" />
+    <ClCompile Include="Object\GameObject\ElvenGardenObject\Linus.cpp" />
     <ClCompile Include="Object\GameObject\GameManager.cpp" />
     <ClCompile Include="Object\GameObject\Gunner\Bullet.cpp" />
     <ClCompile Include="Object\GameObject\Gunner\Gunner.cpp" />
@@ -272,6 +275,7 @@
     <ClCompile Include="Program\Program.cpp" />
     <ClCompile Include="Scenes\ElvenGardenScene.cpp" />
     <ClCompile Include="Scenes\MirkWoodScene.cpp" />
+    <ClCompile Include="Scenes\SeriaHouseScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX112D_2004.rc" />

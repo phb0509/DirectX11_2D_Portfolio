@@ -2,10 +2,13 @@
 
 
 
-Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos) : moveCheckTimeafterPlayerDeath(0.0f), trigger_CheckPlayerDeath(true), trigger_MoveAfterPlayerDeath(false)
+Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos) : moveCheckTimeafterPlayerDeath(0.0f), trigger_CheckPlayerDeath(true), trigger_MoveAfterPlayerDeath(false),
+											   isPossibleHitState(false)
 {
 	sprite = new Sprite();
-	collider = new RectCollider({ 118, 116 }, this);
+	collider = new RectCollider({ 118, 108 }, this);
+	colliderBottom = 
+
 
 	attackCollider = new RectCollider({ 50,90 });
 	attackCollider->isActive = false;
@@ -42,6 +45,12 @@ void Gnoll_Mirkwood::Update()
 	{
 		attackCollider->pos = pos + Vector2(-90, -20);
 	}
+
+	CheckIsPossibleHitState();
+
+	char buff[100];
+	sprintf_s(buff, "죽을 준비 : %d\n", isPossibleHitState);
+	OutputDebugStringA(buff);
 
 
 	CheckPlayerDeath();
@@ -85,7 +94,7 @@ void Gnoll_Mirkwood::Render()
 	SetWorldBuffer();
 	sprite->Render();
 
-	//collider->Render();
+	collider->Render();
 }
 
 void Gnoll_Mirkwood::Attack()
@@ -307,6 +316,19 @@ void Gnoll_Mirkwood::CheckAttackRange() // SMASHATTACK 체크.
 void Gnoll_Mirkwood::AttackEnd()
 {
 	isAttack = false;
+}
+
+void Gnoll_Mirkwood::CheckIsPossibleHitState()
+{
+	if (pos.y < gunner->GetGunnerHitCheckColliderSize()+ 15.0f &&
+		pos.y > gunner->GetGunnerHitCheckColliderSize()- 15.0f)
+	{
+		isPossibleHitState = true;
+	}
+	else
+	{
+		isPossibleHitState = false;
+	}
 }
 
 void Gnoll_Mirkwood::CheckPlayerDeath()

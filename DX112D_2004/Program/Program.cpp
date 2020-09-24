@@ -2,7 +2,7 @@
 
 #include "Scenes/MirkWoodScene.h"
 #include "Scenes/ElvenGardenScene.h"
-
+#include "Scenes/SeriaHouseScene.h"
 
 
 Program::Program()
@@ -10,8 +10,9 @@ Program::Program()
 	//scene = new MirkWoodScene();
 	SCENE->Add("ElvenGarden", new ElvenGardenScene());
 	SCENE->Add("Mirkwood", new MirkWoodScene());
+	SCENE->Add("SeriaHouse", new SeriaHouseScene());
 
-	SCENE->ChangeScene("ElvenGarden");
+	SCENE->ChangeScene("SeriaHouse");
 }
 
 Program::~Program()

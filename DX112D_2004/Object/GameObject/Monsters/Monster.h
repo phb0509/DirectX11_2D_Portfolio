@@ -22,6 +22,7 @@ public:
 	virtual void Reactivation() = 0;
 	virtual void CheckAttackRange() = 0;
 	virtual void AttackEnd() = 0;
+	virtual void CheckIsPossibleHitState() = 0;
 	
 
 
@@ -43,6 +44,7 @@ protected:
 	float hitRecovery;
 	float deadTime;
 	float damage;
+	float colliderBottom;
 
 	bool isRight;
 	bool isDie;

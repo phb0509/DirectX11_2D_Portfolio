@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:47e3a016ebbab9b94d98d0f2d423e751:5b602169b4ca692bf275d20c57266379:b46ef885aee0ee43e1881b002b3cdbd1$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="Door.png" width="1850" height="79">
+    <sprite n="0.png" x="1" y="1" w="183" h="77" pX="0.5" pY="0.5"/>
+    <sprite n="1.png" x="186" y="1" w="183" h="77" pX="0.5" pY="0.5"/>
+    <sprite n="2.png" x="371" y="1" w="183" h="77" pX="0.5" pY="0.5"/>
+    <sprite n="3.png" x="556" y="1" w="183" h="77" pX="0.5" pY="0.5"/>
+    <sprite n="4.png" x="741" y="1" w="183" h="77" pX="0.5" pY="0.5"/>
+    <sprite n="5.png" x="926" y="1" w="183" h="77" pX="0.5" pY="0.5"/>
+    <sprite n="6.png" x="1111" y="1" w="183" h="77" pX="0.5" pY="0.5"/>
+    <sprite n="7.png" x="1296" y="1" w="183" h="77" pX="0.5" pY="0.5"/>
+    <sprite n="8.png" x="1481" y="1" w="183" h="77" pX="0.5" pY="0.5"/>
+    <sprite n="9.png" x="1666" y="1" w="183" h="77" pX="0.5" pY="0.5"/>
+</TextureAtlas>

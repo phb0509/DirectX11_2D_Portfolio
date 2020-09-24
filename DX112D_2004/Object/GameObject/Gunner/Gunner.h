@@ -46,20 +46,22 @@ public:
 
 	void SetPosition(Vector2 _pos) { pos = _pos; };
 	void SetIdle();
-	
+
 	Collider* GetGunnerCollider() { return collider; }
 	bool GetIsDie() { return isDie; }
+	float GetGunnerHitCheckColliderSize() { return hitCheckColliderHeight; }
 
 	void Test();
 	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
 	void SetAction(ActionType type);
 
 private:
-	
+
 	Sprite* sprite;
 	vector<Action*> actions;
 	ActionType curAction;
 	Collider* collider;
+	Collider* hitCheckCollider;
 
 	vector<Bullet*> gunner_bullets;
 	Bullet* bullet;
@@ -68,9 +70,11 @@ private:
 
 	float maxHP;
 	float currentHP;
-	
+
 	float maxMP;
 	float currentMP;
+	float hitCheckColliderHeight;
+
 
 	float walkSpeed; // WALK 애니메이션 실행 시 이동속도.
 	float runSpeed; // RUN 애니메이션 실행 시 이동속도.
@@ -78,7 +82,7 @@ private:
 	float gravity;
 	float hitRecovery;
 
-	bool isRight; 
+	bool isRight;
 	bool isRightRun; // 오른쪽대쉬 상태인가?
 	bool isLeftRun; // 왼쪽대쉬 상태인가?
 	bool onDamageDir;

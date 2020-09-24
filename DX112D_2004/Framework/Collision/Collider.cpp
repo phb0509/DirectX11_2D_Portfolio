@@ -24,6 +24,7 @@ void Collider::Update()
         Matrix R = XMMatrixRotationZ(target->rot.z);
         Vector2 tempOffset = Vector2::TransformCoord(offset, R);
         pos = target->pos + tempOffset;
+        //pos = target->WorldPos() + tempOffset;
     }
 
     UpdateWorld();

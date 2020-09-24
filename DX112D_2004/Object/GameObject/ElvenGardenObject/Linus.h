@@ -1,16 +1,16 @@
 #pragma once
 
-class Brazier : public Transform
+class Linus : public Transform
 {
 public:
 	enum ActionType
 	{
-		IDLE = 0,
+		IDLE,
 	};
 
 
-	Brazier();
-	~Brazier();
+	Linus();
+	~Linus();
 
 	void Update();
 	void Render();
@@ -22,6 +22,9 @@ private:
 	Sprite* sprite;
 	vector<Action*> actions;
 	ActionType curAction;
-	
+	Collider* collider;
+
 	bool isRight;
+
 };
+
