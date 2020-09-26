@@ -9,10 +9,14 @@ public:
 		IDLE = 0,
 		WALK,
 		RUN,
+
+
 		FIRSTSHOT,
 		COMBOSHOT,
 		LASTSHOT,
 		FINISHMOTION,
+
+
 		ONDAMAGE,
 		ONDAMAGE1,
 		DIE,
@@ -50,6 +54,7 @@ public:
 	Collider* GetGunnerCollider() { return collider; }
 	bool GetIsDie() { return isDie; }
 	float GetGunnerHitCheckColliderSize() { return hitCheckColliderHeight; }
+	float GetGunnerBottom() { return pos.y - 60; }
 
 	void Test();
 	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);

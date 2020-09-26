@@ -21,6 +21,7 @@ Gunner::Gunner()
 		bullet = new Bullet();
 		gunner_bullets.emplace_back(bullet);
 	}
+
 }
 
 Gunner::~Gunner()
@@ -42,14 +43,8 @@ void Gunner::Update()
 {
 	if (!isActive) return;
 
-
 	currentTime = Timer::Get()->GetRunTime();
 	hitCheckCollider->pos = { pos.x,pos.y - 60 };
-
-	char buff[100];
-	sprintf_s(buff, "플레이어 위치 X : %f,  Y : %f\n",pos.x, pos.y);
-	OutputDebugStringA(buff);
-
 
 	Move();
 	Run();
@@ -336,6 +331,16 @@ void Gunner::Run()
 
 
 
+
+
+
+
+
+
+
+
+
+
 void Gunner::Attack()
 {
 	if (isComboShotEndTrigger == true)
@@ -365,7 +370,6 @@ void Gunner::Attack()
 	if (curAction == LASTSHOT ||
 		curAction == FINISHMOTION) return;
 
-
 	if (KEY_DOWN('X'))
 	{
 		maxAttackTime = currentTime + 0.4f;
@@ -375,23 +379,19 @@ void Gunner::Attack()
 			isFirstAttack = true;
 			SetAction(FIRSTSHOT); // EndEvent(FirstFire())
 		}
-
 		else if (isFirstAttack && comboAttackCount <= 4)
 		{
 			comboAttackCount++;
 			SetAction(COMBOSHOT);
 			Fire();
 		}
-
 		else if (comboAttackCount == 5)
 		{
 			comboAttackCount = 0;
 			SetAction(LASTSHOT); // EndEvent(SecondFire());
 		}
 	}
-
 }
-
 
 bool Gunner::CheckAttackInterval()
 {
@@ -412,12 +412,6 @@ void Gunner::Shot()
 	}
 }
 
-void Gunner::Jump()
-{
-
-
-}
-
 void Gunner::Fire()
 {
 	Shot();
@@ -435,13 +429,21 @@ void Gunner::SecondFire()
 	Shot();
 }
 
-void Gunner::ComboShotEnd()
+void Gunner::ComboShotEnd() // 콤보샷 애니메이션 실행 후 실행되는 함수.
 {
 	maxAttackTime = currentTime + 0.25f;
 	isComboShotEndTrigger = true;
 }
 
 
+
+
+
+void Gunner::Jump()
+{
+
+
+}
 
 void Gunner::SetIdle()
 {

@@ -3,11 +3,11 @@
 
 
 Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos) : moveCheckTimeafterPlayerDeath(0.0f), trigger_CheckPlayerDeath(true), trigger_MoveAfterPlayerDeath(false),
-											   isPossibleHitState(false)
+isPossibleHitState(false)
 {
 	sprite = new Sprite();
 	collider = new RectCollider({ 118, 108 }, this);
-	colliderBottom = 
+
 
 
 	attackCollider = new RectCollider({ 50,90 });
@@ -37,14 +37,17 @@ void Gnoll_Mirkwood::Update()
 
 	gunner = GM->GetGunner();
 
-	if (isRight)
-	{
-		attackCollider->pos = pos + Vector2(90, -20);
-	}
-	else
-	{
-		attackCollider->pos = pos + Vector2(-90, -20);
-	}
+	if (isRight) { attackCollider->pos = pos + Vector2(90, -20); }
+	else { attackCollider->pos = pos + Vector2(-90, -20); }
+
+	colliderBottom = pos.y - 54;
+
+	//char buff[100];
+	//sprintf_s(buff, " collider Y : %f, colliderBottom  : %f\n", collider->pos.y,colliderBottom);
+	//OutputDebugStringA(buff);
+
+
+
 
 	CheckIsPossibleHitState();
 
@@ -120,11 +123,10 @@ void Gnoll_Mirkwood::Attack()
 					{
 						gunner->OnDamage(damage, false);
 					}
-					else if(gunner->pos.x > pos.x)
+					else if (gunner->pos.x > pos.x)
 					{
 						gunner->OnDamage(damage, true);
 					}
-						
 				}
 			}
 		}
@@ -163,8 +165,7 @@ void Gnoll_Mirkwood::Move()
 			pos.y -= speed * DELTA;
 		}
 
-		if (gunner->pos.y + 2.0f > pos.y &&
-			gunner->pos.y - 2.0f <= pos.y)
+		if (isPossibleHitState)
 		{
 			isAttack = true;
 		}
@@ -318,10 +319,10 @@ void Gnoll_Mirkwood::AttackEnd()
 	isAttack = false;
 }
 
-void Gnoll_Mirkwood::CheckIsPossibleHitState()
+void Gnoll_Mirkwood::CheckIsPossibleHitState() // GetGunnerHitCheckColliderSize()는 13임.. 규격크기.
 {
-	if (pos.y < gunner->GetGunnerHitCheckColliderSize()+ 15.0f &&
-		pos.y > gunner->GetGunnerHitCheckColliderSize()- 15.0f)
+	if (colliderBottom <= gunner->GetGunnerBottom() + gunner->GetGunnerHitCheckColliderSize() &&
+		colliderBottom > gunner->GetGunnerBottom() - gunner->GetGunnerHitCheckColliderSize())
 	{
 		isPossibleHitState = true;
 	}
