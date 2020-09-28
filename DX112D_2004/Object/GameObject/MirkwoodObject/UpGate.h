@@ -17,5 +17,8 @@ private:
 	Quad* effect_BossGate;
 
 	bool isEffectTrigger_BossGate;
+	float alphaValue;
+	float dir;
+	FloatBuffer* floatBuffer;
 };
 

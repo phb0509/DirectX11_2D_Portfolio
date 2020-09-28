@@ -1,6 +1,14 @@
 Texture2D map : register(t0);
 SamplerState samp : register(s0);
 
+
+cbuffer Info : register(b1)
+{
+    float alphaValue;
+}
+
+
+
 struct PixelInput
 {
     float4 pos : SV_Position;
@@ -9,5 +17,12 @@ struct PixelInput
 
 float4 PS(PixelInput input) : SV_TARGET
 {
-    return map.Sample(samp, input.uv);
+    float4 test = map.Sample(samp, input.uv);
+    
+    if (test.a > 0.0f)
+    {
+        test.a = alphaValue;
+    }
+    
+    return test;
 }

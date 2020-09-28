@@ -1,7 +1,7 @@
 #include "Framework.h"
 
 Bullet::Bullet() : 
-	curAction(IDLE), isRight(true), speed(700), damage(1000), disabledDistance(0)
+	curAction(IDLE), isRight(true), speed(700), damage(10000), disabledDistance(0), isUpShot(true)
 {
 	pos = { 0, 0 };
 	sprite = new Sprite();
@@ -13,8 +13,10 @@ Bullet::Bullet() :
 	string path = "Textures/Gunner/";
 	LoadAction(path, "BULLET.xml", Action::PINGPONG, 0.1f);
 
-	downVector = Vector2(805, -51) - Vector2(763, -29);
-	downVector.Normalize();
+	rightDownVector = Vector2(805, -51) - Vector2(763, -29);
+	rightDownVector.Normalize();
+	
+	leftDownVector = rightDownVector * Vector2(-1.0f, 1.0f);
 
 }
 
@@ -43,15 +45,33 @@ void Bullet::Update(vector<Monster*> monsters)
 
 	if (isRight)
 	{
-		pos.x += speed * DELTA;
-		//rot.z = -0.43f;
-		//pos += downVector * speed * DELTA;
+		if (isUpShot)
+		{
+			rot.z = 0.0f;
+			pos.x += speed * DELTA;
+		}
+		else
+		{
+			rot.z = -0.43f;
+			pos += rightDownVector * speed * DELTA;
+		}
+
 		collider->SetOffset({ 35,0 });
 	}
 
 	else
 	{
-		pos.x -= speed * DELTA;
+		if (isUpShot)
+		{
+			rot.z = 0.0f;
+			pos.x -= speed * DELTA;
+		}
+		else
+		{
+			rot.z = 0.43f;
+			pos += leftDownVector * speed * DELTA;
+		}
+
 		collider->SetOffset({ -35,0 });
 	}
 
@@ -87,20 +107,45 @@ void Bullet::Render()
 	collider->Render();
 }
 
-void Bullet::Fire(Vector2 gunner_position, bool gunner_isRight)
+void Bullet::Fire(Vector2 gunner_position, bool gunner_isRight, bool _isUpShot)
 {
 	isRight = gunner_isRight;
-	pos.y = gunner_position.y + 60;
+	isUpShot = _isUpShot;
+
 
 	if (isRight)
 	{
-		pos.x = gunner_position.x + 40;
-		disabledDistance = pos.x + 500;
+		if (isUpShot)
+		{
+			pos.x = gunner_position.x + 40;
+			pos.y = gunner_position.y + 55;
+			disabledDistance = pos.x + 500;
+		}
+
+		else
+		{
+			pos.x = gunner_position.x + 50;
+			pos.y = gunner_position.y + 22;
+			disabledDistance = pos.x + 165;
+		}
 	}
+
 	else
 	{
-		pos.x = gunner_position.x - 40;
-		disabledDistance = pos.x - 500;
+		if (isUpShot)
+		{
+			pos.x = gunner_position.x - 40;
+			pos.y = gunner_position.y + 55;
+			disabledDistance = pos.x - 500;
+		}
+
+		else
+		{
+			pos.x = gunner_position.x - 50;
+			pos.y = gunner_position.y + 22;
+			disabledDistance = pos.x - 165;
+		}
+
 	}
 
 	isActive = true;

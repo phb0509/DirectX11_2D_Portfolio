@@ -41,20 +41,8 @@ void Gnoll_Mirkwood::Update()
 
 	colliderBottom = pos.y - 54;
 
-	//char buff[100];
-	//sprintf_s(buff, " collider Y : %f, colliderBottom  : %f\n", collider->pos.y,colliderBottom);
-	//OutputDebugStringA(buff);
-
-
-
 
 	CheckIsPossibleHitState();
-
-	char buff[100];
-	sprintf_s(buff, "죽을 준비 : %d\n", isPossibleHitState);
-	OutputDebugStringA(buff);
-
-
 	CheckPlayerDeath();
 	MoveAfterPlayerDeath();
 	CheckDead(); // 안죽었으면 X

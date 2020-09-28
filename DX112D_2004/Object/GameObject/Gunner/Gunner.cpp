@@ -57,11 +57,9 @@ void Gunner::Update()
 	//Jump();
 
 
-	char buff[100];
-	sprintf_s(buff, "mousePos.x : %f, mousePos.y : %f ,  radian : %f \n",mousePos.x,mousePos.y, atan2(mousePos.y - pos.y, mousePos.x - pos.x));
-	OutputDebugStringA(buff);
-
-
+	//char buff[100];
+	//sprintf_s(buff, "mousePos.x : %f, mousePos.y : %f ,  radian : %f \n",mousePos.x,mousePos.y, atan2(mousePos.y - pos.y, mousePos.x - pos.x));
+	//OutputDebugStringA(buff);
 
 	Action::Clip curClip = actions[curAction]->GetCurClip();
 	sprite->SetAction(curClip);
@@ -110,7 +108,10 @@ void Gunner::Render()
 void Gunner::Attack()
 {
 	if (curAction == LASTSHOT ||            // x키연타중이여도 계속 애니메이션 그대로 재생시키게 리턴시켜놨음.
-		curAction == FINISHMOTION) return;
+		curAction == FINISHMOTION ||
+		curAction == DOWNLASTSHOT ||
+		curAction == DOWNFINISHMOTION
+		) return;
 
 	if (isComboShotEndTrigger == true) // 콤보샷 도중인상태에서
 	{
@@ -149,32 +150,39 @@ void Gunner::Attack()
 		{
 			comboAttackCount++;
 			
-
 			if (GetAsyncKeyState(VK_DOWN) & 0x8000)
 			{
 				SetAction(DOWNCOMBOSHOT); // EndEvent(ComboShotEnd());
-				Fire();
-			}
-			else
-			{
-				SetAction(UPCOMBOSHOT); // EndEvent(ComboShotEnd());
+				isUpShot = false;
 				Fire();
 			}
 
+			else
+			{
+				SetAction(UPCOMBOSHOT); // EndEvent(ComboShotEnd());
+				isUpShot = true;
+				Fire();
+			}
 		}
+
 		else if (comboAttackCount == 5)
 		{
 			comboAttackCount = 0;
 
 			if (GetAsyncKeyState(VK_DOWN) & 0x8000)
 			{
-
+				isUpShot = false;
+				SetAction(DOWNLASTSHOT);
+				char buff[100];
+				sprintf_s(buff, "다운 라스트샷\n");
+				OutputDebugStringA(buff);
 			}
+
 			else
 			{
+				isUpShot = true;
 				SetAction(LASTSHOT); // EndEvent(SecondFire());
 			}
-		
 		}
 	}
 }
@@ -192,7 +200,7 @@ void Gunner::Shot()
 	{
 		if (gunner_bullets[i]->isActive == false)
 		{
-			gunner_bullets[i]->Fire(pos, isRight);
+			gunner_bullets[i]->Fire(pos, isRight, isUpShot); // 플레이어 위치만 넘겨주니까 업,다운샷 여부에 따른 위치조정은 불렛에서 처리하기.
 			break;
 		}
 	}
@@ -205,13 +213,17 @@ void Gunner::Fire()
 
 void Gunner::FirstFire() // 
 {
-	SetAction(UPCOMBOSHOT);
+	if (isUpShot) SetAction(UPCOMBOSHOT);
+	else SetAction(DOWNCOMBOSHOT);
+
 	Shot();
 }
 
 void Gunner::SecondFire()
 {
-	SetAction(FINISHMOTION);
+	if (isUpShot) SetAction(FINISHMOTION);
+	else SetAction(DOWNFINISHMOTION);
+
 	Shot();
 }
 
@@ -237,8 +249,8 @@ void Gunner::InitMotion()
 	LoadAction(path, "UPCOMBOSHOT.xml", Action::END);
 	LoadAction(path, "LASTSHOT.xml", Action::END, 0.07);
 	LoadAction(path, "FINISHMOTION.xml", Action::END);
-	// 아래쪽 총알발사모션.
 
+	// 아래쪽 총알발사모션.
 	LoadAction(path, "DOWNCOMBOSHOT.xml", Action::END);
 	LoadAction(path, "DOWNLASTSHOT.xml", Action::END, 0.07);
 	LoadAction(path, "DOWNFINISHMOTION.xml", Action::END);
@@ -254,7 +266,10 @@ void Gunner::InitMotion()
 	actions[DOWNCOMBOSHOT]->SetEndEvent(bind(&Gunner::ComboShotEnd, this));
 
 	actions[LASTSHOT]->SetEndEvent(bind(&Gunner::SecondFire, this));
+	actions[DOWNLASTSHOT]->SetEndEvent(bind(&Gunner::SecondFire, this));
+
 	actions[FINISHMOTION]->SetEndEvent(bind(&Gunner::SetIdle, this));
+	actions[DOWNFINISHMOTION]->SetEndEvent(bind(&Gunner::SetIdle, this));
 
 
 

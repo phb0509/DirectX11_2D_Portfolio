@@ -63,6 +63,11 @@ void MirkWoodScene::Update()
 	gunner->Update();
 	upGate->Update();
 	
+	CheckMonsterDeath();
+	char buff[100];
+	sprintf_s(buff, "%d\n",monsterDeathCount);
+	OutputDebugStringA(buff);
+
 	sort(monsters.begin(), monsters.end(), compare);
 
 	for (int i = 0; i < monsters.size(); i++)
@@ -79,7 +84,6 @@ void MirkWoodScene::Render()
 	tile->Render();
 	upGate->Render();
 	gunner->Render();
-
 
 
 	for (int i = 0; i < monsters.size(); i++)
@@ -100,6 +104,7 @@ void MirkWoodScene::Start()
 	UM->set_IsRender_MonsterHPbar(true);
 
 	gunner->Reactivation();
+	upGate->SetGateEffectTrigger(false);
 
 	for (int i = 0; i < monsters.size(); i++)
 	{

@@ -10,7 +10,6 @@ public:
 		WALK,
 		RUN,
 
-
 		FIRSTSHOT,
 		UPCOMBOSHOT,
 		LASTSHOT,
@@ -18,8 +17,7 @@ public:
 
 		DOWNCOMBOSHOT,
 		DOWNLASTSHOT,
-		DOWNFINISHOMOTION,
-
+		DOWNFINISHMOTION,
 
 		ONDAMAGE,
 		ONDAMAGE1,
@@ -37,10 +35,12 @@ public:
 	void Run();
 	void Attack();
 	void Jump();
+
 	void Fire();
 	void FirstFire();
 	void SecondFire();
 	void ComboShotEnd();
+
 	void InitMotion();
 	void OnDamage(float damage, bool onDamageDir);
 	void Die();
@@ -119,9 +119,7 @@ private:
 
 
 	Vector2 attackOffset;
-
 	Effect* effect;
-
 	IntBuffer* intBuffer;
 	ColorBuffer* colorBuffer;
 };

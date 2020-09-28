@@ -18,7 +18,7 @@ public:
 	void Update(vector<Monster*> monsters);
 	void Render();
 
-	void Fire(Vector2 gunner_position, bool gunner_isRight);
+	void Fire(Vector2 gunner_position, bool gunner_isRight, bool isUpShot);
 	void CheckDisabledTime();
 
 	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
@@ -31,7 +31,8 @@ private:
 	vector<Action*> actions;
 	ActionType curAction;
 
-	Vector2 downVector;
+	Vector2 rightDownVector;
+	Vector2 leftDownVector;
 	
 
 
@@ -39,6 +40,7 @@ private:
 	float disabledDistance;
 	bool isRight;
 	double speed;
+	bool isUpShot;
 
 };
 
