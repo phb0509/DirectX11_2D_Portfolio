@@ -2,8 +2,7 @@
 
 
 
-Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos) : moveCheckTimeafterPlayerDeath(0.0f), trigger_CheckPlayerDeath(true), trigger_MoveAfterPlayerDeath(false),
-isPossibleHitState(false)
+Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos) : moveCheckTimeafterPlayerDeath(0.0f), trigger_CheckPlayerDeath(true), trigger_MoveAfterPlayerDeath(false)
 {
 	sprite = new Sprite();
 	collider = new RectCollider({ 118, 108 }, this);

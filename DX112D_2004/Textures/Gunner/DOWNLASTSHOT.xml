@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:f2602cef93d5b375d32c45d8a317e604:8aa148ed25add0fb506db4c1c6238f96:b5f87176971e567709a50781b29e0f56$ -->
+<!-- $TexturePacker:SmartUpdate:bde237c452f2667560964cde4645b3d8:40e62296180ec3dad7593d37dc96f67f:67bd69ff8887dd5b84cc0e3e91fedecb$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,7 +19,12 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="FIRSTSHOT.png" width="168" height="127">
-    <sprite n="FF.png" x="1" y="1" w="69" h="123" pX="0.5" pY="0.5"/>
-    <sprite n="MIDDLEATTACK_02.png" x="72" y="1" w="95" h="125" pX="0.5" pY="0.5"/>
+<TextureAtlas imagePath="DOWNLASTSHOT.png" width="110" height="864">
+    <sprite n="DOWNLASTSHOT_01.png" x="1" y="1" w="91" h="145" pX="0.5" pY="0.5"/>
+    <sprite n="DOWNLASTSHOT_02.png" x="1" y="148" w="91" h="145" pX="0.5" pY="0.5"/>
+    <sprite n="DOWNLASTSHOT_03.png" x="1" y="295" w="91" h="145" pX="0.5" pY="0.5"/>
+    <sprite n="DOWNLASTSHOT_04.png" x="1" y="442" w="61" h="142" pX="0.5" pY="0.5"/>
+    <sprite n="DOWNLASTSHOT_05.png" x="1" y="586" w="47" h="155" pX="0.5" pY="0.5"/>
+    <sprite n="DOWNLASTSHOT_06.png" x="50" y="586" w="47" h="161" pX="0.5" pY="0.5"/>
+    <sprite n="DOWNLASTSHOT_07.png" x="1" y="749" w="108" h="114" pX="0.5" pY="0.5"/>
 </TextureAtlas>

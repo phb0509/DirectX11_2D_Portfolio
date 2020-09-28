@@ -36,8 +36,8 @@ public:
 	void CheckPlayerDeath();
 	void MoveAfterPlayerDeath();
 
-	////Get
-	//Collider* GetCollider() { return collider; }
+	//Get
+
 	
 
 	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);
@@ -58,7 +58,7 @@ private:
 
 	bool trigger_CheckPlayerDeath;
 	bool trigger_MoveAfterPlayerDeath;
-	bool isPossibleHitState;
+
 
 };
 

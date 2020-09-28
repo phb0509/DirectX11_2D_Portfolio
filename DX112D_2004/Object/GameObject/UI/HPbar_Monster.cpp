@@ -27,8 +27,7 @@ void HPbar_Monster::Update()
 {
 	if (trigger_UpdateHP)
 	{
-		if (front_HPbar->scale.x >= lerpEnd &&
-			front_HPbar->scale.x < lerpEnd + 0.001f)
+		if (front_HPbar->scale.x <= lerpEnd)
 		{
 			trigger_UpdateHP = false;
 		}
@@ -50,8 +49,7 @@ void HPbar_Monster::Update()
 		front_HPbar->scale.x = 0.0f;
 	}
 	 
-	back_HPbar->pos.x = 450.0f;
-	back_HPbar->pos.y = 500.0f;
+	back_HPbar->pos = { 450,500 };
 	
 	float tmp = front_HPbar->GetSize().x * reductionSum;
 
@@ -65,6 +63,13 @@ void HPbar_Monster::Update()
 	dead_HPbar->Update();
 }
 
+void HPbar_Monster::UpdateHPbar(float beforeHP, float afterHP)
+{
+	trigger_UpdateHP = true;
+	lerpStart = beforeHP / maxHP;  
+	lerpEnd = afterHP / maxHP;    
+}
+
 void HPbar_Monster::Render()
 {
 	if (isHPbarDead) return;
@@ -72,14 +77,7 @@ void HPbar_Monster::Render()
 	back_HPbar->Render();
 	front_HPbar->Render();
 
-	if(isMonsterDead) dead_HPbar->Render();
-}
-
-void HPbar_Monster::UpdateHPbar(float beforeHP, float afterHP)
-{
-	trigger_UpdateHP = true;
-	lerpStart = beforeHP / maxHP;  
-	lerpEnd = afterHP / maxHP;    
+	if (isMonsterDead) dead_HPbar->Render();
 }
 
 void HPbar_Monster::SetHPbarDead()

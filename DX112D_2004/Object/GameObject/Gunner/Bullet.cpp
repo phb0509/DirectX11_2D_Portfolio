@@ -13,6 +13,9 @@ Bullet::Bullet() :
 	string path = "Textures/Gunner/";
 	LoadAction(path, "BULLET.xml", Action::PINGPONG, 0.1f);
 
+	downVector = Vector2(805, -51) - Vector2(763, -29);
+	downVector.Normalize();
+
 }
 
 Bullet::~Bullet()
@@ -41,6 +44,8 @@ void Bullet::Update(vector<Monster*> monsters)
 	if (isRight)
 	{
 		pos.x += speed * DELTA;
+		//rot.z = -0.43f;
+		//pos += downVector * speed * DELTA;
 		collider->SetOffset({ 35,0 });
 	}
 
@@ -55,16 +60,20 @@ void Bullet::Update(vector<Monster*> monsters)
 
 	for (int i = 0; i < monsters.size(); i++)
 	{
-		if (monsters[i]->GetColliderIsActive()) // 몬스터 컬라이더의 isActive 체크.
+		if (monsters[i]->GetIsPossibleHitState())
 		{
-			if (collider->IsCollision(monsters[i]->GetCollider())) // 총알과 몬스터 컬라이더의 충돌여부.
+			if (monsters[i]->GetColliderIsActive()) // 몬스터 컬라이더의 isActive 체크.
 			{
-				monsters[i]->OnDamage(damage);
-				isActive = false;
-				collider->isActive = false;
-				break;
+				if (collider->IsCollision(monsters[i]->GetCollider())) // 총알과 몬스터 컬라이더의 충돌여부.
+				{
+					monsters[i]->OnDamage(damage);
+					isActive = false;
+					collider->isActive = false;
+					break;
+				}
 			}
 		}
+		
 	}
 }
 

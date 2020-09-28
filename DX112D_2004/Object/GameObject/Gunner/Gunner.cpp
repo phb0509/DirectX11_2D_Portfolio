@@ -4,7 +4,7 @@ Gunner::Gunner()
 	: currentTime(0.0f), walkSpeed(250), runSpeed(600), jumpPower(0), gravity(980.0f), curAction(IDLE), attackOffset(100, 0), isDie(false), hitRecovery(0.3f),deadTime(0.0f),
 	isRight(true), isAttack(false), isJump(false), isRightRun(false), isLeftRun(false), rightRunCheckTime(0.0f), leftRunCheckTime(0.0f), trigger_Move(true), trigger_AfterOnDamage(false),
 	isFirstAttack(false), comboAttackCount(0), maxAttackTime(0), isComboShotEndTrigger(false) , maxHP(10000), maxMP(2000),isOnDamage(false), onDamageStateCheckTime(0.0f), onDamageDir(false),
-	hitCheckColliderHeight(13.0f)
+	hitCheckColliderHeight(13.0f),isUpShot(true)
 {
 	currentHP = maxHP;
 	currentMP = maxMP;
@@ -12,6 +12,8 @@ Gunner::Gunner()
 	pos = { 0, 0 };
 	collider = new RectCollider({ 80,120 }, this);
 	hitCheckCollider = new RectCollider({ 80, hitCheckColliderHeight * 2});
+
+
 	InitMotion();
 
 
@@ -51,8 +53,15 @@ void Gunner::Update()
 	Attack();
 	CheckOnDamage();
 	CheckDead();
-
+	
 	//Jump();
+
+
+	char buff[100];
+	sprintf_s(buff, "mousePos.x : %f, mousePos.y : %f ,  radian : %f \n",mousePos.x,mousePos.y, atan2(mousePos.y - pos.y, mousePos.x - pos.x));
+	OutputDebugStringA(buff);
+
+
 
 	Action::Clip curClip = actions[curAction]->GetCurClip();
 	sprite->SetAction(curClip);
@@ -67,9 +76,14 @@ void Gunner::Update()
 		gunner_bullets[i]->Update(GM->GetMirkwoodMonsters());
 	}
 
+
 	collider->Update();
 	hitCheckCollider->Update();
 	UpdateWorld();
+
+	//char buff[100];
+	//sprintf_s(buff, "isAttack : %d\n",isAttack);
+	//OutputDebugStringA(buff);
 
 	//effect->Update();
 }
@@ -93,6 +107,175 @@ void Gunner::Render()
 	//effect->Render();
 }
 
+void Gunner::Attack()
+{
+	if (curAction == LASTSHOT ||            // x키연타중이여도 계속 애니메이션 그대로 재생시키게 리턴시켜놨음.
+		curAction == FINISHMOTION) return;
+
+	if (isComboShotEndTrigger == true) // 콤보샷 도중인상태에서
+	{
+		if (!CheckAttackInterval()) // 
+		{
+			SetAction(IDLE);
+			isComboShotEndTrigger = false;
+			isAttack = false;
+			isFirstAttack = false;
+			comboAttackCount = 0;
+		}
+	}
+
+	if (CheckAttackInterval()) // 마지막 공격끝난지 별로 안됐으면 공격상태유지.
+	{
+		isAttack = true;
+	}
+
+	else // 마지막 공격 끝난지 일정시간 지났으면 공격상태 해제, 다시 첫공격부터시작.
+	{
+		isAttack = false;
+		isFirstAttack = false;
+		comboAttackCount = 0;
+	}
+
+	if (KEY_DOWN('X'))
+	{
+		maxAttackTime = currentTime + 0.4f;
+
+		if (!isFirstAttack && comboAttackCount == 0)
+		{
+			isFirstAttack = true;
+			SetAction(FIRSTSHOT); // EndEvent(FirstFire())
+		}
+		else if (isFirstAttack && comboAttackCount <= 4)
+		{
+			comboAttackCount++;
+			
+
+			if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+			{
+				SetAction(DOWNCOMBOSHOT); // EndEvent(ComboShotEnd());
+				Fire();
+			}
+			else
+			{
+				SetAction(UPCOMBOSHOT); // EndEvent(ComboShotEnd());
+				Fire();
+			}
+
+		}
+		else if (comboAttackCount == 5)
+		{
+			comboAttackCount = 0;
+
+			if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+			{
+
+			}
+			else
+			{
+				SetAction(LASTSHOT); // EndEvent(SecondFire());
+			}
+		
+		}
+	}
+}
+
+bool Gunner::CheckAttackInterval()
+{
+	if (currentTime <= maxAttackTime) return true; // 아직 공격중이면
+	else return false;
+}
+
+
+void Gunner::Shot()
+{
+	for (int i = 0; i < gunner_bullets.size(); i++)
+	{
+		if (gunner_bullets[i]->isActive == false)
+		{
+			gunner_bullets[i]->Fire(pos, isRight);
+			break;
+		}
+	}
+}
+
+void Gunner::Fire()
+{
+	Shot();
+}
+
+void Gunner::FirstFire() // 
+{
+	SetAction(UPCOMBOSHOT);
+	Shot();
+}
+
+void Gunner::SecondFire()
+{
+	SetAction(FINISHMOTION);
+	Shot();
+}
+
+void Gunner::ComboShotEnd() // 콤보샷 애니메이션 실행 후 실행되는 함수.
+{
+	maxAttackTime = currentTime + 0.25f;
+	isComboShotEndTrigger = true;
+}
+
+
+void Gunner::InitMotion()
+{
+	sprite = new Sprite();
+	string path = "Textures/Gunner/";
+
+	//LoadAction(path, "IDLE.xml", Action::PINGPONG, 0.15f);
+	LoadAction(path, "IDLE.xml", Action::PINGPONG, 0.15f);
+	LoadAction(path, "WALK.xml", Action::LOOP);
+	LoadAction(path, "RUN.xml", Action::LOOP);
+
+	// 정면 총알발사모션.
+	LoadAction(path, "FIRSTSHOT.xml", Action::END);
+	LoadAction(path, "UPCOMBOSHOT.xml", Action::END);
+	LoadAction(path, "LASTSHOT.xml", Action::END, 0.07);
+	LoadAction(path, "FINISHMOTION.xml", Action::END);
+	// 아래쪽 총알발사모션.
+
+	LoadAction(path, "DOWNCOMBOSHOT.xml", Action::END);
+	LoadAction(path, "DOWNLASTSHOT.xml", Action::END, 0.07);
+	LoadAction(path, "DOWNFINISHMOTION.xml", Action::END);
+
+
+	LoadAction(path, "ONDAMAGE.xml", Action::END);
+	LoadAction(path, "ONDAMAGE1.xml", Action::END);
+	LoadAction(path, "Die.xml", Action::END);
+
+
+	actions[FIRSTSHOT]->SetEndEvent(bind(&Gunner::FirstFire, this));
+	actions[UPCOMBOSHOT]->SetEndEvent(bind(&Gunner::ComboShotEnd, this));
+	actions[DOWNCOMBOSHOT]->SetEndEvent(bind(&Gunner::ComboShotEnd, this));
+
+	actions[LASTSHOT]->SetEndEvent(bind(&Gunner::SecondFire, this));
+	actions[FINISHMOTION]->SetEndEvent(bind(&Gunner::SetIdle, this));
+
+
+
+
+	/*FIRSTSHOT->EndEvent(Fire(1));
+	LASTSHOT->EndEvent(Fire(2));*/
+
+
+	//attackCollider = new RectCollider({ 150, 100 }, this);
+	//attackCollider->isActive = false;
+
+	/*effect = new Effect(L"Textures/Effects/fire_8x2.png", 8, 2);
+	effect->SetAdditive(true);
+
+	intBuffer = new IntBuffer();
+	intBuffer->data.index[2] = 1;
+	colorBuffer = new ColorBuffer();
+	colorBuffer->data.color = Float4(1, 0, 0, 1);*/
+
+}
+
 
 void Gunner::OnDamage(float damage, bool _onDamageDir) 
 {
@@ -108,10 +291,6 @@ void Gunner::OnDamage(float damage, bool _onDamageDir)
 	//hpBar->UpdateHPbar(hp, hp - damage);
 
 	currentHP -= damage;
-
-	char buff[100];
-	sprintf_s(buff, "HP : %f\n", currentHP);
-	OutputDebugStringA(buff);
 
 	if (currentHP <= 0)
 	{
@@ -186,7 +365,6 @@ void Gunner::Reactivation()
 	SetAction(IDLE);
 }
 
-
 void Gunner::Move()
 {
 	if (isDie) return;
@@ -194,8 +372,6 @@ void Gunner::Move()
 	if (isAttack) return;
 	if (!trigger_Move) return;
 	if (isOnDamage) return;
-
-
 
 	if (KEY_PRESS(VK_RIGHT))
 	{
@@ -332,113 +508,6 @@ void Gunner::Run()
 
 
 
-
-
-
-
-
-
-
-
-
-void Gunner::Attack()
-{
-	if (isComboShotEndTrigger == true)
-	{
-		if (CheckAttackInterval())
-		{
-			SetAction(IDLE);
-			isComboShotEndTrigger = false;
-			isAttack = false;
-			isFirstAttack = false;
-			comboAttackCount = 0;
-		}
-	}
-
-	if (CheckAttackInterval())
-	{
-		isAttack = true;
-	}
-
-	else
-	{
-		isAttack = false;
-		isFirstAttack = false;
-		comboAttackCount = 0;
-	}
-
-	if (curAction == LASTSHOT ||
-		curAction == FINISHMOTION) return;
-
-	if (KEY_DOWN('X'))
-	{
-		maxAttackTime = currentTime + 0.4f;
-
-		if (!isFirstAttack && comboAttackCount == 0)
-		{
-			isFirstAttack = true;
-			SetAction(FIRSTSHOT); // EndEvent(FirstFire())
-		}
-		else if (isFirstAttack && comboAttackCount <= 4)
-		{
-			comboAttackCount++;
-			SetAction(COMBOSHOT);
-			Fire();
-		}
-		else if (comboAttackCount == 5)
-		{
-			comboAttackCount = 0;
-			SetAction(LASTSHOT); // EndEvent(SecondFire());
-		}
-	}
-}
-
-bool Gunner::CheckAttackInterval()
-{
-	if (currentTime <= maxAttackTime) return true;
-	else return false;
-}
-
-
-void Gunner::Shot()
-{
-	for (int i = 0; i < gunner_bullets.size(); i++)
-	{
-		if (gunner_bullets[i]->isActive == false)
-		{
-			gunner_bullets[i]->Fire(pos, isRight);
-			break;
-		}
-	}
-}
-
-void Gunner::Fire()
-{
-	Shot();
-}
-
-void Gunner::FirstFire()
-{
-	SetAction(COMBOSHOT);
-	Shot();
-}
-
-void Gunner::SecondFire()
-{
-	SetAction(FINISHMOTION);
-	Shot();
-}
-
-void Gunner::ComboShotEnd() // 콤보샷 애니메이션 실행 후 실행되는 함수.
-{
-	maxAttackTime = currentTime + 0.25f;
-	isComboShotEndTrigger = true;
-}
-
-
-
-
-
 void Gunner::Jump()
 {
 
@@ -448,6 +517,7 @@ void Gunner::Jump()
 void Gunner::SetIdle()
 {
 	SetAction(IDLE);
+	isAttack = false;
 }
 
 
@@ -455,12 +525,12 @@ void Gunner::SetIdle()
 
 void Gunner::SetAction(ActionType type)
 {
-	if (type == COMBOSHOT)
+	if (type == UPCOMBOSHOT || type == DOWNCOMBOSHOT)
 	{
 		curAction = type;
 		actions[curAction]->Play();
-	}
 
+	}
 	else
 	{
 		if (curAction != type)
@@ -508,7 +578,7 @@ void Gunner::Test()
 		break;
 
 	case 4:
-		sprintf_s(buff, " COMBOSHOT \n");
+		sprintf_s(buff, " UPCOMBOSHOT \n");
 		OutputDebugStringA(buff);
 		break;
 
@@ -560,45 +630,3 @@ void Gunner::LoadAction(string path, string file, Action::Type type, float speed
 }
 
 
-
-void Gunner::InitMotion()
-{
-	sprite = new Sprite();
-	string path = "Textures/Gunner/";
-
-	LoadAction(path, "IDLE.xml", Action::PINGPONG, 0.15f);
-	LoadAction(path, "WALK.xml", Action::LOOP);
-	LoadAction(path, "RUN.xml", Action::LOOP);
-
-	// 평타모션 head
-	LoadAction(path, "FIRSTSHOT.xml", Action::END);
-	LoadAction(path, "COMBOSHOT.xml", Action::END);
-	LoadAction(path, "LASTSHOT.xml", Action::END, 0.07);
-	LoadAction(path, "FINISHMOTION.xml", Action::END);
-	// 평타모션 footer
-
-	LoadAction(path, "ONDAMAGE.xml", Action::END);
-	LoadAction(path, "ONDAMAGE1.xml", Action::END);
-	LoadAction(path, "Die.xml", Action::END);
-
-	actions[FIRSTSHOT]->SetEndEvent(bind(&Gunner::FirstFire, this));
-	actions[COMBOSHOT]->SetEndEvent(bind(&Gunner::ComboShotEnd, this));
-	actions[LASTSHOT]->SetEndEvent(bind(&Gunner::SecondFire, this));
-	actions[FINISHMOTION]->SetEndEvent(bind(&Gunner::SetIdle, this));
-
-	/*FIRSTSHOT->EndEvent(Fire(1));
-	LASTSHOT->EndEvent(Fire(2));*/
-
-
-	//attackCollider = new RectCollider({ 150, 100 }, this);
-	//attackCollider->isActive = false;
-
-	/*effect = new Effect(L"Textures/Effects/fire_8x2.png", 8, 2);
-	effect->SetAdditive(true);
-
-	intBuffer = new IntBuffer();
-	intBuffer->data.index[2] = 1;
-	colorBuffer = new ColorBuffer();
-	colorBuffer->data.color = Float4(1, 0, 0, 1);*/
-
-}

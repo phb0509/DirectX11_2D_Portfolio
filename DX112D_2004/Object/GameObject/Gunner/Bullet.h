@@ -30,6 +30,8 @@ private:
 	Sprite* sprite;
 	vector<Action*> actions;
 	ActionType curAction;
+
+	Vector2 downVector;
 	
 
 

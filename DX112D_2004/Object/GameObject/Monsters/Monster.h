@@ -23,7 +23,7 @@ public:
 	virtual void CheckAttackRange() = 0;
 	virtual void AttackEnd() = 0;
 	virtual void CheckIsPossibleHitState() = 0;
-	
+	virtual bool GetIsPossibleHitState() { return isPossibleHitState; }
 
 
 	//Get
@@ -53,6 +53,7 @@ protected:
 	bool isDetectedPlayerInAttackRange;
 	bool isOnDamage;
 	bool isAttackColliderTrigger;
+	bool isPossibleHitState;
 
 	Collider* collider;
 	Collider* attackCollider;

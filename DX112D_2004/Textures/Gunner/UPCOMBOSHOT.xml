@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
-<!-- $TexturePacker:SmartUpdate:96b65a49f1113e564b13a55777ebe4e6:1900b638277c3edd722d8a4313780fe7:000b13b655fb0529814216bd5dd33323$ -->
+<!-- $TexturePacker:SmartUpdate:1e9e50ac1d901ee6e0ca63f0f0f35821:9101ac73ea659a8e51ad439c0f4eb94d:52cdd90067f2cd34527be9e4e31f2c33$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,7 +19,8 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="COMBOSHOT.png" width="124" height="268">
-    <sprite n="COMBOSHOT_01.png" x="1" y="1" w="115" h="139" pX="0.5" pY="0.5"/>
-    <sprite n="COMBOSHOT_02.png" x="1" y="142" w="122" h="125" pX="0.5" pY="0.5"/>
+<TextureAtlas imagePath="UPCOMBOSHOT.png" width="124" height="395">
+    <sprite n="UPCOMBOSHOT_01.png" x="1" y="1" w="122" h="125" pX="0.5" pY="0.5"/>
+    <sprite n="UPCOMBOSHOT_02.png" x="1" y="128" w="115" h="139" pX="0.5" pY="0.5"/>
+    <sprite n="UPCOMBOSHOT_03.png" x="1" y="269" w="122" h="125" pX="0.5" pY="0.5"/>
 </TextureAtlas>

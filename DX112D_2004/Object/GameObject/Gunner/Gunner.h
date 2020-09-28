@@ -12,9 +12,13 @@ public:
 
 
 		FIRSTSHOT,
-		COMBOSHOT,
+		UPCOMBOSHOT,
 		LASTSHOT,
 		FINISHMOTION,
+
+		DOWNCOMBOSHOT,
+		DOWNLASTSHOT,
+		DOWNFINISHOMOTION,
 
 
 		ONDAMAGE,
@@ -42,6 +46,7 @@ public:
 	void Die();
 	void CheckDead();
 	void Reactivation();
+
 
 	bool CheckAttackInterval();
 	void CheckOnDamage();
@@ -110,8 +115,7 @@ private:
 	int count = 0;
 
 	bool isComboShotEndTrigger;
-
-
+	bool isUpShot;
 
 
 	Vector2 attackOffset;
