@@ -16,7 +16,7 @@ ElvenGardenScene::ElvenGardenScene()
 	brazier = new Brazier();
 	brazier->pos = { -150,0 };
 
-
+	int a = 0;
 
 	/*bgLeftBottom = tile->GetSize() * tile->scale * -0.5f;
 	bgRightTop = tile->GetSize() * tile->scale * 0.5f;*/
