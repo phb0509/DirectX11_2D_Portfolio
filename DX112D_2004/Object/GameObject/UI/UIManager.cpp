@@ -3,20 +3,19 @@
 
 UIManager* UIManager::instance = nullptr;
 
-UIManager::UIManager() : current_HPbar_Monster(nullptr) , isRender_MonsterHPbar(false)
+UIManager::UIManager() : current_HPbar_Monster(nullptr), isRender_MonsterHPbar(false)
 {
+	character_Interface = new Character_Interface();
 }
 
 UIManager::~UIManager()
 {
+	delete character_Interface;
 }
 
 void UIManager::Update()
 {
-	//if (current_HPbar_Monster != nullptr) // 몬스터 체력바
-	//{
-	//	current_HPbar_Monster->Update();
-	//}
+	character_Interface->Update();
 }
 
 void UIManager::Render()
@@ -29,6 +28,7 @@ void UIManager::Render()
 		}
 	}
 
+	character_Interface->Render();
 }
 
 void UIManager::Change_MonsterHPbar(HPbar_Monster* _hpBar_Monster)

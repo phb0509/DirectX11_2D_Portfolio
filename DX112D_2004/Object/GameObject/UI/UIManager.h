@@ -1,3 +1,5 @@
+
+
 #pragma once
 
 class UIManager
@@ -21,6 +23,8 @@ public:
 
 private:
 	HPbar_Monster* current_HPbar_Monster;
+	Character_Interface* character_Interface;
 	bool isRender_MonsterHPbar;
+
 
 };

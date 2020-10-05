@@ -15,7 +15,7 @@ Gnoll_Mirkwood::Gnoll_Mirkwood(Vector2 _pos) : moveCheckTimeafterPlayerDeath(0.0
 	hp = 10000;
 	hpBar = new HPbar_Monster(hp);
 	pos = _pos;
-	damage = 100.0f;
+	damage = 1000.0f;
 
 	InitMotion();
 }

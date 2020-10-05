@@ -204,6 +204,9 @@
     <ClInclude Include="Scenes\SeriaHouseScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Object\GameObject\UI\Character_Interface.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DX112D_2004.cpp">
@@ -380,6 +383,9 @@
     <ClCompile Include="Scenes\SeriaHouseScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Object\GameObject\UI\Character_Interface.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX112D_2004.rc">
@@ -423,5 +429,6 @@
     <FxCompile Include="Shaders\IntersectCircleAndPos.hlsl" />
     <FxCompile Include="Shaders\InstancingShader.hlsl" />
     <FxCompile Include="Shaders\PathGateShader.hlsl" />
+    <FxCompile Include="Shaders\CharacterHPbarShader.hlsl" />
   </ItemGroup>
 </Project>

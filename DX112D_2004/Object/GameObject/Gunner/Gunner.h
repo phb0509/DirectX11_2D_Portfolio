@@ -19,6 +19,8 @@ public:
 		DOWNLASTSHOT,
 		DOWNFINISHMOTION,
 
+		MACHKICK,
+
 		ONDAMAGE,
 		ONDAMAGE1,
 		DIE,
@@ -35,6 +37,7 @@ public:
 	void Run();
 	void Attack();
 	void Jump();
+	void SkillButtonInput();
 
 	void Fire();
 	void FirstFire();
@@ -60,6 +63,11 @@ public:
 	bool GetIsDie() { return isDie; }
 	float GetGunnerHitCheckColliderSize() { return hitCheckColliderHeight; }
 	float GetGunnerBottom() { return pos.y - 60; }
+	float GetMaxHP() { return maxHP; }
+	float GetCurrentHP() { return currentHP; }
+	float GetMaxMP() { return maxMP; }
+	float GetCurrentMP() { return currentMP; }
+
 
 	void Test();
 	void LoadAction(string path, string file, Action::Type type, float speed = 0.1f);

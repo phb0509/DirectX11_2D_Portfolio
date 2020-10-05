@@ -53,7 +53,7 @@ void Gunner::Update()
 	Attack();
 	CheckOnDamage();
 	CheckDead();
-	
+	SkillButtonInput();
 	//Jump();
 
 
@@ -254,6 +254,7 @@ void Gunner::InitMotion()
 	LoadAction(path, "DOWNCOMBOSHOT.xml", Action::END);
 	LoadAction(path, "DOWNLASTSHOT.xml", Action::END, 0.07);
 	LoadAction(path, "DOWNFINISHMOTION.xml", Action::END);
+	LoadAction(path, "MachKick.xml", Action::END);
 
 
 	LoadAction(path, "ONDAMAGE.xml", Action::END);
@@ -527,6 +528,14 @@ void Gunner::Jump()
 {
 
 
+}
+
+void Gunner::SkillButtonInput()
+{
+	if (KEY_DOWN('A'))
+	{
+		SetAction(MACHKICK);
+	}
 }
 
 void Gunner::SetIdle()
