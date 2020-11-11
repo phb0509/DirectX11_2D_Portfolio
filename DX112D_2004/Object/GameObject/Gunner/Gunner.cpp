@@ -74,7 +74,6 @@ void Gunner::Update()
 		gunner_bullets[i]->Update(GM->GetMirkwoodMonsters());
 	}
 
-
 	collider->Update();
 	hitCheckCollider->Update();
 	UpdateWorld();
@@ -82,13 +81,13 @@ void Gunner::Update()
 	//char buff[100];
 	//sprintf_s(buff, "isAttack : %d\n",isAttack);
 	//OutputDebugStringA(buff);
-
 	//effect->Update();
 }
 
 void Gunner::Render()
 {
 	if (!isActive) return;
+
 	/*intBuffer->SetPSBuffer(1);
 	colorBuffer->SetPSBuffer(2);*/
 
@@ -233,64 +232,6 @@ void Gunner::ComboShotEnd() // 콤보샷 애니메이션 실행 후 실행되는 함수.
 	isComboShotEndTrigger = true;
 }
 
-
-void Gunner::InitMotion()
-{
-	sprite = new Sprite();
-	string path = "Textures/Gunner/";
-
-	//LoadAction(path, "IDLE.xml", Action::PINGPONG, 0.15f);
-	LoadAction(path, "IDLE.xml", Action::PINGPONG, 0.15f);
-	LoadAction(path, "WALK.xml", Action::LOOP);
-	LoadAction(path, "RUN.xml", Action::LOOP);
-
-	// 정면 총알발사모션.
-	LoadAction(path, "FIRSTSHOT.xml", Action::END);
-	LoadAction(path, "UPCOMBOSHOT.xml", Action::END);
-	LoadAction(path, "LASTSHOT.xml", Action::END, 0.07);
-	LoadAction(path, "FINISHMOTION.xml", Action::END);
-
-	// 아래쪽 총알발사모션.
-	LoadAction(path, "DOWNCOMBOSHOT.xml", Action::END);
-	LoadAction(path, "DOWNLASTSHOT.xml", Action::END, 0.07);
-	LoadAction(path, "DOWNFINISHMOTION.xml", Action::END);
-	LoadAction(path, "MachKick.xml", Action::END);
-
-
-	LoadAction(path, "ONDAMAGE.xml", Action::END);
-	LoadAction(path, "ONDAMAGE1.xml", Action::END);
-	LoadAction(path, "Die.xml", Action::END);
-
-
-	actions[FIRSTSHOT]->SetEndEvent(bind(&Gunner::FirstFire, this));
-	actions[UPCOMBOSHOT]->SetEndEvent(bind(&Gunner::ComboShotEnd, this));
-	actions[DOWNCOMBOSHOT]->SetEndEvent(bind(&Gunner::ComboShotEnd, this));
-
-	actions[LASTSHOT]->SetEndEvent(bind(&Gunner::SecondFire, this));
-	actions[DOWNLASTSHOT]->SetEndEvent(bind(&Gunner::SecondFire, this));
-
-	actions[FINISHMOTION]->SetEndEvent(bind(&Gunner::SetIdle, this));
-	actions[DOWNFINISHMOTION]->SetEndEvent(bind(&Gunner::SetIdle, this));
-
-
-
-
-	/*FIRSTSHOT->EndEvent(Fire(1));
-	LASTSHOT->EndEvent(Fire(2));*/
-
-
-	//attackCollider = new RectCollider({ 150, 100 }, this);
-	//attackCollider->isActive = false;
-
-	/*effect = new Effect(L"Textures/Effects/fire_8x2.png", 8, 2);
-	effect->SetAdditive(true);
-
-	intBuffer = new IntBuffer();
-	intBuffer->data.index[2] = 1;
-	colorBuffer = new ColorBuffer();
-	colorBuffer->data.color = Float4(1, 0, 0, 1);*/
-
-}
 
 
 void Gunner::OnDamage(float damage, bool _onDamageDir) 
@@ -537,6 +478,67 @@ void Gunner::SkillButtonInput()
 		SetAction(MACHKICK);
 	}
 }
+
+
+void Gunner::InitMotion()
+{
+	sprite = new Sprite();
+	string path = "Textures/Gunner/";
+
+	//LoadAction(path, "IDLE.xml", Action::PINGPONG, 0.15f);
+	LoadAction(path, "IDLE.xml", Action::PINGPONG, 0.15f);
+	LoadAction(path, "WALK.xml", Action::LOOP);
+	LoadAction(path, "RUN.xml", Action::LOOP);
+
+	// 정면 총알발사모션.
+	LoadAction(path, "FIRSTSHOT.xml", Action::END);
+	LoadAction(path, "UPCOMBOSHOT.xml", Action::END);
+	LoadAction(path, "LASTSHOT.xml", Action::END, 0.07);
+	LoadAction(path, "FINISHMOTION.xml", Action::END);
+
+	// 아래쪽 총알발사모션.
+	LoadAction(path, "DOWNCOMBOSHOT.xml", Action::END);
+	LoadAction(path, "DOWNLASTSHOT.xml", Action::END, 0.07);
+	LoadAction(path, "DOWNFINISHMOTION.xml", Action::END);
+	LoadAction(path, "MachKick.xml", Action::END);
+
+
+	LoadAction(path, "ONDAMAGE.xml", Action::END);
+	LoadAction(path, "ONDAMAGE1.xml", Action::END);
+	LoadAction(path, "Die.xml", Action::END);
+
+
+	actions[FIRSTSHOT]->SetEndEvent(bind(&Gunner::FirstFire, this));
+	actions[UPCOMBOSHOT]->SetEndEvent(bind(&Gunner::ComboShotEnd, this));
+	actions[DOWNCOMBOSHOT]->SetEndEvent(bind(&Gunner::ComboShotEnd, this));
+
+	actions[LASTSHOT]->SetEndEvent(bind(&Gunner::SecondFire, this));
+	actions[DOWNLASTSHOT]->SetEndEvent(bind(&Gunner::SecondFire, this));
+
+	actions[FINISHMOTION]->SetEndEvent(bind(&Gunner::SetIdle, this));
+	actions[DOWNFINISHMOTION]->SetEndEvent(bind(&Gunner::SetIdle, this));
+
+	actions[MACHKICK]->SetEndEvent(bind(&Gunner::SetIdle, this));
+
+
+	/*FIRSTSHOT->EndEvent(Fire(1));
+	LASTSHOT->EndEvent(Fire(2));*/
+
+
+	//attackCollider = new RectCollider({ 150, 100 }, this);
+	//attackCollider->isActive = false;
+
+	/*effect = new Effect(L"Textures/Effects/fire_8x2.png", 8, 2);
+	effect->SetAdditive(true);
+
+	intBuffer = new IntBuffer();
+	intBuffer->data.index[2] = 1;
+	colorBuffer = new ColorBuffer();
+	colorBuffer->data.color = Float4(1, 0, 0, 1);*/
+
+}
+
+
 
 void Gunner::SetIdle()
 {

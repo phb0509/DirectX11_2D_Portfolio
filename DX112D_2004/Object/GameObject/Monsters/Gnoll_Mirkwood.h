@@ -23,7 +23,12 @@ public:
 	virtual void InitMotion() override;
 	virtual void Move() override;
 	virtual void Attack() override;
+
+
 	virtual void OnDamage(float damage) override;
+
+
+
 	virtual void CheckOnDamage() override;
 	virtual void CheckDead() override;
 	virtual void DetectPlayer() override;

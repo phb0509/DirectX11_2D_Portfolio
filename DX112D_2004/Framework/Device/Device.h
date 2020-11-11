@@ -1,13 +1,15 @@
 #pragma once
 
+
+
 class Device
 {
 private:
 	HWND hWnd;
 
 	ID3D11Device* device;
-	ID3D11DeviceContext* deviceContext;	
-	
+	ID3D11DeviceContext* deviceContext;
+
 	IDXGISwapChain* swapChain;
 	ID3D11RenderTargetView* renderTargetView;
 
@@ -21,7 +23,7 @@ public:
 	static void Delete() { delete instance; }
 
 	void CreateDeviceAndSwapChain();
-	void CreateBackBuffer();	
+	void CreateBackBuffer();
 
 	void SetRenderTarget();
 
@@ -32,3 +34,4 @@ public:
 	ID3D11DeviceContext* GetDeviceContext() { return deviceContext; }
 	IDXGISwapChain* GetSwapChain() { return swapChain; }
 };
+

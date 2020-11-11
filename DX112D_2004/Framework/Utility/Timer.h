@@ -9,7 +9,7 @@ public:
 	static Timer* Get()
 	{
 		static Timer instance;
-		return&instance;
+		return &instance;
 	}	
 
 	void Update();
